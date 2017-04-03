@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
+import Zone from './Zone'
 
 class Zones extends Component {
 	render(){
 		return(
 			<div>
-			    This is Zone component.
+			    <ol>
+			        <li><Zone /></li>
+			        <li><Zone /></li>
+			        <li><Zone /></li>
+			        <li><Zone /></li>
+			        <li><Zone /></li>
+				</ol>    
 			</div>
 		)
 	}
