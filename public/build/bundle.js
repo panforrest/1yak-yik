@@ -9608,6 +9608,10 @@ var _react = __webpack_require__(31);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _styles = __webpack_require__(180);
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9631,13 +9635,13 @@ var Zone = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ style: styles.container },
+				{ style: _styles2.default.container },
 				_react2.default.createElement(
 					'h2',
-					{ style: styles.header },
+					{ style: _styles2.default.header },
 					_react2.default.createElement(
 						'a',
-						{ style: styles.title, href: '#' },
+						{ style: _styles2.default.title, href: '#' },
 						this.props.currentZone.name
 					)
 				),
@@ -9660,21 +9664,21 @@ var Zone = function (_Component) {
 	return Zone;
 }(_react.Component);
 
-var styles = {
-	container: {
-		padding: 16,
-		background: '#f9f9f9',
-		marginTop: 12,
-		border: '1px solid #ddd'
-	},
-	header: {
-		marginBottom: 0
-	},
-	title: {
-		textDecoration: 'none',
-		color: 'red'
-	}
-};
+// const styles = {
+// 	container: {
+//         padding:16, 
+//         background:'#f9f9f9', 
+//         marginTop:12, 
+//         border:'1px solid #ddd'
+// 	},
+// 	header: {
+// 		marginBottom:0
+// 	},
+// 	title: {
+// 		textDecoration:'none', 
+// 		color:'red'
+// 	}
+// }
 
 exports.default = Zone;
 
@@ -21909,6 +21913,34 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+	container: {
+		padding: 16,
+		background: '#f9f9f9',
+		marginTop: 12,
+		border: '1px solid #ddd'
+	},
+	header: {
+		marginTop: 0,
+		marginBottom: 0
+	},
+	title: {
+		// marginBottom:0,
+		textDecoration: 'none',
+		color: 'red'
+	}
+};
 
 /***/ })
 /******/ ]);
