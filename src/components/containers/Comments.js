@@ -1,6 +1,6 @@
                 // <li><Comment currentComment={comment} ></li>  //DONT'S FORGET /
 import React, { Component } from 'react'
-import Comment from './Comment'
+import Comment from '../presentation/Comment'
 import styles from './styles'
 
 class Comments extends Component {
@@ -16,10 +16,18 @@ class Comments extends Component {
     	}
     }
 
+    submitComment(event){
+        console.log('submitComment: ')
+    }
+
+    updateUsername(event){
+        console.log('updateUsername: '+event.target.value)
+    }
+
 	render(){
         const commentList = this.state.list.map((comment, i) => {
             return(
-                <li><Comment currentComment={comment} /></li>
+                <li key={i}><Comment currentComment={comment} /></li>
             )
         })
 
@@ -30,6 +38,10 @@ class Comments extends Component {
 				    <ul style={styles.comment.commentsList}>
 	                    {commentList} 
 				    </ul>
+
+                    <input onChange={this.updateUsername.bind(this)} className="form-control" type="text" id="username" placeholder="Username" />
+                    <input onChange={this.updateUsername.bind(this)} className="form-control" type="text" id="body" placeholder="Body"/ >
+                    <button onClick={this.submitComment.bind(this)} className="btn btn-info">Submit Comment</button>
                 </div>
 			</div>
 		)
