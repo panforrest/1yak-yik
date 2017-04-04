@@ -9448,7 +9448,7 @@ module.exports = ReactPropTypesSecret;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+				value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -9467,57 +9467,61 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <li key={currentZone.id}>{currentZone.name}</li>
+
+// return(
+// 	<div>
+// 	    <ol>
+// 	        <li><Zone currentZone={firstZone} /></li>
+// 	        <li><Zone currentZone={secondZone} /></li>
+// 	        <li><Zone currentZone={thirdZone} /></li>
+// 	        <li><Zone currentZone={fourthZone} /></li>
+// 		</ol>    
+// 	</div>
+// )
 
 var Zones = function (_Component) {
-	_inherits(Zones, _Component);
+				_inherits(Zones, _Component);
 
-	function Zones() {
-		_classCallCheck(this, Zones);
+				function Zones() {
+								_classCallCheck(this, Zones);
 
-		return _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).apply(this, arguments));
-	}
+								var _this = _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).call(this));
 
-	_createClass(Zones, [{
-		key: 'render',
-		value: function render() {
-			var firstZone = { name: 'Zone 1', zipCode: '10012', numComments: 10 };
-			var secondZone = { name: 'Zone 2', zipCode: '10013', numComments: 20 };
-			var thirdZone = { name: 'Zone 3', zipCode: '10014', numComments: 30 };
-			var fourthZone = { name: 'Zone 4', zipCode: '10015', numComments: 40 };
+								_this.state = {
+												list: [{ name: 'Zone 1', zipCode: '10012', numComments: 10 }, { name: 'Zone 2', zipCode: '10013', numComments: 20 }, { name: 'Zone 3', zipCode: '10014', numComments: 30 }, { name: 'Zone 4', zipCode: '10015', numComments: 40 }, { name: 'Zone 5', zipCode: '10016', numComments: 50 }]
+								};
+								return _this;
+				}
 
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'ol',
-					null,
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Zone2.default, { currentZone: firstZone })
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Zone2.default, { currentZone: secondZone })
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Zone2.default, { currentZone: thirdZone })
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Zone2.default, { currentZone: fourthZone })
-					)
-				)
-			);
-		}
-	}]);
+				_createClass(Zones, [{
+								key: 'render',
+								value: function render() {
+												// const firstZone = {name:'Zone 1', zipCode:'10012', numComments:10}
+												// const secondZone = {name:'Zone 2', zipCode:'10013', numComments:20}
+												// const thirdZone = {name:'Zone 3', zipCode:'10014', numComments:30}
+												// const fourthZone = {name:'Zone 4', zipCode:'10015', numComments:40}
+												var listItems = this.state.list.map(function (zone, i) {
+																return _react2.default.createElement(
+																				'li',
+																				null,
+																				_react2.default.createElement(_Zone2.default, { currentZone: zone })
+																);
+												});
 
-	return Zones;
+												return _react2.default.createElement(
+																'div',
+																null,
+																_react2.default.createElement(
+																				'ol',
+																				null,
+																				listItems
+																)
+												);
+								}
+				}]);
+
+				return Zones;
 }(_react.Component);
 
 exports.default = Zones;
