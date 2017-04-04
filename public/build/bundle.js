@@ -9481,6 +9481,11 @@ var Zones = function (_Component) {
 	_createClass(Zones, [{
 		key: 'render',
 		value: function render() {
+			var firstZone = { name: 'Zone 1', zipCode: '10012', numComments: 10 };
+			var secondZone = { name: 'Zone 2', zipCode: '10013', numComments: 20 };
+			var thirdZone = { name: 'Zone 3', zipCode: '10014', numComments: 30 };
+			var fourthZone = { name: 'Zone 4', zipCode: '10015', numComments: 40 };
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -9490,22 +9495,22 @@ var Zones = function (_Component) {
 					_react2.default.createElement(
 						'li',
 						null,
-						_react2.default.createElement(_Zone2.default, { name: 'Zone 1', zipCode: '10012', numComments: 10 })
+						_react2.default.createElement(_Zone2.default, { currentZone: firstZone })
 					),
 					_react2.default.createElement(
 						'li',
 						null,
-						_react2.default.createElement(_Zone2.default, { name: 'Zone 11', zipCode: '10013', numComments: 20 })
+						_react2.default.createElement(_Zone2.default, { currentZone: secondZone })
 					),
 					_react2.default.createElement(
 						'li',
 						null,
-						_react2.default.createElement(_Zone2.default, { name: 'Zone 3', zipCode: '10014', numComments: 30 })
+						_react2.default.createElement(_Zone2.default, { currentZone: thirdZone })
 					),
 					_react2.default.createElement(
 						'li',
 						null,
-						_react2.default.createElement(_Zone2.default, { name: 'Zone 4', zipCode: '10015', numComments: 40 })
+						_react2.default.createElement(_Zone2.default, { currentZone: fourthZone })
 					)
 				)
 			);
@@ -9629,19 +9634,19 @@ var Zone = function (_Component) {
 					_react2.default.createElement(
 						"a",
 						{ href: "#" },
-						this.props.name
+						this.props.currentZone.name
 					)
 				),
 				_react2.default.createElement(
 					"span",
 					null,
-					this.props.zipCode
+					this.props.currentZone.zipCode
 				),
 				_react2.default.createElement("br", null),
 				_react2.default.createElement(
 					"span",
 					null,
-					this.props.numComments,
+					this.props.currentZone.numComments,
 					" comments"
 				)
 			);
