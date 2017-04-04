@@ -9633,27 +9633,28 @@ var Zone = function (_Component) {
 	_createClass(Zone, [{
 		key: 'render',
 		value: function render() {
+			var style = _styles2.default.zone;
 			return _react2.default.createElement(
 				'div',
-				{ style: _styles2.default.container },
+				{ style: style.container },
 				_react2.default.createElement(
 					'h2',
-					{ style: _styles2.default.header },
+					{ style: style.header },
 					_react2.default.createElement(
 						'a',
-						{ style: _styles2.default.title, href: '#' },
+						{ style: style.title, href: '#' },
 						this.props.currentZone.name
 					)
 				),
 				_react2.default.createElement(
 					'span',
-					null,
+					{ className: 'detail' },
 					this.props.currentZone.zipCode
 				),
 				_react2.default.createElement('br', null),
 				_react2.default.createElement(
 					'span',
-					null,
+					{ className: 'detail' },
 					this.props.currentZone.numComments,
 					' comments'
 				)
@@ -21925,20 +21926,24 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.default = {
-	container: {
-		padding: 16,
-		background: '#f9f9f9',
-		marginTop: 12,
-		border: '1px solid #ddd'
-	},
-	header: {
-		marginTop: 0,
-		marginBottom: 0
-	},
-	title: {
-		// marginBottom:0,
-		textDecoration: 'none',
-		color: 'red'
+	universal: {},
+
+	zone: {
+		container: {
+			padding: 16,
+			background: '#f9f9f9',
+			marginTop: 12,
+			border: '1px solid #ddd'
+		},
+		header: {
+			marginTop: 0,
+			marginBottom: 0
+		},
+		title: {
+			// marginBottom:0,
+			textDecoration: 'none',
+			color: 'red'
+		}
 	}
 };
 
