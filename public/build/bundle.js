@@ -21930,6 +21930,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
 	universal: {},
 
+	comment: {
+		commentsBox: {
+			padding: 12,
+			background: '#f9f9f9',
+			border: '1px solid #dd'
+		},
+		commentsList: {
+			listStyleType: 'none'
+		}
+	},
+
 	zone: {
 		container: {
 			padding: 16,
@@ -22028,7 +22039,7 @@ exports.default = Home;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22041,63 +22052,66 @@ var _Comment = __webpack_require__(183);
 
 var _Comment2 = _interopRequireDefault(_Comment);
 
+var _styles = __webpack_require__(180);
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <li><Comment currentComment={comment} ></li>  //DONT'S FORGET /
+
 
 var Comments = function (_Component) {
-	_inherits(Comments, _Component);
+    _inherits(Comments, _Component);
 
-	function Comments() {
-		_classCallCheck(this, Comments);
+    function Comments() {
+        _classCallCheck(this, Comments);
 
-		return _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).apply(this, arguments));
-	}
+        var _this = _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).call(this));
 
-	_createClass(Comments, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'h2',
-					null,
-					'Zone 1 comments'
-				),
-				_react2.default.createElement(
-					'ul',
-					null,
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Comment2.default, null)
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Comment2.default, null)
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Comment2.default, null)
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						_react2.default.createElement(_Comment2.default, null)
-					)
-				)
-			);
-		}
-	}]);
+        _this.state = {
+            list: [{ username: 'dtrump', body: 'comment 1', timestamp: '10:30' }, { username: 'hclinton', body: 'comment 2', timestamp: '10:45' }, { username: 'gjohnson', body: 'comment 3', timestamp: '10:59' }]
+        };
+        return _this;
+    }
 
-	return Comments;
+    _createClass(Comments, [{
+        key: 'render',
+        value: function render() {
+            var commentList = this.state.list.map(function (comment, i) {
+                return _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(_Comment2.default, { currentComment: comment })
+                );
+            });
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Comments: Zone 1'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { style: _styles2.default.comment.commentsBox },
+                    _react2.default.createElement(
+                        'ul',
+                        { style: _styles2.default.comment.commentsList },
+                        commentList
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Comments;
 }(_react.Component);
 
 exports.default = Comments;
@@ -22125,7 +22139,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <h2>{this.state.currentComment.username}</h2>  //SHOULD BE props NOT state
+
 
 var Comment = function (_Component) {
 	_inherits(Comment, _Component);
@@ -22142,7 +22157,29 @@ var Comment = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				null,
-				'This is a comment'
+				_react2.default.createElement(
+					'p',
+					{ style: { fontSize: 20, fontWeight: 400 } },
+					this.props.currentComment.body,
+					_react2.default.createElement('br', null)
+				),
+				_react2.default.createElement(
+					'span',
+					{ style: { fontWeight: 200 } },
+					this.props.currentComment.username
+				),
+				_react2.default.createElement(
+					'span',
+					{ style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
+					'|'
+				),
+				_react2.default.createElement(
+					'span',
+					{ style: { fontWeight: 200 } },
+					this.props.currentComment.timestamp
+				),
+				_react2.default.createElement('hr', null),
+				_react2.default.createElement('br', null)
 			);
 		}
 	}]);
