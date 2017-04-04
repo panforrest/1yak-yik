@@ -1,12 +1,13 @@
+// <span>{numComments} comments</span>
 import React, { Component } from 'react'
 
 class Zone extends Component {
 	render(){
 		return(
             <div>
-	            <h2><a href="#">Zone 1</a></h2>
-	            <span>10002</span><br />
-	            <span>10 comments</span>
+	            <h2><a href="#">{this.props.name}</a></h2>
+	            <span>{this.props.zipCode}</span><br />
+	            <span>{this.props.numComments} comments</span>
 	        </div>				    
 		)
 	}
