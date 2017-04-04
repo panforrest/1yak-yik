@@ -9627,31 +9627,31 @@ var Zone = function (_Component) {
 	}
 
 	_createClass(Zone, [{
-		key: "render",
+		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
-				"div",
-				null,
+				'div',
+				{ style: { padding: 16, background: '#f9f9f9', marginTop: 12, border: '1px solid #ddd' } },
 				_react2.default.createElement(
-					"h2",
-					null,
+					'h2',
+					{ style: { marginBottom: 0 } },
 					_react2.default.createElement(
-						"a",
-						{ href: "#" },
+						'a',
+						{ style: { textDecoration: 'none', color: 'red' }, href: '#' },
 						this.props.currentZone.name
 					)
 				),
 				_react2.default.createElement(
-					"span",
+					'span',
 					null,
 					this.props.currentZone.zipCode
 				),
-				_react2.default.createElement("br", null),
+				_react2.default.createElement('br', null),
 				_react2.default.createElement(
-					"span",
+					'span',
 					null,
 					this.props.currentZone.numComments,
-					" comments"
+					' comments'
 				)
 			);
 		}
