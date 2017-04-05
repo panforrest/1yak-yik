@@ -7,7 +7,7 @@ class Zone extends Component {
 
 	render(){
 		const style = styles.zone
-		const zipCode = this.state.zone.zipCodes[0]
+		const zipCode = this.props.currentZone.zipCodes[0]  //const zipCode = this.state.zone.zipCodes[0]
 		return(
             <div style={style.container}>
                 <h2 style={style.header}>
