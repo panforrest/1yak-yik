@@ -10585,8 +10585,8 @@ var Comments = function (_Component) {
         _this.state = {
             comment: {
                 username: '',
-                body: '',
-                timestamp: ''
+                body: ''
+                // timestamp:''
             },
 
             list: [
@@ -10604,21 +10604,7 @@ var Comments = function (_Component) {
             var _this2 = this;
 
             console.log('Comments componentDidMount: ');
-            // superagent
-            // .get('/api/comment')
-            // .query(null)
-            // .set('Accept', 'application/json')
-            // .end((err, response) => {
-            //     if (err) {
-            //         alert('ERROR:'+err)
-            //         return
-            //     }
-            //     console.log(JSON.stringify(response.body))
-            //     var results = response.body.results
-            //     this.setState({
-            //         list: results
-            //     })
-            // })
+
             _utils.APIManager.get('/api/comment', null, function (err, response) {
                 if (err) {
                     alert('ERROR: ' + err.message);
@@ -10634,21 +10620,27 @@ var Comments = function (_Component) {
     }, {
         key: 'submitComment',
         value: function submitComment() {
-            console.log('submitComment: ' + JSON.stringify(this.state.comment));
-            var updatedList = Object.assign([], this.state.list); //let updatedList = Object.assign({}, this.state.comment)
-            updatedList.push(this.state.comment); //updatedList.push(event.target.value)
-            this.setState({
-                list: updatedList
+            var _this3 = this;
+
+            console.log('before submitComment: ' + JSON.stringify(this.state.comment));
+            var updatedComment = Object.assign({}, this.state.comment);
+
+            _utils.APIManager.post('/api/comment', updatedComment, function (err, response) {
+                if (err) {
+                    alert('ERROR: ' + err.message);
+                    return;
+                }
+                console.log('submitComment: ' + JSON.stringify(response));
+                var updatedList = Object.assign([], _this3.state.list);
+                updatedList.push(response.result);
+                _this3.setState({
+                    list: updatedList
+                });
             });
         }
     }, {
         key: 'updateUsername',
         value: function updateUsername(event) {
-            // console.log('updateUsername: '+event.target.value)
-            // this.state.comment['username'] = event.target.value //WRONG!
-            // setState({
-            //     comment['username']: event.target.value 
-            // })
             var updatedComment = Object.assign({}, this.state.comment);
             updatedComment['username'] = event.target.value;
 
@@ -10662,16 +10654,6 @@ var Comments = function (_Component) {
             // console.log('updateComment: '+event.target.value)
             var updatedComment = Object.assign({}, this.state.comment);
             updatedComment['body'] = event.target.value;
-            this.setState({
-                comment: updatedComment
-            });
-        }
-    }, {
-        key: 'updateTimestamp',
-        value: function updateTimestamp(event) {
-            // console.log('updateComment: '+event.target.value)
-            var updatedComment = Object.assign({}, this.state.comment);
-            updatedComment['timestamp'] = event.target.value;
             this.setState({
                 comment: updatedComment
             });
@@ -10705,6 +10687,7 @@ var Comments = function (_Component) {
                     ),
                     _react2.default.createElement('input', { onChange: this.updateUsername.bind(this), className: 'form-control', type: 'text', id: 'username', placeholder: 'Username' }),
                     _react2.default.createElement('input', { onChange: this.updateBody.bind(this), className: 'form-control', type: 'text', id: 'body', placeholder: 'Body' }),
+                    '// ',
                     _react2.default.createElement('input', { onChange: this.updateTimestamp.bind(this), className: 'form-control', type: 'text', id: 'timestamp', placeholder: 'Timestamp' }),
                     _react2.default.createElement(
                         'button',
