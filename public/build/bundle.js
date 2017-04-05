@@ -21859,6 +21859,12 @@ var Comments = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).call(this));
 
         _this.state = {
+            comment: {
+                username: '',
+                body: '',
+                timestamp: ''
+            },
+
             list: [{ username: 'dtrump', body: 'comment 1', timestamp: '10:30' }, { username: 'hclinton', body: 'comment 2', timestamp: '10:45' }, { username: 'gjohnson', body: 'comment 3', timestamp: '10:59' }]
         };
         return _this;
@@ -21866,13 +21872,48 @@ var Comments = function (_Component) {
 
     _createClass(Comments, [{
         key: 'submitComment',
-        value: function submitComment(event) {
-            console.log('submitComment: ');
+        value: function submitComment() {
+            console.log('submitComment: ' + JSON.stringify(this.state.comment));
+            var updatedList = Object.assign([], this.state.list); //let updatedList = Object.assign({}, this.state.comment)
+            updatedList.push(this.state.comment); //updatedList.push(event.target.value)
+            this.setState({
+                list: updatedList
+            });
         }
     }, {
         key: 'updateUsername',
         value: function updateUsername(event) {
-            console.log('updateUsername: ' + event.target.value);
+            // console.log('updateUsername: '+event.target.value)
+            // this.state.comment['username'] = event.target.value //WRONG!
+            // setState({
+            //     comment['username']: event.target.value 
+            // })
+            var updatedComment = Object.assign({}, this.state.comment);
+            updatedComment['username'] = event.target.value;
+
+            this.setState({
+                comment: updatedComment //comment['username'] = updatedComment
+            });
+        }
+    }, {
+        key: 'updateBody',
+        value: function updateBody(event) {
+            // console.log('updateComment: '+event.target.value)
+            var updatedComment = Object.assign({}, this.state.comment);
+            updatedComment['body'] = event.target.value;
+            this.setState({
+                comment: updatedComment
+            });
+        }
+    }, {
+        key: 'updateTimestamp',
+        value: function updateTimestamp(event) {
+            // console.log('updateComment: '+event.target.value)
+            var updatedComment = Object.assign({}, this.state.comment);
+            updatedComment['timestamp'] = event.target.value;
+            this.setState({
+                comment: updatedComment
+            });
         }
     }, {
         key: 'render',
@@ -21902,7 +21943,8 @@ var Comments = function (_Component) {
                         commentList
                     ),
                     _react2.default.createElement('input', { onChange: this.updateUsername.bind(this), className: 'form-control', type: 'text', id: 'username', placeholder: 'Username' }),
-                    _react2.default.createElement('input', { onChange: this.updateUsername.bind(this), className: 'form-control', type: 'text', id: 'body', placeholder: 'Body' }),
+                    _react2.default.createElement('input', { onChange: this.updateBody.bind(this), className: 'form-control', type: 'text', id: 'body', placeholder: 'Body' }),
+                    _react2.default.createElement('input', { onChange: this.updateTimestamp.bind(this), className: 'form-control', type: 'text', id: 'timestamp', placeholder: 'Timestamp' }),
                     _react2.default.createElement(
                         'button',
                         { onClick: this.submitComment.bind(this), className: 'btn btn-info' },
