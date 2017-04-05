@@ -1,5 +1,11 @@
+        // const listItems = this.state.list.map((zone, i) => {
+        // 	return (
+        //         <li key={i}><Zone currentZone={zone} /></li>  //<li key={zone._id}>{zone.name}</li>
+        // 	)
+        // })
 import React, { Component } from 'react'
 import Zone from '../presentation/Zone'
+import superagent from 'superagent'
 
 class Zones extends Component {
     constructor(){
@@ -11,13 +17,34 @@ class Zones extends Component {
         	},
 
         	list: [
-        	    {name:'Zone 1', zipCode:'10012', numComments:10},
-        	    {name:'Zone 2', zipCode:'10013', numComments:20},
-        	    {name:'Zone 3', zipCode:'10014', numComments:30},
-        	    {name:'Zone 4', zipCode:'10015', numComments:40},
-        	    {name:'Zone 5', zipCode:'10016', numComments:50}
+        	//     {name:'Zone 1', zipCode:'10012', numComments:10},
+        	//     {name:'Zone 2', zipCode:'10013', numComments:20},
+        	//     {name:'Zone 3', zipCode:'10014', numComments:30},
+        	//     {name:'Zone 4', zipCode:'10015', numComments:40},
+        	//     {name:'Zone 5', zipCode:'10016', numComments:50}
         	]
+        	// zones: [
+
+        	// ]
         }
+    }
+
+    componentDidMount(){
+    	superagent
+    	.get('/api/zone')
+    	.query(null)
+    	.set('Accept', 'application/json')
+    	.end((err, response) => {
+            if(err){
+            	alert('ERROR: '+err)
+            	return
+            }
+            console.log(JSON.stringify(response.body))
+            let results = response.body.results   //let results = response.results
+            this.setState({
+    		    list: results
+    	    })
+    	})
     }
 
     submitZone(){

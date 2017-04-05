@@ -15,9 +15,9 @@ class Comments extends Component {
             },
 
     		list:[
-    		    {username: 'dtrump', body:'comment 1', timestamp:'10:30'},
-    		    {username: 'hclinton', body:'comment 2', timestamp:'10:45'},
-                {username: 'gjohnson', body:'comment 3', timestamp:'10:59'}
+    		//     {username: 'dtrump', body:'comment 1', timestamp:'10:30'},
+    		//     {username: 'hclinton', body:'comment 2', timestamp:'10:45'},
+      //           {username: 'gjohnson', body:'comment 3', timestamp:'10:59'}
     		]
     	}
     }
