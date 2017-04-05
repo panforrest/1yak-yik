@@ -10806,8 +10806,10 @@ var Zones = function (_Component) {
     }, {
         key: 'submitZone',
         value: function submitZone() {
+            var _this3 = this;
+
             console.log('submitZone: ' + JSON.stringify(this.state.zone));
-            // let updatedList = Object.assign([], this.state.list)
+
             // updatedList.push(this.state.zone)
             // this.setState({
             // 	list: updatedList
@@ -10822,6 +10824,11 @@ var Zones = function (_Component) {
                     return;
                 }
                 console.log('submitZone: ' + JSON.stringify(response));
+                var updatedList = Object.assign([], _this3.state.list);
+                updatedList.push(response.result);
+                _this3.setState({
+                    list: updatedList
+                });
             });
         }
     }, {

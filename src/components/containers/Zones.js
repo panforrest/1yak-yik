@@ -45,7 +45,7 @@ class Zones extends Component {
 
     submitZone(){
         console.log('submitZone: '+JSON.stringify(this.state.zone))
-        // let updatedList = Object.assign([], this.state.list)
+        
         // updatedList.push(this.state.zone)
         // this.setState({
         // 	list: updatedList
@@ -59,6 +59,11 @@ class Zones extends Component {
                 return
             }
             console.log('submitZone: '+JSON.stringify(response))
+            let updatedList = Object.assign([], this.state.list)
+            updatedList.push(response.result)
+            this.setState({
+                list: updatedList
+            })
         })
     }
 
