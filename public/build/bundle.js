@@ -21968,7 +21968,7 @@ exports.default = Comments;
 
 
 Object.defineProperty(exports, "__esModule", {
-				value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21987,61 +21987,89 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <li key={currentZone.id}>{currentZone.name}</li>
-
-// return(
-// 	<div>
-// 	    <ol>
-// 	        <li><Zone currentZone={firstZone} /></li>
-// 	        <li><Zone currentZone={secondZone} /></li>
-// 	        <li><Zone currentZone={thirdZone} /></li>
-// 	        <li><Zone currentZone={fourthZone} /></li>
-// 		</ol>    
-// 	</div>
-// )
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Zones = function (_Component) {
-				_inherits(Zones, _Component);
+    _inherits(Zones, _Component);
 
-				function Zones() {
-								_classCallCheck(this, Zones);
+    function Zones() {
+        _classCallCheck(this, Zones);
 
-								var _this = _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).call(this));
+        var _this = _possibleConstructorReturn(this, (Zones.__proto__ || Object.getPrototypeOf(Zones)).call(this));
 
-								_this.state = {
-												list: [{ name: 'Zone 1', zipCode: '10012', numComments: 10 }, { name: 'Zone 2', zipCode: '10013', numComments: 20 }, { name: 'Zone 3', zipCode: '10014', numComments: 30 }, { name: 'Zone 4', zipCode: '10015', numComments: 40 }, { name: 'Zone 5', zipCode: '10016', numComments: 50 }]
-								};
-								return _this;
-				}
+        _this.state = {
+            zone: {
+                name: '',
+                zipCode: ''
+            },
 
-				_createClass(Zones, [{
-								key: 'render',
-								value: function render() {
-												// const firstZone = {name:'Zone 1', zipCode:'10012', numComments:10}
-												// const secondZone = {name:'Zone 2', zipCode:'10013', numComments:20}
-												// const thirdZone = {name:'Zone 3', zipCode:'10014', numComments:30}
-												// const fourthZone = {name:'Zone 4', zipCode:'10015', numComments:40}
-												var listItems = this.state.list.map(function (zone, i) {
-																return _react2.default.createElement(
-																				'li',
-																				{ key: i },
-																				_react2.default.createElement(_Zone2.default, { currentZone: zone })
-																);
-												});
+            list: [{ name: 'Zone 1', zipCode: '10012', numComments: 10 }, { name: 'Zone 2', zipCode: '10013', numComments: 20 }, { name: 'Zone 3', zipCode: '10014', numComments: 30 }, { name: 'Zone 4', zipCode: '10015', numComments: 40 }, { name: 'Zone 5', zipCode: '10016', numComments: 50 }]
+        };
+        return _this;
+    }
 
-												return _react2.default.createElement(
-																'div',
-																null,
-																_react2.default.createElement(
-																				'ol',
-																				null,
-																				listItems
-																)
-												);
-								}
-				}]);
+    _createClass(Zones, [{
+        key: 'submitZone',
+        value: function submitZone() {
+            console.log('submitZone: ' + JSON.stringify(this.state.zone));
+            var updatedList = Object.assign([], this.state.list);
+            updatedList.push(this.state.zone);
+            this.setState({
+                list: updatedList
+            });
+        }
+    }, {
+        key: 'updateZone',
+        value: function updateZone(event) {
+            console.log('updateName: ' + event.target.id + ' == ' + event.target.value);
+            var updatedZone = Object.assign({}, this.state.zone);
+            updatedZone[event.target.id] = event.target.value;
+            this.setState({
+                zone: updatedZone
+            });
+        }
 
-				return Zones;
+        // updateZipcode(event){
+        // 	console.log('updateZipcode: '+event.target.value)//console.log('updateZipcode: '+JSON.stringify(this.state.zone))
+        // 	let updatedZone = Object.assign({}, this.state.zone)
+        // 	updatedZone['zipCode'] = event.target.value
+        // 	this.setState({
+        //         zone: updatedZone
+        // 	})
+        // }
+
+    }, {
+        key: 'render',
+        value: function render() {
+            var listItems = this.state.list.map(function (zone, i) {
+                return _react2.default.createElement(
+                    'li',
+                    { key: i },
+                    _react2.default.createElement(_Zone2.default, { currentZone: zone })
+                );
+            });
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'ol',
+                    null,
+                    listItems
+                ),
+                _react2.default.createElement('input', { className: 'form-control', onChange: this.updateZone.bind(this), type: 'text', id: 'name', placeholder: 'Name' }),
+                _react2.default.createElement('input', { className: 'form-control', onChange: this.updateZone.bind(this), type: 'text', id: 'zipCode', placeholder: 'Zip Code' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'button',
+                    { className: 'btn btn-danger', onClick: this.submitZone.bind(this) },
+                    'Add Zone'
+                )
+            );
+        }
+    }]);
+
+    return Zones;
 }(_react.Component);
 
 exports.default = Zones;

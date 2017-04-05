@@ -1,16 +1,3 @@
-// <li key={currentZone.id}>{currentZone.name}</li>
-
-		// return(
-		// 	<div>
-		// 	    <ol>
-		// 	        <li><Zone currentZone={firstZone} /></li>
-		// 	        <li><Zone currentZone={secondZone} /></li>
-		// 	        <li><Zone currentZone={thirdZone} /></li>
-		// 	        <li><Zone currentZone={fourthZone} /></li>
-		// 		</ol>    
-		// 	</div>
-		// )
-
 import React, { Component } from 'react'
 import Zone from '../presentation/Zone'
 
@@ -18,6 +5,11 @@ class Zones extends Component {
     constructor(){
     	super()
         this.state = {
+        	zone: {
+        		name:'',
+                zipCode:''
+        	},
+
         	list: [
         	    {name:'Zone 1', zipCode:'10012', numComments:10},
         	    {name:'Zone 2', zipCode:'10013', numComments:20},
@@ -28,11 +20,34 @@ class Zones extends Component {
         }
     }
 
+    submitZone(){
+        console.log('submitZone: '+JSON.stringify(this.state.zone))
+        let updatedList = Object.assign([], this.state.list)
+        updatedList.push(this.state.zone)
+        this.setState({
+        	list: updatedList
+        })
+    }
+
+    updateZone(event){
+    	console.log('updateName: '+event.target.id+' == '+event.target.value)
+        let updatedZone = Object.assign({}, this.state.zone)
+        updatedZone[event.target.id] = event.target.value
+        this.setState({
+        	zone: updatedZone
+        })
+    }
+
+    // updateZipcode(event){
+    // 	console.log('updateZipcode: '+event.target.value)//console.log('updateZipcode: '+JSON.stringify(this.state.zone))
+    // 	let updatedZone = Object.assign({}, this.state.zone)
+    // 	updatedZone['zipCode'] = event.target.value
+    // 	this.setState({
+    //         zone: updatedZone
+    // 	})
+    // }
+
 	render(){
-	    // const firstZone = {name:'Zone 1', zipCode:'10012', numComments:10}
-	    // const secondZone = {name:'Zone 2', zipCode:'10013', numComments:20}
-	    // const thirdZone = {name:'Zone 3', zipCode:'10014', numComments:30}
-	    // const fourthZone = {name:'Zone 4', zipCode:'10015', numComments:40}
         const listItems = this.state.list.map((zone, i) => {
         	return (
                 <li key={i}><Zone currentZone={zone} /></li>
@@ -43,7 +58,13 @@ class Zones extends Component {
 			<div>
 			    <ol>
                     {listItems} 
-                </ol>  
+                </ol> 
+
+                <input className="form-control" onChange={this.updateZone.bind(this)} type="text" id="name" placeholder="Name" />
+                <input className="form-control" onChange={this.updateZone.bind(this)} type="text" id="zipCode" placeholder="Zip Code" /><br />
+                <button className="btn btn-danger" onClick={this.submitZone.bind(this)}>Add Zone</button>
+                
+
 			</div>
 		)
 	}
