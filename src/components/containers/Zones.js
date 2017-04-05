@@ -45,10 +45,20 @@ class Zones extends Component {
 
     submitZone(){
         console.log('submitZone: '+JSON.stringify(this.state.zone))
-        let updatedList = Object.assign([], this.state.list)
-        updatedList.push(this.state.zone)
-        this.setState({
-        	list: updatedList
+        // let updatedList = Object.assign([], this.state.list)
+        // updatedList.push(this.state.zone)
+        // this.setState({
+        // 	list: updatedList
+        // })
+        let updatedZone = Object.assign({}, this.state.zone)
+        updatedZone['zipCodes'] = updatedZone.zipCode.split(',')
+
+        APIManager.post('/api/zone', updatedZone, (err, response) => {    //APIManager.post('/api/zone', this.state.zone, (err, response) => {
+            if (err) {
+                alert('ERROR: '+err.message)
+                return
+            }
+            console.log('submitZone: '+JSON.stringify(response))
         })
     }
 

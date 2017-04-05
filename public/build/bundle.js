@@ -10807,10 +10807,21 @@ var Zones = function (_Component) {
         key: 'submitZone',
         value: function submitZone() {
             console.log('submitZone: ' + JSON.stringify(this.state.zone));
-            var updatedList = Object.assign([], this.state.list);
-            updatedList.push(this.state.zone);
-            this.setState({
-                list: updatedList
+            // let updatedList = Object.assign([], this.state.list)
+            // updatedList.push(this.state.zone)
+            // this.setState({
+            // 	list: updatedList
+            // })
+            var updatedZone = Object.assign({}, this.state.zone);
+            updatedZone['zipCodes'] = updatedZone.zipCode.split(',');
+
+            _utils.APIManager.post('/api/zone', updatedZone, function (err, response) {
+                //APIManager.post('/api/zone', this.state.zone, (err, response) => {
+                if (err) {
+                    alert('ERROR: ' + err.message);
+                    return;
+                }
+                console.log('submitZone: ' + JSON.stringify(response));
             });
         }
     }, {
@@ -11159,13 +11170,22 @@ exports.default = {
         });
     },
 
-    post: function post(params) {
-        _superagent2.default.post(params).send(null).set('Accept', 'application/json').end(function (err, response) {
+    post: function post(url, body, callback) {
+        //post: (url, params, callback) => {
+        _superagent2.default.post(url).send(body) //.send(params)
+        .set('Accept', 'application/json').end(function (err, response) {
             if (err) {
-                alert('ERROR: ' + err);
+                callback(err, null);
                 return;
             }
-            console.log(JSON.stringify(response.body));
+
+            var confirmation = response.body.confirmation;
+            if (confirmation != 'success') {
+                callback({ message: response.body.message }, null); //message
+                return;
+            }
+
+            callback(null, response.body);
         });
     },
 
