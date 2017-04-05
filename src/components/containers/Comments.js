@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import Comment from '../presentation/Comment'
 import styles from './styles'
+// import superagent from 'superagent'
+import { APIManager } from '../../utils'
 
 class Comments extends Component {
 
@@ -20,6 +22,36 @@ class Comments extends Component {
       //           {username: 'gjohnson', body:'comment 3', timestamp:'10:59'}
     		]
     	}
+    }
+
+    componentDidMount(){
+        console.log('Comments componentDidMount: ')
+        // superagent
+        // .get('/api/comment')
+        // .query(null)
+        // .set('Accept', 'application/json')
+        // .end((err, response) => {
+        //     if (err) {
+        //         alert('ERROR:'+err)
+        //         return
+        //     }
+        //     console.log(JSON.stringify(response.body))
+        //     var results = response.body.results
+        //     this.setState({
+        //         list: results
+        //     })
+        // })
+        APIManager.get('/api/comment', null, (err, response) => {
+            if (err) {
+                alert('ERROR: '+err.message)
+                return
+            }
+            console.log(JSON.stringify(response))
+            var results = response.results
+            this.setState({
+                list: results
+            })
+        })
     }
 
     submitComment(){

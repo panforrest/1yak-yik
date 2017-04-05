@@ -5,14 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
+require('dotenv').config()
 
-var dbUrl = 'mongodb://localhost/yak-yik'
-mongoose.connect(dbUrl, function(err, res){
+// var dbUrl = 'mongodb://localhost/yak-yik'
+mongoose.connect(process.env.DB_URL, function(err, res){
   if (err) {
     console.log('DataBase connection failed'+err)    //console.log('DataBase connection failed')
   }
   else {
-    console.log('DataBase connection succeed'+dbUrl)  //console.log('DataBase connection succeed')
+    console.log('DataBase connection succeed')  //console.log('DataBase connection succeed'+dbUrl)
   }
 })
 

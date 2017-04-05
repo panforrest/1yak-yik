@@ -5,7 +5,8 @@
         // })
 import React, { Component } from 'react'
 import Zone from '../presentation/Zone'
-import superagent from 'superagent'
+// import superagent from 'superagent'
+import { APIManager } from '../../utils'
 
 class Zones extends Component {
     constructor(){
@@ -30,21 +31,16 @@ class Zones extends Component {
     }
 
     componentDidMount(){
-    	superagent
-    	.get('/api/zone')
-    	.query(null)
-    	.set('Accept', 'application/json')
-    	.end((err, response) => {
-            if(err){
-            	alert('ERROR: '+err)
-            	return
+        APIManager.get('/api/zone', null, (err, response) => {
+            if (err){
+                alert('ERROR: '+err.message)
+                return
             }
-            console.log(JSON.stringify(response.body))
-            let results = response.body.results   //let results = response.results
+            var results = response.results
             this.setState({
-    		    list: results
-    	    })
-    	})
+                list: results
+            })
+        })
     }
 
     submitZone(){
