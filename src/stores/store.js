@@ -1,28 +1,26 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import zone from '../reducers/zone'  //import { zone } from '../reducers/zone'
+import zoneReducer from '../reducers/zoneReducer'
 
-var store
+var store 
 
 export default {
+	configureStore: () => {  //configureStore () => {
+        const reducers = combineReducers({
 
-	configureStore: () => {
+            zone: zoneReducer
 
-		const reducers = combineReducers({   //var reducers = combineReducers(
+        })
 
-			zone: zone
+        store = createStore(
+        	reducers,
+        	applyMiddleware(thunk)
+        )
 
-		})
-
-		store = createStore(   //store = createStore({
-			reducers,
-			applyMiddleware(thunk)
-		)
-
-        return store
+		return store
 	},
 
-	currentStore: () => {
+	currentStore: () => {    //currentStore () => {
 		return store
 	}
 }

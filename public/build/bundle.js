@@ -25616,7 +25616,7 @@ module.exports = g;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _redux = __webpack_require__(207);
@@ -25625,35 +25625,32 @@ var _reduxThunk = __webpack_require__(233);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _zone = __webpack_require__(213);
+var _zoneReducer = __webpack_require__(242);
 
-var _zone2 = _interopRequireDefault(_zone);
+var _zoneReducer2 = _interopRequireDefault(_zoneReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//import { zone } from '../reducers/zone'
 
 var store;
 
 exports.default = {
+  configureStore: function configureStore() {
+    //configureStore () => {
+    var reducers = (0, _redux.combineReducers)({
 
-	configureStore: function configureStore() {
+      zone: _zoneReducer2.default
 
-		var reducers = (0, _redux.combineReducers)({ //var reducers = combineReducers(
+    });
 
-			zone: _zone2.default
+    store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
-		});
+    return store;
+  },
 
-		store = (0, _redux.createStore)( //store = createStore({
-		reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
-
-		return store;
-	},
-
-	currentStore: function currentStore() {
-		return store;
-	}
+  currentStore: function currentStore() {
+    //currentStore () => {
+    return store;
+  }
 };
 
 /***/ }),
@@ -25693,46 +25690,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 213 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _constants = __webpack_require__(212);
-
-var _constants2 = _interopRequireDefault(_constants);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var initialState = {
-
-  list: [] //zones: null
-
-};
-
-exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-  var action = arguments[1];
-
-  // let updated = Object.assign([], state)
-  switch (action.type) {//switch(action.type) => {
-    case _constants2.default.ZONES_RECEIVED:
-      var updated = Object.assign({}, state); //let updated = Object.assign([], state)
-      updated['list'] = action.zones;
-      console.log('ZONES_RECEIVED: ' + JSON.stringify(action.zones));
-      return updated;
-
-    default:
-      return state;
-  }
-};
-
-/***/ }),
+/* 213 */,
 /* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27055,6 +27013,46 @@ exports.default = {
 			type: _constants2.default.COMMENTS_RECEIVED, //action: constants.COMMENTS_RECEIVED,
 			comments: comments //type: comments
 		};
+	}
+};
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(212);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+
+	list: []
+
+};
+
+exports.default = function () {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+
+	switch (action.type) {
+		case _constants2.default.ZONES_RECEIVED:
+			var updated = Object.assign([], state);
+			console.log('ZONES_RECEIVED: ' + JSON.stringify(action.zones));
+			updated['list'] = action.zones;
+			return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
+
+		default:
+			return state;
 	}
 };
 
