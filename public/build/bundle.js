@@ -9893,6 +9893,8 @@ var Zones = function (_Component) {
     _createClass(Zones, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             _utils.APIManager.get('/api/zone', null, function (err, response) {
                 if (err) {
                     alert('ERROR: ' + err.message);
@@ -9903,14 +9905,15 @@ var Zones = function (_Component) {
                 //     list: results
                 // })
                 //THE FOLLOWING IS THE MOST IMPORTANT KEY LINE OF CODE for console log zones by reducer:
-                _store2.default.currentStore().dispatch(_actions2.default.zonesReceived(response.results));
-                // this.props.zonesReceived(stores)
+                // store.currentStore().dispatch(actions.zonesReceived(response.results))
+                _this2.props.zonesReceived(response.results);
+                // this.props.zonesReceived(zones)
             });
         }
     }, {
         key: 'submitZone',
         value: function submitZone(zone) {
-            var _this2 = this;
+            var _this3 = this;
 
             // console.log('submitZone: '+JSON.stringify(zone))
 
@@ -9929,9 +9932,9 @@ var Zones = function (_Component) {
                     return;
                 }
                 console.log('submitZone: ' + JSON.stringify(response));
-                var updatedList = Object.assign([], _this2.state.list);
+                var updatedList = Object.assign([], _this3.state.list);
                 updatedList.push(response.result);
-                _this2.setState({
+                _this3.setState({
                     list: updatedList
                 });
             });
@@ -9947,14 +9950,14 @@ var Zones = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             var listItems = this.props.list.map(function (zone, i) {
-                var selected = i == _this3.state.selected;
+                var selected = i == _this4.state.selected;
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_presentation.Zone, { index: i, select: _this3.selectZone.bind(_this3), isSelected: selected, Zone: true, currentZone: zone })
+                    _react2.default.createElement(_presentation.Zone, { index: i, select: _this4.selectZone.bind(_this4), isSelected: selected, Zone: true, currentZone: zone })
                 );
             });
 
@@ -9983,7 +9986,7 @@ var stateToProps = function stateToProps(state) {
 var dispatchToProps = function dispatchToProps(dispatch) {
     return {
         zonesReceived: function zonesReceived(zones) {
-            return dispatch(action.zonesReceived(zones));
+            return dispatch(_actions2.default.zonesReceived(zones));
         }
     };
 };

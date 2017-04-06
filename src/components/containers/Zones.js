@@ -39,8 +39,9 @@ class Zones extends Component {
             //     list: results
             // })
             //THE FOLLOWING IS THE MOST IMPORTANT KEY LINE OF CODE for console log zones by reducer:
-            store.currentStore().dispatch(actions.zonesReceived(response.results))
-            // this.props.zonesReceived(stores)
+            // store.currentStore().dispatch(actions.zonesReceived(response.results))
+            this.props.zonesReceived(response.results)
+            // this.props.zonesReceived(zones)
         })
     }
 
@@ -108,7 +109,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
-        zonesReceived: (zones) => dispatch(action.zonesReceived(zones))
+        zonesReceived: (zones) => dispatch(actions.zonesReceived(zones))
     }
 }
 export default connect(stateToProps, dispatchToProps)(Zones)
