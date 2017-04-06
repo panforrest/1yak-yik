@@ -70,8 +70,9 @@ class Zones extends Component {
 
 	render(){
         const listItems = this.state.list.map((zone, i) => {
+            let selected = (i==this.state.selected)
         	return (
-                <li key={i}><Zone isSelected={true} Zone currentZone={zone} /></li>
+                <li key={i}><Zone isSelected={selected} Zone currentZone={zone} /></li>
         	)
         })
 
