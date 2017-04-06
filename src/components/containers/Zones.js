@@ -61,12 +61,13 @@ class Zones extends Component {
                 alert('ERROR: '+err.message)
                 return
             }
-            console.log('submitZone: '+JSON.stringify(response))
-            let updatedList = Object.assign([], this.state.list)
-            updatedList.push(response.result)
-            this.setState({
-                list: updatedList
-            })
+            // console.log('submitZone: '+JSON.stringify(response))
+            // let updatedList = Object.assign([], this.state.list)
+            // updatedList.push(response.result)
+            // this.setState({
+            //     list: updatedList
+            // })
+            this.props.zoneCreated(response.result)
         })
     }
 
@@ -103,13 +104,15 @@ class Zones extends Component {
 
 const stateToProps = (state) => {
     return {
-        list: state.zone.list
+        list: state.zone.list,
+        zone: state.zone.zone
     }
 }
 
 const dispatchToProps = (dispatch) => {
     return {
-        zonesReceived: (zones) => dispatch(actions.zonesReceived(zones))
+        zonesReceived: (zones) => dispatch(actions.zonesReceived(zones)),
+        zoneCreated: (zone) => dispatch(actions.zoneCreated(zone))
     }
 }
 export default connect(stateToProps, dispatchToProps)(Zones)

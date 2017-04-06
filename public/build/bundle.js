@@ -9931,12 +9931,13 @@ var Zones = function (_Component) {
                     alert('ERROR: ' + err.message);
                     return;
                 }
-                console.log('submitZone: ' + JSON.stringify(response));
-                var updatedList = Object.assign([], _this3.state.list);
-                updatedList.push(response.result);
-                _this3.setState({
-                    list: updatedList
-                });
+                // console.log('submitZone: '+JSON.stringify(response))
+                // let updatedList = Object.assign([], this.state.list)
+                // updatedList.push(response.result)
+                // this.setState({
+                //     list: updatedList
+                // })
+                _this3.props.zoneCreated(response.result);
             });
         }
     }, {
@@ -9979,7 +9980,8 @@ var Zones = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
-        list: state.zone.list
+        list: state.zone.list,
+        zone: state.zone.zone
     };
 };
 
@@ -9987,6 +9989,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     return {
         zonesReceived: function zonesReceived(zones) {
             return dispatch(_actions2.default.zonesReceived(zones));
+        },
+        zoneCreated: function zoneCreated(zone) {
+            return dispatch(_actions2.default.zoneCreated(zone));
         }
     };
 };
@@ -25688,6 +25693,8 @@ exports.default = {
 
     ZONES_RECEIVED: 'ZONES_RECEIVED',
 
+    ZONE_CREATED: 'ZONE_CREATED',
+
     COMMENTS_RECEIVED: 'COMMENTS_RECEIVED'
 
 };
@@ -27016,6 +27023,13 @@ exports.default = {
 			type: _constants2.default.COMMENTS_RECEIVED, //action: constants.COMMENTS_RECEIVED,
 			comments: comments //type: comments
 		};
+	},
+
+	zoneCreated: function zoneCreated(zone) {
+		return {
+			type: _constants2.default.ZONE_CREATED,
+			zone: zone
+		};
 	}
 };
 
@@ -27038,21 +27052,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
 
-	list: []
-
+	list: [],
+	zone: {}
 };
 
 exports.default = function () {
 	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 	var action = arguments[1];
 
-
+	var updated = Object.assign([], state);
 	switch (action.type) {
+
 		case _constants2.default.ZONES_RECEIVED:
-			var updated = Object.assign([], state);
+			// let updated = Object.assign([], state)
 			console.log('ZONES_RECEIVED: ' + JSON.stringify(action.zones));
 			updated['list'] = action.zones;
 			return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
+
+		case _constants2.default.ZONE_CREATED:
+			console.log('ZONE_CREATED: ' + JSON.stringify(action.zone));
+			var updatedList = Object.assign([], updated.list); //let updatedList = updated['list']
+			updatedList.push(action.zone);
+			updated['list'] = updatedList;
+			return updated;
 
 		default:
 			return state;

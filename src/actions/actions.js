@@ -13,5 +13,12 @@ export default {
 			type: constants.COMMENTS_RECEIVED,   //action: constants.COMMENTS_RECEIVED,
 			comments: comments     //type: comments
 		}
+	},
+
+	zoneCreated: (zone) => {
+		return {
+			type: constants.ZONE_CREATED,
+			zone: zone
+		}
 	}
 }
