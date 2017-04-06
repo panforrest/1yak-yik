@@ -10553,9 +10553,7 @@ var _react = __webpack_require__(17);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Comment = __webpack_require__(88);
-
-var _Comment2 = _interopRequireDefault(_Comment);
+var _presentation = __webpack_require__(196);
 
 var _styles = __webpack_require__(87);
 
@@ -10584,8 +10582,8 @@ var Comments = function (_Component) {
 
         _this.state = {
             comment: {
-                username: '',
-                body: ''
+                // username:'',
+                // body:''
                 // timestamp:''
             },
 
@@ -10619,12 +10617,12 @@ var Comments = function (_Component) {
         }
     }, {
         key: 'submitComment',
-        value: function submitComment() {
+        value: function submitComment(comment) {
             var _this3 = this;
 
-            console.log('before submitComment: ' + JSON.stringify(this.state.comment));
-            var updatedComment = Object.assign({}, this.state.comment);
-
+            console.log('before submitComment: ' + JSON.stringify(comment));
+            // let updatedComment = Object.assign({}, this.state.comment)
+            var updatedComment = Object.assign({}, comment);
             _utils.APIManager.post('/api/comment', updatedComment, function (err, response) {
                 if (err) {
                     alert('ERROR: ' + err.message);
@@ -10665,7 +10663,7 @@ var Comments = function (_Component) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_Comment2.default, { currentComment: comment })
+                    _react2.default.createElement(_presentation.Comment, { currentComment: comment })
                 );
             });
 
@@ -10685,15 +10683,7 @@ var Comments = function (_Component) {
                         { style: _styles2.default.comment.commentsList },
                         commentList
                     ),
-                    _react2.default.createElement('input', { onChange: this.updateUsername.bind(this), className: 'form-control', type: 'text', id: 'username', placeholder: 'Username' }),
-                    _react2.default.createElement('input', { onChange: this.updateBody.bind(this), className: 'form-control', type: 'text', id: 'body', placeholder: 'Body' }),
-                    '// ',
-                    _react2.default.createElement('input', { onChange: this.updateTimestamp.bind(this), className: 'form-control', type: 'text', id: 'timestamp', placeholder: 'Timestamp' }),
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: this.submitComment.bind(this), className: 'btn btn-info' },
-                        'Submit Comment'
-                    )
+                    _react2.default.createElement(_presentation.CreateComment, { onCreate: this.submitComment.bind(this) })
                 )
             );
         }
@@ -24471,6 +24461,125 @@ exports.cleanHeader = function(header, shouldStripCookie){
   }
   return header;
 };
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(17);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CreateComment = function (_Component) {
+    _inherits(CreateComment, _Component);
+
+    function CreateComment() {
+        _classCallCheck(this, CreateComment);
+
+        var _this = _possibleConstructorReturn(this, (CreateComment.__proto__ || Object.getPrototypeOf(CreateComment)).call(this));
+
+        _this.state = {
+            comment: {
+                username: '',
+                body: ''
+            }
+        };
+        return _this;
+    }
+
+    _createClass(CreateComment, [{
+        key: 'updateComment',
+        value: function updateComment(event) {
+            console.log('updateComment: ' + event.target.id + ' == ' + event.target.value);
+            var updatedComment = Object.assign({}, this.state.comment);
+            updatedComment[event.target.id] = event.target.value;
+            this.setState({
+                comment: updatedComment
+            });
+        }
+    }, {
+        key: 'submitComment',
+        value: function submitComment() {
+            console.log('submitComment: ' + JSON.stringify(this.state.comment));
+            this.props.onCreate(this.state.comment);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _React$createElement, _React$createElement2;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'h3',
+                    null,
+                    'CreateComment'
+                ),
+                _react2.default.createElement('input', (_React$createElement = { onChange: this.updateComment.bind(this), id: 'username', className: 'form-control', type: 'text' }, _defineProperty(_React$createElement, 'id', 'username'), _defineProperty(_React$createElement, 'placeholder', 'Username'), _React$createElement)),
+                _react2.default.createElement('input', (_React$createElement2 = { onChange: this.updateComment.bind(this), id: 'body', className: 'form-control', type: 'text' }, _defineProperty(_React$createElement2, 'id', 'body'), _defineProperty(_React$createElement2, 'placeholder', 'Body'), _React$createElement2)),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.submitComment.bind(this), className: 'btn btn-info' },
+                    'Submit Comment'
+                )
+            );
+        }
+    }]);
+
+    return CreateComment;
+}(_react.Component);
+
+exports.default = CreateComment;
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Zone = exports.Comment = exports.CreateComment = undefined;
+
+var _CreateComment = __webpack_require__(195);
+
+var _CreateComment2 = _interopRequireDefault(_CreateComment);
+
+var _Comment = __webpack_require__(88);
+
+var _Comment2 = _interopRequireDefault(_Comment);
+
+var _Zone = __webpack_require__(89);
+
+var _Zone2 = _interopRequireDefault(_Zone);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.CreateComment = _CreateComment2.default;
+exports.Comment = _Comment2.default;
+exports.Zone = _Zone2.default;
 
 /***/ })
 /******/ ]);
