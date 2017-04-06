@@ -50,29 +50,16 @@ class Zones extends Component {
         })
     }
 
-    // updateZone(event){
-    // 	console.log('updateName: '+event.target.id+' == '+event.target.value)
-    //     let updatedZone = Object.assign({}, this.state.zone)
-    //     updatedZone[event.target.id] = event.target.value
-    //     this.setState({
-    //     	zone: updatedZone
-    //     })
-    // }
-
-    // updateZipcode(event){
-    // 	console.log('updateZipcode: '+event.target.value)//console.log('updateZipcode: '+JSON.stringify(this.state.zone))
-    // 	let updatedZone = Object.assign({}, this.state.zone)
-    // 	updatedZone['zipCode'] = event.target.value
-    // 	this.setState({
-    //         zone: updatedZone
-    // 	})
-    // }
+    selectZone(){
+        console.log('selectZone: ')
+        // this.props.select()
+    }
 
 	render(){
         const listItems = this.state.list.map((zone, i) => {
             let selected = (i==this.state.selected)
         	return (
-                <li key={i}><Zone isSelected={selected} Zone currentZone={zone} /></li>
+                <li key={i}><Zone select={this.selectZone.bind(this)} isSelected={selected} Zone currentZone={zone} /></li>
         	)
         })
 

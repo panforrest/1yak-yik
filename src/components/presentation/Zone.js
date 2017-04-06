@@ -3,8 +3,12 @@ import React, { Component } from 'react'
 import styles from './styles'
 
 class Zone extends Component {
-    
 
+	onSelectTitle(){
+        console.log('onSelectTitle: ')
+        this.props.select()
+	}
+    
 	render(){
 		const zoneStyle = styles.zone
 		const zipCode = this.props.currentZone.zipCodes[0]  //const zipCode = this.state.zone.zipCodes[0]
@@ -12,7 +16,7 @@ class Zone extends Component {
 
 		return(
             <div style={zoneStyle.container}>
-                <h2 style={zoneStyle.header}>
+                <h2 onClick={this.onSelectTitle.bind(this)} style={zoneStyle.header}>
 	                { title }
 	            </h2>
 	            <span className="detail">{zipCode}</span><br />

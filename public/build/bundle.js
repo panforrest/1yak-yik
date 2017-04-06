@@ -9900,25 +9900,12 @@ var Zones = function (_Component) {
                 });
             });
         }
-
-        // updateZone(event){
-        // 	console.log('updateName: '+event.target.id+' == '+event.target.value)
-        //     let updatedZone = Object.assign({}, this.state.zone)
-        //     updatedZone[event.target.id] = event.target.value
-        //     this.setState({
-        //     	zone: updatedZone
-        //     })
-        // }
-
-        // updateZipcode(event){
-        // 	console.log('updateZipcode: '+event.target.value)//console.log('updateZipcode: '+JSON.stringify(this.state.zone))
-        // 	let updatedZone = Object.assign({}, this.state.zone)
-        // 	updatedZone['zipCode'] = event.target.value
-        // 	this.setState({
-        //         zone: updatedZone
-        // 	})
-        // }
-
+    }, {
+        key: 'selectZone',
+        value: function selectZone() {
+            console.log('selectZone: ');
+            // this.props.select()
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -9929,7 +9916,7 @@ var Zones = function (_Component) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_presentation.Zone, { isSelected: selected, Zone: true, currentZone: zone })
+                    _react2.default.createElement(_presentation.Zone, { select: _this4.selectZone.bind(_this4), isSelected: selected, Zone: true, currentZone: zone })
                 );
             });
 
@@ -10279,6 +10266,12 @@ var Zone = function (_Component) {
 	}
 
 	_createClass(Zone, [{
+		key: 'onSelectTitle',
+		value: function onSelectTitle() {
+			console.log('onSelectTitle: ');
+			this.props.select();
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var zoneStyle = _styles2.default.zone;
@@ -10298,7 +10291,7 @@ var Zone = function (_Component) {
 				{ style: zoneStyle.container },
 				_react2.default.createElement(
 					'h2',
-					{ style: zoneStyle.header },
+					{ onClick: this.onSelectTitle.bind(this), style: zoneStyle.header },
 					title
 				),
 				_react2.default.createElement(
