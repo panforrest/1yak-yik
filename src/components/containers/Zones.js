@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Zone, CreateZone } from '../presentation'
+import { Zone, CreateZone, style } from '../presentation'
 // import superagent from 'superagent'
 import { APIManager } from '../../utils'
 
@@ -71,7 +71,7 @@ class Zones extends Component {
 	render(){
         const listItems = this.state.list.map((zone, i) => {
         	return (
-                <li key={i}><Zone isSelected={false} Zone currentZone={zone} /></li>
+                <li key={i}><Zone isSelected={true} Zone currentZone={zone} /></li>
         	)
         })
 

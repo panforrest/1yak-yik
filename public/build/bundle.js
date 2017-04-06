@@ -9926,7 +9926,7 @@ var Zones = function (_Component) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_presentation.Zone, { isSelected: false, Zone: true, currentZone: zone })
+                    _react2.default.createElement(_presentation.Zone, { isSelected: true, Zone: true, currentZone: zone })
                 );
             });
 
@@ -10280,7 +10280,15 @@ var Zone = function (_Component) {
 		value: function render() {
 			var style = _styles2.default.zone;
 			var zipCode = this.props.currentZone.zipCodes[0]; //const zipCode = this.state.zone.zipCodes[0]
-			var title = this.props.isSelected ? 'Selected' : 'Not Selected';
+			var title = this.props.isSelected ? _react2.default.createElement(
+				'a',
+				{ style: style.title, href: '#' },
+				this.props.currentZone.name
+			) : _react2.default.createElement(
+				'a',
+				{ href: '#' },
+				this.props.currentZone.name
+			);
 
 			return _react2.default.createElement(
 				'div',
