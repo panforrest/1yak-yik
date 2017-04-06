@@ -1,7 +1,23 @@
+// const stateToProps = (state) => {
+//     return {
+//                 //I CAN NEVER GET THIS LINE CORRECT //zones: state.list
+//     }
+// }
+
+// const dispatchToProps = (dispatch) => {
+//     return {
+//         zonesReceived: (zones) => dispatch(action.zonesReceived)
+//     }
+// }
+// export default connect(stateToProps, dispatchToProps)(Zones)
+
 import React, { Component } from 'react'
 import { Zone, CreateZone, style } from '../presentation'
 // import superagent from 'superagent'
 import { APIManager } from '../../utils'
+import actions from '../../actions/actions'
+import { connect } from 'react-redux'
+import store from '../../stores/store'  //THIS LINE MUST REMEMBER
 
 class Zones extends Component {
     constructor(){
@@ -18,10 +34,13 @@ class Zones extends Component {
                 alert('ERROR: '+err.message)
                 return
             }
-            var results = response.results
-            this.setState({
-                list: results
-            })
+            // var results = response.results
+            // this.setState({
+            //     list: results
+            // })
+            //THE FOLLOWING IS THE MOST IMPORTANT KEY LINE OF CODE for console log zones by reducer:
+            store.currentStore().dispatch(actions.zonesReceived(response.results))
+            // this.props.zonesReceived(stores)
         })
     }
 
@@ -58,7 +77,7 @@ class Zones extends Component {
     }
 
 	render(){
-        const listItems = this.state.list.map((zone, i) => {
+        const listItems = this.props.list.map((zone, i) => {
             let selected = (i==this.state.selected)
         	return (
                 <li key={i}>
@@ -81,4 +100,15 @@ class Zones extends Component {
 	}
 }
 
-export default Zones
+const stateToProps = (state) => {
+    return {
+        list: state.zone.list
+    }
+}
+
+const dispatchToProps = (dispatch) => {
+    return {
+        zonesReceived: (zones) => dispatch(action.zonesReceived(zones))
+    }
+}
+export default connect(stateToProps, dispatchToProps)(Zones)
