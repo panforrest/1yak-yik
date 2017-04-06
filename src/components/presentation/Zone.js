@@ -4,9 +4,10 @@ import styles from './styles'
 
 class Zone extends Component {
 
-	onSelectTitle(){
-        console.log('onSelectTitle: ')
-        this.props.select()
+	onSelectTitle(event){
+		event.preventDefault()
+        console.log('onSelectTitle: '+this.props.index)
+        this.props.select(this.props.index)
 	}
     
 	render(){

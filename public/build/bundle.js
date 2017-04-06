@@ -9902,9 +9902,11 @@ var Zones = function (_Component) {
         }
     }, {
         key: 'selectZone',
-        value: function selectZone() {
-            console.log('selectZone: ');
-            // this.props.select()
+        value: function selectZone(index) {
+            console.log('selectZone: ' + index);
+            this.setState({
+                selected: index
+            });
         }
     }, {
         key: 'render',
@@ -9916,7 +9918,7 @@ var Zones = function (_Component) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_presentation.Zone, { select: _this4.selectZone.bind(_this4), isSelected: selected, Zone: true, currentZone: zone })
+                    _react2.default.createElement(_presentation.Zone, { index: i, select: _this4.selectZone.bind(_this4), isSelected: selected, Zone: true, currentZone: zone })
                 );
             });
 
@@ -10267,9 +10269,10 @@ var Zone = function (_Component) {
 
 	_createClass(Zone, [{
 		key: 'onSelectTitle',
-		value: function onSelectTitle() {
-			console.log('onSelectTitle: ');
-			this.props.select();
+		value: function onSelectTitle(event) {
+			event.preventDefault();
+			console.log('onSelectTitle: ' + this.props.index);
+			this.props.select(this.props.index);
 		}
 	}, {
 		key: 'render',
