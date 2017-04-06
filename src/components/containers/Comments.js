@@ -58,23 +58,23 @@ class Comments extends Component {
         })
     }
 
-    updateUsername(event){
-        let updatedComment = Object.assign({}, this.state.comment)
-        updatedComment['username'] = event.target.value
+    // updateUsername(event){
+    //     let updatedComment = Object.assign({}, this.state.comment)
+    //     updatedComment['username'] = event.target.value
 
-        this.setState({
-            comment: updatedComment  //comment['username'] = updatedComment
-        })
-    }
+    //     this.setState({
+    //         comment: updatedComment  //comment['username'] = updatedComment
+    //     })
+    // }
 
-    updateBody(event){
-        // console.log('updateComment: '+event.target.value)
-        let updatedComment = Object.assign({}, this.state.comment)
-        updatedComment['body'] = event.target.value
-        this.setState({
-            comment: updatedComment
-        })
-    }
+    // updateBody(event){
+    //     // console.log('updateComment: '+event.target.value)
+    //     let updatedComment = Object.assign({}, this.state.comment)
+    //     updatedComment['body'] = event.target.value
+    //     this.setState({
+    //         comment: updatedComment
+    //     })
+    // }
 
 	render(){
         const commentList = this.state.list.map((comment, i) => {

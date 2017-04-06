@@ -10636,26 +10636,25 @@ var Comments = function (_Component) {
                 });
             });
         }
-    }, {
-        key: 'updateUsername',
-        value: function updateUsername(event) {
-            var updatedComment = Object.assign({}, this.state.comment);
-            updatedComment['username'] = event.target.value;
 
-            this.setState({
-                comment: updatedComment //comment['username'] = updatedComment
-            });
-        }
-    }, {
-        key: 'updateBody',
-        value: function updateBody(event) {
-            // console.log('updateComment: '+event.target.value)
-            var updatedComment = Object.assign({}, this.state.comment);
-            updatedComment['body'] = event.target.value;
-            this.setState({
-                comment: updatedComment
-            });
-        }
+        // updateUsername(event){
+        //     let updatedComment = Object.assign({}, this.state.comment)
+        //     updatedComment['username'] = event.target.value
+
+        //     this.setState({
+        //         comment: updatedComment  //comment['username'] = updatedComment
+        //     })
+        // }
+
+        // updateBody(event){
+        //     // console.log('updateComment: '+event.target.value)
+        //     let updatedComment = Object.assign({}, this.state.comment)
+        //     updatedComment['body'] = event.target.value
+        //     this.setState({
+        //         comment: updatedComment
+        //     })
+        // }
+
     }, {
         key: 'render',
         value: function render() {
@@ -10711,9 +10710,7 @@ var _react = __webpack_require__(17);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Zone = __webpack_require__(89);
-
-var _Zone2 = _interopRequireDefault(_Zone);
+var _presentation = __webpack_require__(196);
 
 var _utils = __webpack_require__(92);
 
@@ -10742,8 +10739,8 @@ var Zones = function (_Component) {
 
         _this.state = {
             zone: {
-                name: '',
-                zipCode: ''
+                // name:'',
+                //       zipCode:''
             },
 
             list: []
@@ -10778,17 +10775,18 @@ var Zones = function (_Component) {
         }
     }, {
         key: 'submitZone',
-        value: function submitZone() {
+        value: function submitZone(zone) {
             var _this3 = this;
 
-            console.log('submitZone: ' + JSON.stringify(this.state.zone));
+            // console.log('submitZone: '+JSON.stringify(zone))
 
             // updatedList.push(this.state.zone)
             // this.setState({
             // 	list: updatedList
             // })
-            var updatedZone = Object.assign({}, this.state.zone);
+            var updatedZone = Object.assign({}, zone);
             updatedZone['zipCodes'] = updatedZone.zipCode.split(',');
+            console.log('submitZone: ' + JSON.stringify(updatedZone));
 
             _utils.APIManager.post('/api/zone', updatedZone, function (err, response) {
                 //APIManager.post('/api/zone', this.state.zone, (err, response) => {
@@ -10804,16 +10802,15 @@ var Zones = function (_Component) {
                 });
             });
         }
-    }, {
-        key: 'updateZone',
-        value: function updateZone(event) {
-            console.log('updateName: ' + event.target.id + ' == ' + event.target.value);
-            var updatedZone = Object.assign({}, this.state.zone);
-            updatedZone[event.target.id] = event.target.value;
-            this.setState({
-                zone: updatedZone
-            });
-        }
+
+        // updateZone(event){
+        // 	console.log('updateName: '+event.target.id+' == '+event.target.value)
+        //     let updatedZone = Object.assign({}, this.state.zone)
+        //     updatedZone[event.target.id] = event.target.value
+        //     this.setState({
+        //     	zone: updatedZone
+        //     })
+        // }
 
         // updateZipcode(event){
         // 	console.log('updateZipcode: '+event.target.value)//console.log('updateZipcode: '+JSON.stringify(this.state.zone))
@@ -10831,7 +10828,7 @@ var Zones = function (_Component) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_Zone2.default, { currentZone: zone })
+                    _react2.default.createElement(_presentation.Zone, { currentZone: zone })
                 );
             });
 
@@ -10843,14 +10840,7 @@ var Zones = function (_Component) {
                     null,
                     listItems
                 ),
-                _react2.default.createElement('input', { className: 'form-control', onChange: this.updateZone.bind(this), type: 'text', id: 'name', placeholder: 'Name' }),
-                _react2.default.createElement('input', { className: 'form-control', onChange: this.updateZone.bind(this), type: 'text', id: 'zipCode', placeholder: 'Zip Code' }),
-                _react2.default.createElement('br', null),
-                _react2.default.createElement(
-                    'button',
-                    { className: 'btn btn-danger', onClick: this.submitZone.bind(this) },
-                    'Add Zone'
-                )
+                _react2.default.createElement(_presentation.CreateZone, { onCreate: this.submitZone.bind(this) })
             );
         }
     }]);
@@ -24561,7 +24551,7 @@ exports.default = CreateComment;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Zone = exports.Comment = exports.CreateComment = undefined;
+exports.CreateZone = exports.Zone = exports.Comment = exports.CreateComment = undefined;
 
 var _CreateComment = __webpack_require__(195);
 
@@ -24575,11 +24565,99 @@ var _Zone = __webpack_require__(89);
 
 var _Zone2 = _interopRequireDefault(_Zone);
 
+var _CreateZone = __webpack_require__(197);
+
+var _CreateZone2 = _interopRequireDefault(_CreateZone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.CreateComment = _CreateComment2.default;
 exports.Comment = _Comment2.default;
 exports.Zone = _Zone2.default;
+exports.CreateZone = _CreateZone2.default;
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(17);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CreateZone = function (_Component) {
+    _inherits(CreateZone, _Component);
+
+    function CreateZone() {
+        _classCallCheck(this, CreateZone);
+
+        var _this = _possibleConstructorReturn(this, (CreateZone.__proto__ || Object.getPrototypeOf(CreateZone)).call(this));
+
+        _this.state = {
+            zone: {
+                name: '',
+                zipCode: ''
+            }
+        };
+        return _this;
+    }
+
+    _createClass(CreateZone, [{
+        key: 'updateZone',
+        value: function updateZone(event) {
+            console.log('updateName: ' + event.target.id + ' == ' + event.target.value);
+            var updatedZone = Object.assign({}, this.state.zone);
+            updatedZone[event.target.id] = event.target.value;
+            this.setState({
+                zone: updatedZone
+            });
+        }
+    }, {
+        key: 'submitZone',
+        value: function submitZone(event) {
+            console.log('submitZone: ' + JSON.stringify(this.state.zone));
+            var updated = Object.assign({}, this.state.zone);
+            updated['zipCodes'] = updated.zipCode.split(',');
+            this.props.onCreate(updated);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement('input', { onChange: this.updateZone.bind(this), className: 'form-control', type: 'text', id: 'name', placeholder: 'Name' }),
+                _react2.default.createElement('input', { onChange: this.updateZone.bind(this), className: 'form-control', type: 'text', id: 'zipCode', placeholder: 'Zip Code' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.submitZone.bind(this), className: 'btn btn-danger' },
+                    'Add Zone'
+                )
+            );
+        }
+    }]);
+
+    return CreateZone;
+}(_react.Component);
+
+exports.default = CreateZone;
 
 /***/ })
 /******/ ]);

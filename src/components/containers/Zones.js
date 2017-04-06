@@ -4,7 +4,7 @@
         // 	)
         // })
 import React, { Component } from 'react'
-import Zone from '../presentation/Zone'
+import { Zone, CreateZone } from '../presentation'
 // import superagent from 'superagent'
 import { APIManager } from '../../utils'
 
@@ -13,8 +13,8 @@ class Zones extends Component {
     	super()
         this.state = {
         	zone: {
-        		name:'',
-                zipCode:''
+        		// name:'',
+          //       zipCode:''
         	},
 
         	list: [
@@ -43,15 +43,16 @@ class Zones extends Component {
         })
     }
 
-    submitZone(){
-        console.log('submitZone: '+JSON.stringify(this.state.zone))
+    submitZone(zone){
+        // console.log('submitZone: '+JSON.stringify(zone))
         
         // updatedList.push(this.state.zone)
         // this.setState({
         // 	list: updatedList
         // })
-        let updatedZone = Object.assign({}, this.state.zone)
+        let updatedZone = Object.assign({}, zone)
         updatedZone['zipCodes'] = updatedZone.zipCode.split(',')
+        console.log('submitZone: '+JSON.stringify(updatedZone))
 
         APIManager.post('/api/zone', updatedZone, (err, response) => {    //APIManager.post('/api/zone', this.state.zone, (err, response) => {
             if (err) {
@@ -67,14 +68,14 @@ class Zones extends Component {
         })
     }
 
-    updateZone(event){
-    	console.log('updateName: '+event.target.id+' == '+event.target.value)
-        let updatedZone = Object.assign({}, this.state.zone)
-        updatedZone[event.target.id] = event.target.value
-        this.setState({
-        	zone: updatedZone
-        })
-    }
+    // updateZone(event){
+    // 	console.log('updateName: '+event.target.id+' == '+event.target.value)
+    //     let updatedZone = Object.assign({}, this.state.zone)
+    //     updatedZone[event.target.id] = event.target.value
+    //     this.setState({
+    //     	zone: updatedZone
+    //     })
+    // }
 
     // updateZipcode(event){
     // 	console.log('updateZipcode: '+event.target.value)//console.log('updateZipcode: '+JSON.stringify(this.state.zone))
@@ -98,10 +99,8 @@ class Zones extends Component {
                     {listItems} 
                 </ol> 
 
-                <input className="form-control" onChange={this.updateZone.bind(this)} type="text" id="name" placeholder="Name" />
-                <input className="form-control" onChange={this.updateZone.bind(this)} type="text" id="zipCode" placeholder="Zip Code" /><br />
-                <button className="btn btn-danger" onClick={this.submitZone.bind(this)}>Add Zone</button>
-                
+
+                <CreateZone onCreate={this.submitZone.bind(this)}/>
 
 			</div>
 		)
