@@ -10862,14 +10862,16 @@ var Comments = function (_Component) {
                 );
             });
 
+            var selectedZone = this.props.zones[this.props.index];
+            var zoneName = selectedZone == null ? '' : selectedZone.name;
+
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
                     'h2',
                     null,
-                    'Comments: Zone ',
-                    this.props.index
+                    zoneName
                 ),
                 _react2.default.createElement(
                     'div',
@@ -10891,7 +10893,8 @@ var Comments = function (_Component) {
 var stateToProps = function stateToProps(state) {
     return {
         list: state.comment.list,
-        index: state.zone.selectedZone
+        index: state.zone.selectedZone,
+        zones: state.zone.list
     };
 };
 
