@@ -27,20 +27,26 @@ class Comments extends Component {
     }
 
     componentDidMount(){
-        console.log('Comments componentDidMount: ')
+        // console.log('Comments componentDidMount: ')
+        // let zone = this.props.zones[this.props.index]
 
-        APIManager.get('/api/comment', null, (err, response) => {
-            if (err) {
-                alert('ERROR: '+err.message)
-                return
-            }
-            console.log(JSON.stringify(response))
-            var results = response.results
-            // this.setState({
-            //     list: results
-            // })
-            this.props.commentsReceived(results)
-        })
+        // if (zone == null) {
+        //     console.log('NO SELECTED ZONE!!!!')
+        //     return
+        // }
+
+        // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+        //     if (err) {
+        //         alert('ERROR: '+err.message)
+        //         return
+        //     }
+        //     console.log(JSON.stringify(response))
+        //     var results = response.results
+        //     // this.setState({
+        //     //     list: results
+        //     // })
+        //     this.props.commentsReceived(results)
+        // })
     }
 
     submitComment(comment){
@@ -85,7 +91,19 @@ class Comments extends Component {
     //     })
     // }
 
+    componentDidUpdate(){
+        console.log('COMMENTS CONTAINER: componentDidUpdate: ')
+        let zone = this.props.zones[this.props.index]
+        if (zone == null) {
+            console.log('NO SELECTED ZONE!!!!')
+            return
+        }
+
+        console.log('SELECTED ZONE IS READY == '+zone._id)
+    }
+
 	render(){
+        console.log('COMMENTS CONTAINER: render ')
         const commentList = this.props.comments.map((comment, i) => {
             return(
                 <li key={i}><Comment currentComment={comment} /></li>

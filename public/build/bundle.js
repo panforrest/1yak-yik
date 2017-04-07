@@ -10792,27 +10792,31 @@ var Comments = function (_Component) {
     _createClass(Comments, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
+            // console.log('Comments componentDidMount: ')
+            // let zone = this.props.zones[this.props.index]
 
-            console.log('Comments componentDidMount: ');
+            // if (zone == null) {
+            //     console.log('NO SELECTED ZONE!!!!')
+            //     return
+            // }
 
-            _utils.APIManager.get('/api/comment', null, function (err, response) {
-                if (err) {
-                    alert('ERROR: ' + err.message);
-                    return;
-                }
-                console.log(JSON.stringify(response));
-                var results = response.results;
-                // this.setState({
-                //     list: results
-                // })
-                _this2.props.commentsReceived(results);
-            });
+            // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+            //     if (err) {
+            //         alert('ERROR: '+err.message)
+            //         return
+            //     }
+            //     console.log(JSON.stringify(response))
+            //     var results = response.results
+            //     // this.setState({
+            //     //     list: results
+            //     // })
+            //     this.props.commentsReceived(results)
+            // })
         }
     }, {
         key: 'submitComment',
         value: function submitComment(comment) {
-            var _this3 = this;
+            var _this2 = this;
 
             console.log('before submitComment: ' + JSON.stringify(comment));
             // let updatedComment = Object.assign({}, this.state.comment)
@@ -10833,7 +10837,7 @@ var Comments = function (_Component) {
                 //     list: updatedList
                 // })
                 var result = response.result;
-                _this3.props.commentCreated(result);
+                _this2.props.commentCreated(result);
             });
         }
 
@@ -10856,8 +10860,21 @@ var Comments = function (_Component) {
         // }
 
     }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            console.log('COMMENTS CONTAINER: componentDidUpdate: ');
+            var zone = this.props.zones[this.props.index];
+            if (zone == null) {
+                console.log('NO SELECTED ZONE!!!!');
+                return;
+            }
+
+            console.log('SELECTED ZONE IS READY == ' + zone._id);
+        }
+    }, {
         key: 'render',
         value: function render() {
+            console.log('COMMENTS CONTAINER: render ');
             var commentList = this.props.comments.map(function (comment, i) {
                 return _react2.default.createElement(
                     'li',
