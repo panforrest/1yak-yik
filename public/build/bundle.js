@@ -10774,17 +10774,7 @@ var Comments = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).call(this));
 
         _this.state = {
-            comment: {
-                // username:'',
-                // body:''
-                // timestamp:''
-            },
-
-            list: [
-                //     {username: 'dtrump', body:'comment 1', timestamp:'10:30'},
-                //     {username: 'hclinton', body:'comment 2', timestamp:'10:45'},
-                //           {username: 'gjohnson', body:'comment 3', timestamp:'10:59'}
-            ]
+            commentsLoaded: false
         };
         return _this;
     }
@@ -10862,6 +10852,8 @@ var Comments = function (_Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
+            var _this3 = this;
+
             console.log('COMMENTS CONTAINER: componentDidUpdate: ');
             var zone = this.props.zones[this.props.index];
             if (zone == null) {
@@ -10870,6 +10862,16 @@ var Comments = function (_Component) {
             }
 
             console.log('SELECTED ZONE IS READY == ' + zone._id);
+            if (this.state.commentsLoaded == true) return;
+
+            _utils.APIManager.get('/api/comment', { zone: zone._id }, function (err, response) {
+                if (err) {
+                    alert('ERROR: ' + err.message);
+                    return;
+                }
+                var comments = response.results;
+                _this3.props.commentsReceived(comments);
+            });
         }
     }, {
         key: 'render',

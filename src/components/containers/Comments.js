@@ -12,17 +12,7 @@ class Comments extends Component {
     constructor(){
     	super()
     	this.state = {
-            comment: {
-                // username:'',
-                // body:''
-                // timestamp:''
-            },
-
-    		list:[
-    		//     {username: 'dtrump', body:'comment 1', timestamp:'10:30'},
-    		//     {username: 'hclinton', body:'comment 2', timestamp:'10:45'},
-      //           {username: 'gjohnson', body:'comment 3', timestamp:'10:59'}
-    		]
+            commentsLoaded: false
     	}
     }
 
@@ -100,6 +90,17 @@ class Comments extends Component {
         }
 
         console.log('SELECTED ZONE IS READY == '+zone._id)
+        if (this.state.commentsLoaded == true)
+            return
+
+        APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+            if (err) {
+                alert('ERROR: '+err.message)
+                return
+            }
+            let comments = response.results
+            this.props.commentsReceived(comments)
+        })
     }
 
 	render(){
