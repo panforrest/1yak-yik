@@ -10819,7 +10819,7 @@ var Comments = function (_Component) {
             var updatedComment = Object.assign({}, comment);
 
             var zone = this.props.zones[this.props.index];
-            updatedComment['zone'] = zone.id;
+            updatedComment['zone'] = zone._id;
 
             _utils.APIManager.post('/api/comment', updatedComment, function (err, response) {
                 if (err) {

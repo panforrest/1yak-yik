@@ -49,7 +49,7 @@ class Comments extends Component {
         let updatedComment = Object.assign({}, comment)
 
         let zone = this.props.zones[this.props.index]
-        updatedComment['zone'] = zone.id
+        updatedComment['zone'] = zone._id
 
         APIManager.post('/api/comment', updatedComment, (err, response) => {
             if (err) {
