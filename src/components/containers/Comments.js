@@ -4,6 +4,8 @@ import { Comment, CreateComment } from '../presentation'
 import styles from './styles'
 // import superagent from 'superagent'
 import { APIManager } from '../../utils'
+import actions from '../../actions/actions'
+import { connect } from 'react-redux'
 
 class Comments extends Component {
 
@@ -34,9 +36,10 @@ class Comments extends Component {
             }
             console.log(JSON.stringify(response))
             var results = response.results
-            this.setState({
-                list: results
-            })
+            // this.setState({
+            //     list: results
+            // })
+            this.props.commentsReceived(results)
         })
     }
 
@@ -50,11 +53,13 @@ class Comments extends Component {
                 return
             }
             console.log('submitComment: '+JSON.stringify(response))
-            let updatedList = Object.assign([], this.state.list)
-            updatedList.push(response.result)
-            this.setState({
-                list: updatedList
-            })
+            // let updatedList = Object.assign([], this.state.list)
+            // updatedList.push(response.result)
+            // this.setState({
+            //     list: updatedList
+            // })
+            var result = response.result
+            this.props.commentCreated(result)
         })
     }
 
@@ -77,7 +82,7 @@ class Comments extends Component {
     // }
 
 	render(){
-        const commentList = this.state.list.map((comment, i) => {
+        const commentList = this.props.list.map((comment, i) => {
             return(
                 <li key={i}><Comment currentComment={comment} /></li>
             )
@@ -85,7 +90,7 @@ class Comments extends Component {
 
 		return (
 			<div>
-			    <h2>Comments: Zone 1</h2>
+			    <h2>Comments: Zone {this.props.index}</h2>
 			    <div style={styles.comment.commentsBox}>
 				    <ul style={styles.comment.commentsList}>
 	                    { commentList } 
@@ -99,4 +104,18 @@ class Comments extends Component {
 	}
 }
 
-export default Comments
+const stateToProps = (state) => {
+    return {
+        list: state.comment.list,
+        index: state.zone.selectedZone  
+    }
+}
+
+const dispatchToProps = (dispatch) => {
+    return {
+        commentsReceived: (comments) => dispatch(actions.commentsReceived(comments)),
+        commentCreated: (comment) => dispatch(actions.commentCreated(comment))
+    }
+}
+
+export default connect(stateToProps, dispatchToProps)(Comments)

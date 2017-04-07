@@ -15,6 +15,13 @@ export default {
 		}
 	},
 
+	commentCreated: (comment) => {
+		return {
+			type: constants.COMMENT_CREATED,
+			comment: comment
+		}
+	},
+
 	zoneCreated: (zone) => {
 		return {
 			type: constants.ZONE_CREATED,

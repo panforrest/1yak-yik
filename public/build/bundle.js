@@ -6866,6 +6866,10 @@ var _zoneReducer = __webpack_require__(110);
 
 var _zoneReducer2 = _interopRequireDefault(_zoneReducer);
 
+var _commentReducer = __webpack_require__(242);
+
+var _commentReducer2 = _interopRequireDefault(_commentReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store;
@@ -6875,7 +6879,8 @@ exports.default = {
     //configureStore () => {
     var reducers = (0, _redux.combineReducers)({
 
-      zone: _zoneReducer2.default
+      zone: _zoneReducer2.default,
+      comment: _commentReducer2.default
 
     });
 
@@ -6960,6 +6965,8 @@ exports.default = {
     ZONE_CREATED: 'ZONE_CREATED',
 
     COMMENTS_RECEIVED: 'COMMENTS_RECEIVED',
+
+    COMMENT_CREATED: 'COMMENT_CREATED',
 
     SELECT_ZONE: 'SELECT_ZONE'
 
@@ -10625,6 +10632,13 @@ exports.default = {
 		};
 	},
 
+	commentCreated: function commentCreated(comment) {
+		return {
+			type: _constants2.default.COMMENT_CREATED,
+			comment: comment
+		};
+	},
+
 	zoneCreated: function zoneCreated(zone) {
 		return {
 			type: _constants2.default.ZONE_CREATED,
@@ -10734,6 +10748,12 @@ var _styles2 = _interopRequireDefault(_styles);
 
 var _utils = __webpack_require__(60);
 
+var _actions = __webpack_require__(100);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(57);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10783,9 +10803,10 @@ var Comments = function (_Component) {
                 }
                 console.log(JSON.stringify(response));
                 var results = response.results;
-                _this2.setState({
-                    list: results
-                });
+                // this.setState({
+                //     list: results
+                // })
+                _this2.props.commentsReceived(results);
             });
         }
     }, {
@@ -10802,11 +10823,13 @@ var Comments = function (_Component) {
                     return;
                 }
                 console.log('submitComment: ' + JSON.stringify(response));
-                var updatedList = Object.assign([], _this3.state.list);
-                updatedList.push(response.result);
-                _this3.setState({
-                    list: updatedList
-                });
+                // let updatedList = Object.assign([], this.state.list)
+                // updatedList.push(response.result)
+                // this.setState({
+                //     list: updatedList
+                // })
+                var result = response.result;
+                _this3.props.commentCreated(result);
             });
         }
 
@@ -10831,7 +10854,7 @@ var Comments = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var commentList = this.state.list.map(function (comment, i) {
+            var commentList = this.props.list.map(function (comment, i) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
@@ -10845,7 +10868,8 @@ var Comments = function (_Component) {
                 _react2.default.createElement(
                     'h2',
                     null,
-                    'Comments: Zone 1'
+                    'Comments: Zone ',
+                    this.props.index
                 ),
                 _react2.default.createElement(
                     'div',
@@ -10864,7 +10888,25 @@ var Comments = function (_Component) {
     return Comments;
 }(_react.Component);
 
-exports.default = Comments;
+var stateToProps = function stateToProps(state) {
+    return {
+        list: state.comment.list,
+        index: state.zone.selectedZone
+    };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+    return {
+        commentsReceived: function commentsReceived(comments) {
+            return dispatch(_actions2.default.commentsReceived(comments));
+        },
+        commentCreated: function commentCreated(comment) {
+            return dispatch(_actions2.default.commentCreated(comment));
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Comments);
 
 /***/ }),
 /* 103 */
@@ -27080,6 +27122,53 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _constants = __webpack_require__(59);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+  list: [],
+  comment: {}
+};
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  var updated = Object.assign({}, state);
+  switch (action.type) {
+    case _constants2.default.COMMENTS_RECEIVED:
+
+      console.log('COMMENTS_RECEIVED: ' + JSON.stringify(action.comments));
+      updated['list'] = action.comments;
+      return updated;
+
+    case _constants2.default.COMMENT_CREATED:
+      console.log('COMMENT_CREATED: ' + JSON.stringify(action.comment));
+      var updatedList = Object.assign([], updated.list); //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
+      updatedList.push(action.comment);
+      updated['list'] = updatedList; //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
+      // console.log('COMMENT_CREATED: '+JSON.stringify(updatedList))
+      return updated;
+
+    default:
+      return state;
+  }
+};
 
 /***/ })
 /******/ ]);
