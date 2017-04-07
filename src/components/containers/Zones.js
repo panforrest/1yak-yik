@@ -1,16 +1,3 @@
-// const stateToProps = (state) => {
-//     return {
-//                 //I CAN NEVER GET THIS LINE CORRECT //zones: state.list
-//     }
-// }
-
-// const dispatchToProps = (dispatch) => {
-//     return {
-//         zonesReceived: (zones) => dispatch(action.zonesReceived)
-//     }
-// }
-// export default connect(stateToProps, dispatchToProps)(Zones)
-
 import React, { Component } from 'react'
 import { Zone, CreateZone, style } from '../presentation'
 // import superagent from 'superagent'
@@ -23,8 +10,8 @@ class Zones extends Component {
     constructor(){
     	super()
         this.state = {
-            selected: 0,
-        	list: []      	
+            // selected: 0,
+        	list: []     	
         }
     }
 
@@ -34,12 +21,7 @@ class Zones extends Component {
                 alert('ERROR: '+err.message)
                 return
             }
-            // var results = response.results
-            // this.setState({
-            //     list: results
-            // })
-            //THE FOLLOWING IS THE MOST IMPORTANT KEY LINE OF CODE for console log zones by reducer:
-            // store.currentStore().dispatch(actions.zonesReceived(response.results))
+
             this.props.zonesReceived(response.results)
             // this.props.zonesReceived(zones)
         })
@@ -73,14 +55,13 @@ class Zones extends Component {
 
     selectZone(index){
         console.log('selectZone: '+index)
-        this.setState({
-            selected: index
-        })
+
+        this.props.selectZone(index)
     }
 
 	render(){
         const listItems = this.props.list.map((zone, i) => {
-            let selected = (i==this.state.selected)
+            let selected = (i==this.props.selected)
         	return (
                 <li key={i}>
                     <Zone index={i} select={this.selectZone.bind(this)} isSelected={selected} Zone currentZone={zone} />
@@ -105,14 +86,15 @@ class Zones extends Component {
 const stateToProps = (state) => {
     return {
         list: state.zone.list,
-        zone: state.zone.zone
+        selected: state.zone.selectedZone
     }
 }
 
 const dispatchToProps = (dispatch) => {
     return {
         zonesReceived: (zones) => dispatch(actions.zonesReceived(zones)),
-        zoneCreated: (zone) => dispatch(actions.zoneCreated(zone))
+        zoneCreated: (zone) => dispatch(actions.zoneCreated(zone)),
+        selectZone: (index) => dispatch(actions.selectZone(index))
     }
 }
 export default connect(stateToProps, dispatchToProps)(Zones)
