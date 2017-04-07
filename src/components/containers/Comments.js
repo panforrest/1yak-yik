@@ -47,6 +47,10 @@ class Comments extends Component {
         console.log('before submitComment: '+JSON.stringify(comment))
         // let updatedComment = Object.assign({}, this.state.comment)
         let updatedComment = Object.assign({}, comment)
+
+        let zone = this.props.zones[this.props.index]
+        updatedComment['zone'] = zone.id
+
         APIManager.post('/api/comment', updatedComment, (err, response) => {
             if (err) {
                 alert('ERROR: '+err.message)
@@ -82,7 +86,7 @@ class Comments extends Component {
     // }
 
 	render(){
-        const commentList = this.props.list.map((comment, i) => {
+        const commentList = this.props.comments.map((comment, i) => {
             return(
                 <li key={i}><Comment currentComment={comment} /></li>
             )
@@ -109,7 +113,7 @@ class Comments extends Component {
 
 const stateToProps = (state) => {
     return {
-        list: state.comment.list,
+        comments: state.comment.list,
         index: state.zone.selectedZone ,
         zones: state.zone.list 
     }

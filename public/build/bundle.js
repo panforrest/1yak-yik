@@ -10817,6 +10817,10 @@ var Comments = function (_Component) {
             console.log('before submitComment: ' + JSON.stringify(comment));
             // let updatedComment = Object.assign({}, this.state.comment)
             var updatedComment = Object.assign({}, comment);
+
+            var zone = this.props.zones[this.props.index];
+            updatedComment['zone'] = zone.id;
+
             _utils.APIManager.post('/api/comment', updatedComment, function (err, response) {
                 if (err) {
                     alert('ERROR: ' + err.message);
@@ -10854,7 +10858,7 @@ var Comments = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var commentList = this.props.list.map(function (comment, i) {
+            var commentList = this.props.comments.map(function (comment, i) {
                 return _react2.default.createElement(
                     'li',
                     { key: i },
@@ -10892,7 +10896,7 @@ var Comments = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
-        list: state.comment.list,
+        comments: state.comment.list,
         index: state.zone.selectedZone,
         zones: state.zone.list
     };
