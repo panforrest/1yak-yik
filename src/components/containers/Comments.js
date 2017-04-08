@@ -119,14 +119,37 @@ class Comments extends Component {
 
 	render(){
         // console.log('COMMENTS CONTAINER: render ')
-        const commentList = this.props.comments.map((comment, i) => {
-            return(
-                <li key={i}><Comment currentComment={comment} /></li>
-            )
-        })
+        let selectedZone = this.props.zones[this.props.index]
 
-        const selectedZone = this.props.zones[this.props.index]
-        const zoneName = (selectedZone==null) ? '' : selectedZone.name
+        console.log('ZONE = '+JSON.stringify(selectedZone))
+        // let zoneComments = this.props.commentsMap[selectedZone._id]
+
+        // const commentList = zoneComments.map((comment, i) => {
+        //     return(
+        //         <li key={i}><Comment currentComment={comment} /></li>
+        //     )
+        // })
+
+        // // const selectedZone = this.props.zones[this.props.index]
+        // const zoneName = (selectedZone==null) ? '' : selectedZone.name
+
+        let zoneName = null
+        let commentList = null
+
+        if (selectedZone != null) {
+            zoneName = selectedZone.name
+
+            let zoneComments = this.props.commentsMap[selectedZone._id]
+            console.log('SELECTED ZONE ID ='+selectedZone._id)
+            console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
+            if (zoneComments != null) {
+                commentList = zoneComments.map((comment, i) => {
+                    return(
+                        <li key={i}><Comment currentComment={comment} /></li>
+                    )
+                })
+            }
+        }
 
 		return (
 			<div>

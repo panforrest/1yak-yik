@@ -12,20 +12,21 @@ export default (state=initialState, action) => {
 	switch(action.type){
 		case constants.COMMENTS_RECEIVED:
             // let updated = Object.assign({}, state)
-		    console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
-            console.log('COMMENTS_RECEIVED FROM ZONE: '+JSON.stringify(action.zone))
+		    // console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+      //       console.log('COMMENTS_RECEIVED FROM ZONE: '+JSON.stringify(action.zone))
             updated['list'] = action.comments
 
-            let updatedMap = Object.assign({}, state.map)
-            let zoneComments = (updatedMap[action.zone._id]) ? Object.assign([], updatedMap[action..zone._id])
-            //NOW USE THE ZONE OBJECT TO CALL
-            // let zoneComments = updatedMap[action.zone._id]
-            // if (zoneComments == null){
-            //     zoneComments = []
-            // }
-            // else {
-            //     zoneComments = Object.assign([], zoneComments)
-            // }
+            let updatedMap = Object.assign({}, updated.map)
+            // let zoneComments = (updatedMap[action.zone._id]) ? Object.assign([], updatedMap[action.zone._id]) : []
+            // NOW USE THE ZONE OBJECT TO CALL
+            console.log('UPDATED MAP: '+updatedMap)
+            let zoneComments = updatedMap[action.zone._id]
+            if (zoneComments == null){
+                zoneComments = []
+            }
+            else {
+                zoneComments = Object.assign([], zoneComments)
+            }
 
             action.comments.forEach((comment, i) => {
                 zoneComments.push(comment)

@@ -10892,16 +10892,39 @@ var Comments = function (_Component) {
         key: 'render',
         value: function render() {
             // console.log('COMMENTS CONTAINER: render ')
-            var commentList = this.props.comments.map(function (comment, i) {
-                return _react2.default.createElement(
-                    'li',
-                    { key: i },
-                    _react2.default.createElement(_presentation.Comment, { currentComment: comment })
-                );
-            });
-
             var selectedZone = this.props.zones[this.props.index];
-            var zoneName = selectedZone == null ? '' : selectedZone.name;
+
+            console.log('ZONE = ' + JSON.stringify(selectedZone));
+            // let zoneComments = this.props.commentsMap[selectedZone._id]
+
+            // const commentList = zoneComments.map((comment, i) => {
+            //     return(
+            //         <li key={i}><Comment currentComment={comment} /></li>
+            //     )
+            // })
+
+            // // const selectedZone = this.props.zones[this.props.index]
+            // const zoneName = (selectedZone==null) ? '' : selectedZone.name
+
+            var zoneName = null;
+            var commentList = null;
+
+            if (selectedZone != null) {
+                zoneName = selectedZone.name;
+
+                var zoneComments = this.props.commentsMap[selectedZone._id];
+                console.log('SELECTED ZONE ID =' + selectedZone._id);
+                console.log('COMMENTS MAP =' + JSON.stringify(this.props.commentsMapn));
+                if (zoneComments != null) {
+                    commentList = zoneComments.map(function (comment, i) {
+                        return _react2.default.createElement(
+                            'li',
+                            { key: i },
+                            _react2.default.createElement(_presentation.Comment, { currentComment: comment })
+                        );
+                    });
+                }
+            }
 
             return _react2.default.createElement(
                 'div',
@@ -11552,10 +11575,80 @@ exports.default = {
 
 /***/ }),
 /* 110 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: SyntaxError: Unexpected token (20:99)\n\n\u001b[0m \u001b[90m 18 | \u001b[39m\n \u001b[90m 19 | \u001b[39m            let updatedMap \u001b[33m=\u001b[39m \u001b[33mObject\u001b[39m\u001b[33m.\u001b[39massign({}\u001b[33m,\u001b[39m state\u001b[33m.\u001b[39mmap)\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 | \u001b[39m            let zoneComments \u001b[33m=\u001b[39m (updatedMap[action\u001b[33m.\u001b[39mzone\u001b[33m.\u001b[39m_id]) \u001b[33m?\u001b[39m \u001b[33mObject\u001b[39m\u001b[33m.\u001b[39massign([]\u001b[33m,\u001b[39m updatedMap[action\u001b[33m.\u001b[39m\u001b[33m.\u001b[39mzone\u001b[33m.\u001b[39m_id])\n \u001b[90m    | \u001b[39m                                                                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 | \u001b[39m            \u001b[90m//NOW USE THE ZONE OBJECT TO CALL\u001b[39m\n \u001b[90m 22 | \u001b[39m            \u001b[90m// let zoneComments = updatedMap[action.zone._id]\u001b[39m\n \u001b[90m 23 | \u001b[39m            \u001b[90m// if (zoneComments == null){\u001b[39m\u001b[0m\n");
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _constants = __webpack_require__(33);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+    commentsLoaded: false,
+    list: [],
+    comment: {},
+    map: {} //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
+};
+
+exports.default = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var action = arguments[1];
+
+    var updated = Object.assign({}, state);
+    switch (action.type) {
+        case _constants2.default.COMMENTS_RECEIVED:
+            // let updated = Object.assign({}, state)
+            // console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+            //       console.log('COMMENTS_RECEIVED FROM ZONE: '+JSON.stringify(action.zone))
+            updated['list'] = action.comments;
+
+            var updatedMap = Object.assign({}, updated.map);
+            // let zoneComments = (updatedMap[action.zone._id]) ? Object.assign([], updatedMap[action.zone._id]) : []
+            // NOW USE THE ZONE OBJECT TO CALL
+            console.log('UPDATED MAP: ' + updatedMap);
+            var zoneComments = updatedMap[action.zone._id];
+            if (zoneComments == null) {
+                zoneComments = [];
+            } else {
+                zoneComments = Object.assign([], zoneComments);
+            }
+
+            action.comments.forEach(function (comment, i) {
+                zoneComments.push(comment);
+            });
+
+            updatedMap[action.zone._id] = zoneComments;
+            updated['map'] = updatedMap;
+            updated['commentsLoaded'] = true;
+
+            console.log('COMMENTS_RECEIVED: ' + JSON.stringify(updated));
+
+            return updated;
+
+        case _constants2.default.COMMENT_CREATED:
+            console.log('COMMENT_CREATED: ' + JSON.stringify(action.comment));
+            var updatedList = Object.assign([], updated.list); //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
+            updatedList.push(action.comment);
+            updated['list'] = updatedList; //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
+            // console.log('COMMENT_CREATED: '+JSON.stringify(updatedList))
+            return updated;
+
+        case _constants2.default.SELECT_ZONE:
+            // console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
+            updated['commentsLoaded'] = false;
+            return updated;
+
+        default:
+            return state;
+    }
+};
 
 /***/ }),
 /* 111 */
