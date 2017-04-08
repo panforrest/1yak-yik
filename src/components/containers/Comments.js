@@ -170,7 +170,7 @@ class Comments extends Component {
 const stateToProps = (state) => {
     return {
         commentsMap: state.comment.map,
-        comments: state.comment.list,
+        // comments: state.comment.list,
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
         zones: state.zone.list 

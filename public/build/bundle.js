@@ -10954,7 +10954,7 @@ var Comments = function (_Component) {
 var stateToProps = function stateToProps(state) {
     return {
         commentsMap: state.comment.map,
-        comments: state.comment.list,
+        // comments: state.comment.list,
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
         zones: state.zone.list
@@ -11591,8 +11591,8 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-    commentsLoaded: false,
-    list: [],
+    // commentsLoaded: false,
+    // list: [],
     comment: {},
     map: {} //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
 };
@@ -11626,7 +11626,7 @@ exports.default = function () {
 
             updatedMap[action.zone._id] = zoneComments;
             updated['map'] = updatedMap;
-            updated['commentsLoaded'] = true;
+            // updated['commentsLoaded'] = true
 
             console.log('COMMENTS_RECEIVED: ' + JSON.stringify(updated));
 
@@ -11634,15 +11634,15 @@ exports.default = function () {
 
         case _constants2.default.COMMENT_CREATED:
             console.log('COMMENT_CREATED: ' + JSON.stringify(action.comment));
-            var updatedList = Object.assign([], updated.list); //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
-            updatedList.push(action.comment);
-            updated['list'] = updatedList; //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
+            // let updatedList = Object.assign([], updated.list)    //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
+            // updatedList.push(action.comment)
+            // updated['list'] = updatedList   //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
             // console.log('COMMENT_CREATED: '+JSON.stringify(updatedList))
             return updated;
 
         case _constants2.default.SELECT_ZONE:
             // console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
-            updated['commentsLoaded'] = false;
+            // updated['commentsLoaded'] = false
             return updated;
 
         default:

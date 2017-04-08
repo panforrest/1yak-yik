@@ -1,8 +1,8 @@
 import constants from '../constants/constants'
 
 var initialState = {
-	commentsLoaded: false,
-	list: [],
+	// commentsLoaded: false,
+	// list: [],
 	comment: {},
     map: {}  //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
 }
@@ -34,7 +34,7 @@ export default (state=initialState, action) => {
 
             updatedMap[action.zone._id] = zoneComments
             updated['map'] = updatedMap
-            updated['commentsLoaded'] = true
+            // updated['commentsLoaded'] = true
 
             console.log('COMMENTS_RECEIVED: '+JSON.stringify(updated))
 
@@ -42,15 +42,15 @@ export default (state=initialState, action) => {
 
         case constants.COMMENT_CREATED:
             console.log('COMMENT_CREATED: '+JSON.stringify(action.comment))  
-            let updatedList = Object.assign([], updated.list)    //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
-            updatedList.push(action.comment)
-            updated['list'] = updatedList   //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
+            // let updatedList = Object.assign([], updated.list)    //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
+            // updatedList.push(action.comment)
+            // updated['list'] = updatedList   //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
             // console.log('COMMENT_CREATED: '+JSON.stringify(updatedList))
             return updated 
 
         case constants.SELECT_ZONE:
             // console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
-            updated['commentsLoaded'] = false
+            // updated['commentsLoaded'] = false
             return updated
 
 		default:
