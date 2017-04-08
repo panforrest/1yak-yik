@@ -6962,10 +6962,11 @@ exports.default = {
 		};
 	},
 
-	commentsReceived: function commentsReceived(comments) {
+	commentsReceived: function commentsReceived(comments, zone) {
 		return {
 			type: _constants2.default.COMMENTS_RECEIVED, //action: constants.COMMENTS_RECEIVED,
-			comments: comments //type: comments
+			comments: comments, //type: comments
+			zone: zone
 		};
 	},
 
@@ -10858,7 +10859,7 @@ var Comments = function (_Component) {
         value: function componentDidUpdate() {
             var _this3 = this;
 
-            console.log('COMMENTS CONTAINER: componentDidUpdate: ' + this.state.index + '?');
+            // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
             var zone = this.props.zones[this.props.index];
             if (zone == null) {
                 console.log('NO SELECTED ZONE!!!!');
@@ -10869,24 +10870,21 @@ var Comments = function (_Component) {
             //     index: this.props.index
             // })
 
-            console.log('SELECTED ZONE IS READY == ' + zone._id);
-            if (this.props.commentsLoaded == true) return;
-            // APIManager.get('/api/comment', null, (err, response) => {   //58e286d7d62cc008024e2145
-            // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+            // console.log('SELECTED ZONE IS READY == '+zone._id)
+            // if (this.props.commentsLoaded == true)
+            //     return
+
+            var commentsArray = this.props.commentsMap[zone._id];
+            if (commentsArray != null) return;
+
             _utils.APIManager.get('/api/comment', { zone: zone._id }, function (err, response) {
                 if (err) {
                     alert('ERROR: ' + err.message);
                     return;
                 }
 
-                // this.setState({
-                //     // commentsLoaded: true,
-                //     index: this.props.index
-                // })
-
                 var comments = response.results;
-                console.log('APIManager: ' + JSON.stringify(comments));
-                _this3.props.commentsReceived(comments);
+                _this3.props.commentsReceived(comments, zone);
             });
         }
     }, {
@@ -10931,6 +10929,7 @@ var Comments = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
+        commentsMap: state.comment.map,
         comments: state.comment.list,
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
@@ -10940,8 +10939,8 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
     return {
-        commentsReceived: function commentsReceived(comments) {
-            return dispatch(_actions2.default.commentsReceived(comments));
+        commentsReceived: function commentsReceived(comments, zone) {
+            return dispatch(_actions2.default.commentsReceived(comments, zone));
         },
         commentCreated: function commentCreated(comment) {
             return dispatch(_actions2.default.commentCreated(comment));
@@ -11570,7 +11569,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var initialState = {
     commentsLoaded: false,
     list: [],
-    comment: {}
+    comment: {},
+    map: {} //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
 };
 
 exports.default = function () {
@@ -11582,8 +11582,28 @@ exports.default = function () {
         case _constants2.default.COMMENTS_RECEIVED:
             // let updated = Object.assign({}, state)
             console.log('COMMENTS_RECEIVED: ' + JSON.stringify(action.comments));
+            console.log('COMMENTS_RECEIVED FROM ZONE: ' + JSON.stringify(action.zone));
             updated['list'] = action.comments;
+
+            var updatedMap = Object.assign({}, state.map);
+            //NOW USE THE ZONE OBJECT TO CALL
+            var zoneComments = updatedMap[action.zone._id];
+            if (zoneComments == null) {
+                zoneComments = [];
+            } else {
+                zoneComments = Object.assign([], zoneComments);
+            }
+
+            action.comments.forEach(function (comment, i) {
+                zoneComments.push(comment);
+            });
+
+            updatedMap[action.zone._id] = zoneComments;
+            updated['map'] = updatedMap;
             updated['commentsLoaded'] = true;
+
+            console.log('COMMENTS_RECEIVED: ' + JSON.stringify(updated));
+
             return updated;
 
         case _constants2.default.COMMENT_CREATED:

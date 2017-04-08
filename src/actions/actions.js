@@ -8,10 +8,11 @@ export default {
         }
 	},
 
-	commentsReceived: (comments) => {
+	commentsReceived: (comments, zone) => {
 		return {
 			type: constants.COMMENTS_RECEIVED,   //action: constants.COMMENTS_RECEIVED,
-			comments: comments     //type: comments
+			comments: comments,     //type: comments
+            zone: zone
 		}
 	},
 

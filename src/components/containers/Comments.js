@@ -87,7 +87,7 @@ class Comments extends Component {
     // }    
 
     componentDidUpdate(){
-        console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
+        // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
         let zone = this.props.zones[this.props.index]
         if (zone == null) {
             console.log('NO SELECTED ZONE!!!!')
@@ -98,26 +98,22 @@ class Comments extends Component {
         //     index: this.props.index
         // })
 
-        console.log('SELECTED ZONE IS READY == '+zone._id)
-        if (this.props.commentsLoaded == true)
+        // console.log('SELECTED ZONE IS READY == '+zone._id)
+        // if (this.props.commentsLoaded == true)
+        //     return
+
+        let commentsArray = this.props.commentsMap[zone._id]
+        if (commentsArray != null) 
             return
-        // APIManager.get('/api/comment', null, (err, response) => {   //58e286d7d62cc008024e2145
-        // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+
         APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
             if (err) {
                 alert('ERROR: '+err.message)
                 return
             }
-
-            // this.setState({
-            //     // commentsLoaded: true,
-            //     index: this.props.index
-            // })
             
             let comments = response.results
-            console.log('APIManager: '+JSON.stringify(comments))
-            this.props.commentsReceived(comments)
-
+            this.props.commentsReceived(comments, zone)
         })
     }
 
@@ -150,6 +146,7 @@ class Comments extends Component {
 
 const stateToProps = (state) => {
     return {
+        commentsMap: state.comment.map,
         comments: state.comment.list,
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
@@ -159,7 +156,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
-        commentsReceived: (comments) => dispatch(actions.commentsReceived(comments)),
+        commentsReceived: (comments, zone) => dispatch(actions.commentsReceived(comments, zone)),
         commentCreated: (comment) => dispatch(actions.commentCreated(comment))
     }
 }
