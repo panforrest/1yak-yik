@@ -103,7 +103,7 @@ class Comments extends Component {
         //     return
 
         let commentsArray = this.props.commentsMap[zone._id]
-        if (commentsArray != null) 
+        if (commentsArray != null) //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
             return
 
         APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {

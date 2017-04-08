@@ -17,14 +17,15 @@ export default (state=initialState, action) => {
             updated['list'] = action.comments
 
             let updatedMap = Object.assign({}, state.map)
+            let zoneComments = (updatedMap[action.zone._id]) ? Object.assign([], updatedMap[action..zone._id])
             //NOW USE THE ZONE OBJECT TO CALL
-            let zoneComments = updatedMap[action.zone._id]
-            if (zoneComments == null){
-                zoneComments = []
-            }
-            else {
-                zoneComments = Object.assign([], zoneComments)
-            }
+            // let zoneComments = updatedMap[action.zone._id]
+            // if (zoneComments == null){
+            //     zoneComments = []
+            // }
+            // else {
+            //     zoneComments = Object.assign([], zoneComments)
+            // }
 
             action.comments.forEach((comment, i) => {
                 zoneComments.push(comment)
