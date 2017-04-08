@@ -12,11 +12,12 @@ class Comments extends Component {
     constructor(){
     	super()
     	this.state = {
-            commentsLoaded: false
+            commentsLoaded: false,
+            index: 0
     	}
     }
 
-    componentDidMount(){
+    // componentDidMount(){
         // console.log('Comments componentDidMount: ')
         // let zone = this.props.zones[this.props.index]
 
@@ -37,7 +38,7 @@ class Comments extends Component {
         //     // })
         //     this.props.commentsReceived(results)
         // })
-    }
+    // }
 
     submitComment(comment){
         console.log('before submitComment: '+JSON.stringify(comment))
@@ -81,30 +82,47 @@ class Comments extends Component {
     //     })
     // }
 
+    // componentWillUpdate(){
+    //     console.log('COMMENTS CONTAINER: componentWillUpdate: '+this.state.index+' == '+this.props.index+'?')
+    // }    
+
     componentDidUpdate(){
-        console.log('COMMENTS CONTAINER: componentDidUpdate: ')
+        console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
         let zone = this.props.zones[this.props.index]
         if (zone == null) {
             console.log('NO SELECTED ZONE!!!!')
             return
         }
 
-        console.log('SELECTED ZONE IS READY == '+zone._id)
-        if (this.state.commentsLoaded == true)
-            return
+        // this.setState({
+        //     index: this.props.index
+        // })
 
+        console.log('SELECTED ZONE IS READY == '+zone._id)
+        if (this.props.commentsLoaded == true)
+            return
+        // APIManager.get('/api/comment', null, (err, response) => {   //58e286d7d62cc008024e2145
+        // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
         APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
             if (err) {
                 alert('ERROR: '+err.message)
                 return
             }
+
+            // this.setState({
+            //     // commentsLoaded: true,
+            //     index: this.props.index
+            // })
+            
             let comments = response.results
+            console.log('APIManager: '+JSON.stringify(comments))
             this.props.commentsReceived(comments)
+
         })
     }
 
 	render(){
-        console.log('COMMENTS CONTAINER: render ')
+        // console.log('COMMENTS CONTAINER: render ')
         const commentList = this.props.comments.map((comment, i) => {
             return(
                 <li key={i}><Comment currentComment={comment} /></li>
@@ -133,7 +151,8 @@ class Comments extends Component {
 const stateToProps = (state) => {
     return {
         comments: state.comment.list,
-        index: state.zone.selectedZone ,
+        commentsLoaded: state.comment.commentsLoaded,
+        index: state.zone.selectedZone,
         zones: state.zone.list 
     }
 }
