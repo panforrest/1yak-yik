@@ -9,17 +9,14 @@ var initialState = {
 
 export default (state=initialState, action) => {
     var updated = Object.assign({}, state)
+    let updatedMap = Object.assign({}, updated.map)
 	switch(action.type){
 		case constants.COMMENTS_RECEIVED:
             // let updated = Object.assign({}, state)
 		    // console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
       //       console.log('COMMENTS_RECEIVED FROM ZONE: '+JSON.stringify(action.zone))
             updated['list'] = action.comments
-
-            let updatedMap = Object.assign({}, updated.map)
-            // let zoneComments = (updatedMap[action.zone._id]) ? Object.assign([], updatedMap[action.zone._id]) : []
-            // NOW USE THE ZONE OBJECT TO CALL
-            console.log('UPDATED MAP: '+updatedMap)
+            // let updatedMap = Object.assign({}, updated.map)
             let zoneComments = updatedMap[action.zone._id]
             if (zoneComments == null){
                 zoneComments = []
@@ -42,10 +39,21 @@ export default (state=initialState, action) => {
 
         case constants.COMMENT_CREATED:
             console.log('COMMENT_CREATED: '+JSON.stringify(action.comment))  
-            // let updatedList = Object.assign([], updated.list)    //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
-            // updatedList.push(action.comment)
-            // updated['list'] = updatedList   //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
-            // console.log('COMMENT_CREATED: '+JSON.stringify(updatedList))
+
+            // let updatedMap = Object.assign({}, updated.map)
+            let commentsList = updatedMap[action.comment.zone]
+            if (commentsList == null){
+                commentsList = []
+            }
+            else {
+                commentsList = Object.assign([], commentsList)
+            }
+
+            commentsList.push(action.comment)
+
+            updatedMap[action.comment.zone] = commentsList
+            updated['map'] = updatedMap
+
             return updated 
 
         case constants.SELECT_ZONE:

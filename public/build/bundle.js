@@ -10809,7 +10809,7 @@ var Comments = function (_Component) {
         value: function submitComment(comment) {
             var _this2 = this;
 
-            console.log('before submitComment: ' + JSON.stringify(comment));
+            // console.log('before submitComment: '+JSON.stringify(comment))
             // let updatedComment = Object.assign({}, this.state.comment)
             var updatedComment = Object.assign({}, comment);
 
@@ -10822,13 +10822,10 @@ var Comments = function (_Component) {
                     return;
                 }
                 console.log('submitComment: ' + JSON.stringify(response));
-                // let updatedList = Object.assign([], this.state.list)
-                // updatedList.push(response.result)
-                // this.setState({
-                //     list: updatedList
-                // })
-                var result = response.result;
-                _this2.props.commentCreated(result);
+                var comment = response.result;
+
+                _this2.props.commentCreated(comment);
+                // this.props.commentsReceived([comment], zone)
             });
         }
 
@@ -10891,20 +10888,7 @@ var Comments = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            // console.log('COMMENTS CONTAINER: render ')
             var selectedZone = this.props.zones[this.props.index];
-
-            console.log('ZONE = ' + JSON.stringify(selectedZone));
-            // let zoneComments = this.props.commentsMap[selectedZone._id]
-
-            // const commentList = zoneComments.map((comment, i) => {
-            //     return(
-            //         <li key={i}><Comment currentComment={comment} /></li>
-            //     )
-            // })
-
-            // // const selectedZone = this.props.zones[this.props.index]
-            // const zoneName = (selectedZone==null) ? '' : selectedZone.name
 
             var zoneName = null;
             var commentList = null;
@@ -11602,17 +11586,14 @@ exports.default = function () {
     var action = arguments[1];
 
     var updated = Object.assign({}, state);
+    var updatedMap = Object.assign({}, updated.map);
     switch (action.type) {
         case _constants2.default.COMMENTS_RECEIVED:
             // let updated = Object.assign({}, state)
             // console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
             //       console.log('COMMENTS_RECEIVED FROM ZONE: '+JSON.stringify(action.zone))
             updated['list'] = action.comments;
-
-            var updatedMap = Object.assign({}, updated.map);
-            // let zoneComments = (updatedMap[action.zone._id]) ? Object.assign([], updatedMap[action.zone._id]) : []
-            // NOW USE THE ZONE OBJECT TO CALL
-            console.log('UPDATED MAP: ' + updatedMap);
+            // let updatedMap = Object.assign({}, updated.map)
             var zoneComments = updatedMap[action.zone._id];
             if (zoneComments == null) {
                 zoneComments = [];
@@ -11634,10 +11615,20 @@ exports.default = function () {
 
         case _constants2.default.COMMENT_CREATED:
             console.log('COMMENT_CREATED: ' + JSON.stringify(action.comment));
-            // let updatedList = Object.assign([], updated.list)    //I AM SO STUPID FIRSTPLACE = Object.assign([], state) 
-            // updatedList.push(action.comment)
-            // updated['list'] = updatedList   //I AM SO STUPID FIRSTPLACE updated['list'] = updatedList.list 
-            // console.log('COMMENT_CREATED: '+JSON.stringify(updatedList))
+
+            // let updatedMap = Object.assign({}, updated.map)
+            var commentsList = updatedMap[action.comment.zone];
+            if (commentsList == null) {
+                commentsList = [];
+            } else {
+                commentsList = Object.assign([], commentsList);
+            }
+
+            commentsList.push(action.comment);
+
+            updatedMap[action.comment.zone] = commentsList;
+            updated['map'] = updatedMap;
+
             return updated;
 
         case _constants2.default.SELECT_ZONE:
@@ -11683,7 +11674,7 @@ exports.default = function () {
 
 		case _constants2.default.ZONES_RECEIVED:
 			// let updated = Object.assign([], state)
-			console.log('ZONES_RECEIVED: ' + JSON.stringify(action.zones));
+			// console.log('ZONES_RECEIVED: '+JSON.stringify(action.zones))
 			updated['list'] = action.zones;
 			return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
 

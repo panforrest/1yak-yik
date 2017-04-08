@@ -41,7 +41,7 @@ class Comments extends Component {
     // }
 
     submitComment(comment){
-        console.log('before submitComment: '+JSON.stringify(comment))
+        // console.log('before submitComment: '+JSON.stringify(comment))
         // let updatedComment = Object.assign({}, this.state.comment)
         let updatedComment = Object.assign({}, comment)
 
@@ -54,13 +54,10 @@ class Comments extends Component {
                 return
             }
             console.log('submitComment: '+JSON.stringify(response))
-            // let updatedList = Object.assign([], this.state.list)
-            // updatedList.push(response.result)
-            // this.setState({
-            //     list: updatedList
-            // })
-            var result = response.result
-            this.props.commentCreated(result)
+            const comment = response.result
+
+            this.props.commentCreated(comment)
+            // this.props.commentsReceived([comment], zone)
         })
     }
 
@@ -118,20 +115,7 @@ class Comments extends Component {
     }
 
 	render(){
-        // console.log('COMMENTS CONTAINER: render ')
         let selectedZone = this.props.zones[this.props.index]
-
-        console.log('ZONE = '+JSON.stringify(selectedZone))
-        // let zoneComments = this.props.commentsMap[selectedZone._id]
-
-        // const commentList = zoneComments.map((comment, i) => {
-        //     return(
-        //         <li key={i}><Comment currentComment={comment} /></li>
-        //     )
-        // })
-
-        // // const selectedZone = this.props.zones[this.props.index]
-        // const zoneName = (selectedZone==null) ? '' : selectedZone.name
 
         let zoneName = null
         let commentList = null
