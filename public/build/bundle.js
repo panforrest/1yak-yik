@@ -4616,7 +4616,9 @@ exports.default = {
 
     COMMENT_CREATED: 'COMMENT_CREATED',
 
-    SELECT_ZONE: 'SELECT_ZONE'
+    SELECT_ZONE: 'SELECT_ZONE',
+
+    CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED'
 
 };
 
@@ -6924,25 +6926,20 @@ var _reduxThunk = __webpack_require__(231);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _zoneReducer = __webpack_require__(113);
-
-var _zoneReducer2 = _interopRequireDefault(_zoneReducer);
-
-var _commentReducer = __webpack_require__(112);
-
-var _commentReducer2 = _interopRequireDefault(_commentReducer);
+var _reducers = __webpack_require__(246);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store;
-
+// import zoneReducer from '../reducers/zoneReducer'
 exports.default = {
   configureStore: function configureStore() {
     //configureStore () => {
     var reducers = (0, _redux.combineReducers)({
 
-      zone: _zoneReducer2.default,
-      comment: _commentReducer2.default
+      zone: _reducers.zoneReducer,
+      comment: _reducers.commentReducer,
+      account: _reducers.accountReducer
 
     });
 
@@ -7009,6 +7006,13 @@ exports.default = {
 		return {
 			type: _constants2.default.SELECT_ZONE,
 			selectedZone: index //zone: index
+		};
+	},
+
+	currentUserReceived: function currentUserReceived(user) {
+		return {
+			type: _constants2.default.CURRENT_USER_RECEIVED,
+			user: user
 		};
 	}
 };
@@ -10738,6 +10742,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = __webpack_require__(34);
 
+var _actions = __webpack_require__(60);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(32);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10758,12 +10768,28 @@ var Account = function (_Component) {
             profile: {
                 username: '',
                 password: ''
-            }
+            },
+            user: {}
         };
         return _this;
     }
 
     _createClass(Account, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            // console.log('componentDidMount: ')
+            _utils.APIManager.get('/account/currentuser', null, function (err, response) {
+                if (err) {
+                    alert(err.message);
+                    return;
+                }
+                console.log('componentDidMount currentuser' + JSON.stringify(response));
+                _this2.props.currentUserReceived(response.user);
+            });
+        }
+    }, {
         key: 'updateProfile',
         value: function updateProfile(event) {
             event.preventDefault(); //Dont' forget this
@@ -10778,7 +10804,7 @@ var Account = function (_Component) {
         key: 'login',
         value: function login(event) {
             event.preventDefault();
-            console.log('login: ' + JSON.stringify(this.state.profile));
+            // console.log('login: '+JSON.stringify(this.state.profile))
             if (this.state.profile.username.length == 0) {
                 alert('key in username please!');
                 return;
@@ -10795,7 +10821,8 @@ var Account = function (_Component) {
                     return;
                 }
                 // console.log('SIGNUP: '+JSON.stringify(response.result))
-                console.log('SIGNUP: ' + JSON.stringify(response));
+                console.log('login: ' + JSON.stringify(response));
+                // this.props.accountReceived(response)
             });
         }
     }, {
@@ -10819,11 +10846,18 @@ var Account = function (_Component) {
                     return;
                 }
                 console.log('SIGNUP: ' + JSON.stringify(response.result));
+                // this.props.accountReceived(response.result)
             });
         }
     }, {
         key: 'render',
         value: function render() {
+            // const account = this.props.account.map((account) => {
+            //     return(
+            //        account: account
+            //     )
+            // })
+
             return _react2.default.createElement(
                 'div',
                 null,
@@ -10868,7 +10902,20 @@ var Account = function (_Component) {
     return Account;
 }(_react.Component);
 
-exports.default = Account;
+var stateToProps = function stateToProps(state) {
+    return {
+        user: state.account.user
+    };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+    return {
+        currentUserReceived: function currentUserReceived(user) {
+            return dispatch(_actions2.default.currentUserReceived(user));
+        } //=> IS NOT =
+    };
+};
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Account);
 
 /***/ }),
 /* 103 */
@@ -11043,8 +11090,8 @@ var Comments = function (_Component) {
                 zoneName = selectedZone.name;
 
                 var zoneComments = this.props.commentsMap[selectedZone._id];
-                console.log('SELECTED ZONE ID =' + selectedZone._id);
-                console.log('COMMENTS MAP =' + JSON.stringify(this.props.commentsMapn));
+                // console.log('SELECTED ZONE ID ='+selectedZone._id)
+                // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
                 if (zoneComments != null) {
                     commentList = zoneComments.map(function (comment, i) {
                         return _react2.default.createElement(
@@ -11785,7 +11832,7 @@ exports.default = function () {
             updated['map'] = updatedMap;
             // updated['commentsLoaded'] = true
 
-            console.log('COMMENTS_RECEIVED: ' + JSON.stringify(updated));
+            // console.log('COMMENTS_RECEIVED: '+JSON.stringify(updated))
 
             return updated;
 
@@ -11855,14 +11902,14 @@ exports.default = function () {
 			return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
 
 		case _constants2.default.ZONE_CREATED:
-			console.log('ZONE_CREATED: ' + JSON.stringify(action.zone));
+			// console.log('ZONE_CREATED: '+JSON.stringify(action.zone))
 			var updatedList = Object.assign([], updated.list); //let updatedList = updated['list']
 			updatedList.push(action.zone);
 			updated['list'] = updatedList;
 			return updated;
 
 		case _constants2.default.SELECT_ZONE:
-			console.log('SELECT_ZONE: ' + JSON.stringify(action.selectedZone)); //+JSON.stringify(action.index)
+			// console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
 			updated['selectedZone'] = action.selectedZone; //SHIT I AM SO STUPID: updated['index'] = action.index
 			return updated;
 
@@ -27432,6 +27479,74 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(33);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+	user: null
+	// user: {}
+};
+
+exports.default = function () {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+	var updated = Object.assign({}, state); //let
+	switch (action.type) {
+		case _constants2.default.CURRENT_USER_RECEIVED:
+
+			console.log('CURRENT_USER_RECEIVED: ' + JSON.stringify(action.user));
+			return updated;
+
+		default:
+			return state;
+	}
+};
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.zoneReducer = exports.commentReducer = exports.accountReducer = undefined;
+
+var _accountReducer = __webpack_require__(245);
+
+var _accountReducer2 = _interopRequireDefault(_accountReducer);
+
+var _commentReducer = __webpack_require__(112);
+
+var _commentReducer2 = _interopRequireDefault(_commentReducer);
+
+var _zoneReducer = __webpack_require__(113);
+
+var _zoneReducer2 = _interopRequireDefault(_zoneReducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.accountReducer = _accountReducer2.default;
+exports.commentReducer = _commentReducer2.default;
+exports.zoneReducer = _zoneReducer2.default;
 
 /***/ })
 /******/ ]);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { APIManager } from '../../utils'
+import actions from '../../actions/actions'
+import { connect } from 'react-redux'
 
 class Account extends Component {
     constructor(){
@@ -8,8 +10,21 @@ class Account extends Component {
     		profile: {
     			username:'',
     			password:''
-    		}
+    		},
+            user: {}
     	}
+    }
+
+    componentDidMount(){
+        // console.log('componentDidMount: ')
+        APIManager.get('/account/currentuser', null, (err, response) => {
+            if(err){
+                alert(err.message)
+                return
+            }
+            console.log('componentDidMount currentuser'+JSON.stringify(response))
+            this.props.currentUserReceived(response.user)
+        })
     }
 
     updateProfile(event){
@@ -24,7 +39,7 @@ class Account extends Component {
 
     login(event){
         event.preventDefault()
-        console.log('login: '+JSON.stringify(this.state.profile))
+        // console.log('login: '+JSON.stringify(this.state.profile))
         if (this.state.profile.username.length == 0) {
             alert('key in username please!')
             return
@@ -41,7 +56,8 @@ class Account extends Component {
                 return
             }
             // console.log('SIGNUP: '+JSON.stringify(response.result))
-            console.log('SIGNUP: '+JSON.stringify(response))
+            console.log('login: '+JSON.stringify(response))
+            // this.props.accountReceived(response)
         })
         
     }        
@@ -65,11 +81,18 @@ class Account extends Component {
                 return
             }
             console.log('SIGNUP: '+JSON.stringify(response.result))
+            // this.props.accountReceived(response.result)
         })
     	
     }
 
 	render() {
+        // const account = this.props.account.map((account) => {
+        //     return(
+        //        account: account
+        //     )
+        // })
+
 		return(
 			<div>
 				<div>
@@ -89,4 +112,15 @@ class Account extends Component {
 	}
 }
 
-export default Account
+const stateToProps = (state) => {
+    return {
+        user: state.account.user   
+    }
+}
+
+const dispatchToProps = (dispatch) => {
+    return {
+        currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))  //=> IS NOT =
+    }
+}
+export default connect(stateToProps, dispatchToProps)(Account)

@@ -124,8 +124,8 @@ class Comments extends Component {
             zoneName = selectedZone.name
 
             let zoneComments = this.props.commentsMap[selectedZone._id]
-            console.log('SELECTED ZONE ID ='+selectedZone._id)
-            console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
+            // console.log('SELECTED ZONE ID ='+selectedZone._id)
+            // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
             if (zoneComments != null) {
                 commentList = zoneComments.map((comment, i) => {
                     return(

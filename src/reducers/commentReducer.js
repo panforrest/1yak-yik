@@ -33,7 +33,7 @@ export default (state=initialState, action) => {
             updated['map'] = updatedMap
             // updated['commentsLoaded'] = true
 
-            console.log('COMMENTS_RECEIVED: '+JSON.stringify(updated))
+            // console.log('COMMENTS_RECEIVED: '+JSON.stringify(updated))
 
             return updated
 
