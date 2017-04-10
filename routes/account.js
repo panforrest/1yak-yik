@@ -10,7 +10,9 @@ router.get('/:action', function(req, res, next){
 	if (action == 'logout'){
 		req.session.reset()
 		res.json({
-			confirmation: 'user is logged out'
+			confirmation: 'success',
+			message: 'bye',
+			user: null
 		})
 		return
 	}

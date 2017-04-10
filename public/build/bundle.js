@@ -4620,6 +4620,10 @@ exports.default = {
 
     CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED'
 
+    // PROFILE_CREATED: 'PROFILE_CREATED'
+
+    // LOGOUT: 'LOGOUT'
+
 };
 
 /***/ }),
@@ -10855,6 +10859,24 @@ var Account = function (_Component) {
             });
         }
     }, {
+        key: 'logout',
+        value: function logout(event) {
+            var _this5 = this;
+
+            // console.log('logout: ')
+            event.preventDefault();
+            _utils.APIManager.get('/account/logout', null, function (err, response) {
+                if (err) {
+                    alert(err.message);
+                    return;
+                }
+                // console.log('User is logged out')
+                // this.props.currentUserReceived(response.user)
+                // this.props.currentUserReceived(null)
+                _this5.props.currentUserReceived(null);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var content = null;
@@ -10895,10 +10917,19 @@ var Account = function (_Component) {
                 );
             } else {
                 content = _react2.default.createElement(
-                    'h2',
+                    'div',
                     null,
-                    'Welcome, ',
-                    this.props.user.username
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Welcome, ',
+                        this.props.user.username
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.logout.bind(this) },
+                        'Log out'
+                    )
                 );
             }
 
@@ -10923,7 +10954,12 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     return {
         currentUserReceived: function currentUserReceived(user) {
             return dispatch(_actions2.default.currentUserReceived(user));
-        } };
+        }, //=> IS NOT =
+        // profileCreated: (profile) => dispatch(actions.profileCreated(profile))
+        logout: function logout(user) {
+            return dispatch(_actions2.default.logout(user));
+        }
+    };
 };
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Account);
 
@@ -27529,6 +27565,10 @@ exports.default = function () {
 		//     var updatedUser = action.profile
 		//     updated['user'] = updatedUser
 		//     return updated		    
+
+		// case constants.LOGOUT:
+		//     updated['user'] = null
+		//     return updated
 
 		default:
 			return state;

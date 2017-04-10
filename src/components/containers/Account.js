@@ -86,6 +86,21 @@ class Account extends Component {
     	
     }
 
+    logout(event){
+        // console.log('logout: ')
+        event.preventDefault()
+        APIManager.get('/account/logout', null, (err, response) => {
+            if (err){
+                alert(err.message)
+                return
+            }
+            // console.log('User is logged out')
+            // this.props.currentUserReceived(response.user)
+            // this.props.currentUserReceived(null)
+            this.props.currentUserReceived(null)
+        })
+    }
+
 	render() {
         let content = null
         if (this.props.user ==null) {
@@ -100,13 +115,19 @@ class Account extends Component {
                     <h2>Sign up</h2> 
                     <input onChange={this.updateProfile.bind(this)} type="text" id="username" placeholder="username" /><br />
                     <input onChange={this.updateProfile.bind(this)} type="text" id="password" placeholder="password" /><br />
-                    <br />  
-                    <button onClick={this.signup.bind(this)}>Join</button>               
+                    <br />                    
+                    <button onClick={this.signup.bind(this)}>Join</button> 
+
                 </div>
             )
         }
         else{
-            content = <h2>Welcome, {this.props.user.username}</h2>
+            content = ( <div>  
+                          <h2>Welcome, {this.props.user.username}</h2>
+                        
+                          <button onClick={this.logout.bind(this)}>Log out</button> 
+                        </div>   
+                      )
         }
 
 		return(
@@ -128,6 +149,7 @@ const dispatchToProps = (dispatch) => {
     return {
         currentUserReceived: (user) => dispatch(actions.currentUserReceived(user)),  //=> IS NOT =
         // profileCreated: (profile) => dispatch(actions.profileCreated(profile))
+        logout: (user) => dispatch(actions.logout(user))
     }
 }
 export default connect(stateToProps, dispatchToProps)(Account)

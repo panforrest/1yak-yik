@@ -50,4 +50,11 @@ export default {
 	// 		profile: profile
 	// 	}
 	// }
+
+	// logout: (user) => {
+	// 	return{
+	// 		type: constants.LOGOUT,
+	// 		user: user
+	// 	}
+	// }
 }
