@@ -37,7 +37,7 @@ class Account extends Component {
 
         APIManager.post('/account/login', this.state.profile, (err, response) => {
             if (err) {
-                alert(err)
+                alert(err.message)   //alert(err)
                 return
             }
             // console.log('SIGNUP: '+JSON.stringify(response.result))

@@ -10791,7 +10791,7 @@ var Account = function (_Component) {
 
             _utils.APIManager.post('/account/login', this.state.profile, function (err, response) {
                 if (err) {
-                    alert(err);
+                    alert(err.message); //alert(err)
                     return;
                 }
                 // console.log('SIGNUP: '+JSON.stringify(response.result))
