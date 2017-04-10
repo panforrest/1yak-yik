@@ -7015,6 +7015,7 @@ exports.default = {
 			user: user
 		};
 	}
+
 };
 
 /***/ }),
@@ -10781,6 +10782,7 @@ var Account = function (_Component) {
             // console.log('componentDidMount: ')
             _utils.APIManager.get('/account/currentuser', null, function (err, response) {
                 if (err) {
+                    //not logged in, ignore error:
                     // alert(err.message)
                     return;
                 }
@@ -10802,6 +10804,8 @@ var Account = function (_Component) {
     }, {
         key: 'login',
         value: function login(event) {
+            var _this3 = this;
+
             event.preventDefault();
             // console.log('login: '+JSON.stringify(this.state.profile))
             if (this.state.profile.username.length == 0) {
@@ -10820,15 +10824,17 @@ var Account = function (_Component) {
                     return;
                 }
                 // console.log('SIGNUP: '+JSON.stringify(response.result))
-                console.log('login: ' + JSON.stringify(response));
-                // this.props.accountReceived(response)
+                console.log('login: ' + JSON.stringify(response.user));
+                _this3.props.currentUserReceived(response.user);
             });
         }
     }, {
         key: 'signup',
         value: function signup(event) {
+            var _this4 = this;
+
             event.preventDefault();
-            console.log('signup: ' + JSON.stringify(this.state.profile));
+            // console.log('signup: '+JSON.stringify(this.state.profile))
             if (this.state.profile.username.length == 0) {
                 alert('key in username please!');
                 return;
@@ -10845,22 +10851,15 @@ var Account = function (_Component) {
                     return;
                 }
                 console.log('SIGNUP: ' + JSON.stringify(response.result));
-                // this.props.accountReceived(response.result)
+                _this4.props.currentUserReceived(response.result);
             });
         }
     }, {
         key: 'render',
         value: function render() {
-
-            return _react2.default.createElement(
-                'div',
-                null,
-                this.props.user != null ? _react2.default.createElement(
-                    'h2',
-                    null,
-                    'Welcome, ',
-                    this.props.user.username
-                ) : _react2.default.createElement(
+            var content = null;
+            if (this.props.user == null) {
+                content = _react2.default.createElement(
                     'div',
                     null,
                     _react2.default.createElement(
@@ -10893,7 +10892,20 @@ var Account = function (_Component) {
                         { onClick: this.signup.bind(this) },
                         'Join'
                     )
-                )
+                );
+            } else {
+                content = _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Welcome, ',
+                    this.props.user.username
+                );
+            }
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                content
             );
         }
     }]);
@@ -10911,8 +10923,7 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     return {
         currentUserReceived: function currentUserReceived(user) {
             return dispatch(_actions2.default.currentUserReceived(user));
-        } //=> IS NOT =
-    };
+        } };
 };
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Account);
 
@@ -27512,6 +27523,12 @@ exports.default = function () {
 			var updatedUser = action.user;
 			updated['user'] = updatedUser;
 			return updated;
+
+		// case constants.PROFILE_CREATED:
+		//     console.log('PROFILE_CREATED: '+JSON.stringify(action.profile))
+		//     var updatedUser = action.profile
+		//     updated['user'] = updatedUser
+		//     return updated		    
 
 		default:
 			return state;

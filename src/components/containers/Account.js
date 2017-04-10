@@ -18,7 +18,7 @@ class Account extends Component {
     componentDidMount(){
         // console.log('componentDidMount: ')
         APIManager.get('/account/currentuser', null, (err, response) => {
-            if(err){
+            if(err){   //not logged in, ignore error:
                 // alert(err.message)
                 return
             }
@@ -56,15 +56,15 @@ class Account extends Component {
                 return
             }
             // console.log('SIGNUP: '+JSON.stringify(response.result))
-            console.log('login: '+JSON.stringify(response))
-            // this.props.accountReceived(response)
+            console.log('login: '+JSON.stringify(response.user))
+            this.props.currentUserReceived(response.user)
         })
         
     }        
 
     signup(event){
     	event.preventDefault()
-    	console.log('signup: '+JSON.stringify(this.state.profile))
+    	// console.log('signup: '+JSON.stringify(this.state.profile))
     	if (this.state.profile.username.length == 0) {
     		alert('key in username please!')
     		return
@@ -81,17 +81,17 @@ class Account extends Component {
                 return
             }
             console.log('SIGNUP: '+JSON.stringify(response.result))
-            // this.props.accountReceived(response.result)
+            this.props.currentUserReceived(response.result)
         })
     	
     }
 
 	render() {
-
-		return(
-
-			<div>{ (this.props.user != null) ? <h2>Welcome, {this.props.user.username}</h2> :
+        let content = null
+        if (this.props.user ==null) {
+            content = (
                 <div>
+                    
                     <h2>Login</h2> 
                     <input onChange={this.updateProfile.bind(this)} type="text" id="username" placeholder="username" /><br />
                     <input onChange={this.updateProfile.bind(this)} type="text" id="password" placeholder="password" /><br />
@@ -103,10 +103,17 @@ class Account extends Component {
                     <br />  
                     <button onClick={this.signup.bind(this)}>Join</button>               
                 </div>
+            )
+        }
+        else{
+            content = <h2>Welcome, {this.props.user.username}</h2>
+        }
 
-                }
+		return(
 
-			</div>
+            <div>
+                { content }
+            </div>
 		)
 	}
 }
@@ -119,7 +126,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
-        currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))  //=> IS NOT =
+        currentUserReceived: (user) => dispatch(actions.currentUserReceived(user)),  //=> IS NOT =
+        // profileCreated: (profile) => dispatch(actions.profileCreated(profile))
     }
 }
 export default connect(stateToProps, dispatchToProps)(Account)

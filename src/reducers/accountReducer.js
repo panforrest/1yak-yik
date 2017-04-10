@@ -14,6 +14,12 @@ export default (state=initialState, action) => {
 		    updated['user'] = updatedUser
 		    return updated
 
+		// case constants.PROFILE_CREATED:
+		//     console.log('PROFILE_CREATED: '+JSON.stringify(action.profile))
+		//     var updatedUser = action.profile
+		//     updated['user'] = updatedUser
+		//     return updated		    
+
 		default: 
 		    return state
 	}

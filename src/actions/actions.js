@@ -42,5 +42,12 @@ export default {
 			type: constants.CURRENT_USER_RECEIVED,
 			user: user
 		}
-	}
+	},
+
+	// profileCreated: (profile) => {
+	// 	return {
+	// 		type: constants.PROFILE_CREATED,
+	// 		profile: profile
+	// 	}
+	// }
 }
