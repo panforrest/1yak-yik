@@ -11,7 +11,7 @@ class Account extends Component {
     			username:'',
     			password:''
     		},
-            user: {}
+            // user: {}
     	}
     }
 
@@ -19,7 +19,7 @@ class Account extends Component {
         // console.log('componentDidMount: ')
         APIManager.get('/account/currentuser', null, (err, response) => {
             if(err){
-                alert(err.message)
+                // alert(err.message)
                 return
             }
             console.log('componentDidMount currentuser'+JSON.stringify(response))
@@ -87,26 +87,25 @@ class Account extends Component {
     }
 
 	render() {
-        // const account = this.props.account.map((account) => {
-        //     return(
-        //        account: account
-        //     )
-        // })
 
 		return(
-			<div>
-				<div>
-	                <h2>Login</h2> 
-	                <input onChange={this.updateProfile.bind(this)} type="text" id="username" placeholder="username" /><br />
-	                <input onChange={this.updateProfile.bind(this)} type="text" id="password" placeholder="password" /><br />
-	                <br />
-	                <button onClick={this.login.bind(this)}>Login</button>	
-	                <h2>Sign up</h2> 
-	                <input onChange={this.updateProfile.bind(this)} type="text" id="username" placeholder="username" /><br />
-	                <input onChange={this.updateProfile.bind(this)} type="text" id="password" placeholder="password" /><br />
-	                <br />	
-	                <button onClick={this.signup.bind(this)}>Join</button>	             
-	            </div>
+
+			<div>{ (this.props.user != null) ? <h2>Welcome, {this.props.user.username}</h2> :
+                <div>
+                    <h2>Login</h2> 
+                    <input onChange={this.updateProfile.bind(this)} type="text" id="username" placeholder="username" /><br />
+                    <input onChange={this.updateProfile.bind(this)} type="text" id="password" placeholder="password" /><br />
+                    <br />
+                    <button onClick={this.login.bind(this)}>Login</button>  
+                    <h2>Sign up</h2> 
+                    <input onChange={this.updateProfile.bind(this)} type="text" id="username" placeholder="username" /><br />
+                    <input onChange={this.updateProfile.bind(this)} type="text" id="password" placeholder="password" /><br />
+                    <br />  
+                    <button onClick={this.signup.bind(this)}>Join</button>               
+                </div>
+
+                }
+
 			</div>
 		)
 	}

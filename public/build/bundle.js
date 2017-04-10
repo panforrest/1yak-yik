@@ -10768,8 +10768,7 @@ var Account = function (_Component) {
             profile: {
                 username: '',
                 password: ''
-            },
-            user: {}
+            }
         };
         return _this;
     }
@@ -10782,7 +10781,7 @@ var Account = function (_Component) {
             // console.log('componentDidMount: ')
             _utils.APIManager.get('/account/currentuser', null, function (err, response) {
                 if (err) {
-                    alert(err.message);
+                    // alert(err.message)
                     return;
                 }
                 console.log('componentDidMount currentuser' + JSON.stringify(response));
@@ -10852,16 +10851,16 @@ var Account = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            // const account = this.props.account.map((account) => {
-            //     return(
-            //        account: account
-            //     )
-            // })
 
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
+                this.props.user != null ? _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Welcome, ',
+                    this.props.user.username
+                ) : _react2.default.createElement(
                     'div',
                     null,
                     _react2.default.createElement(
@@ -27509,8 +27508,9 @@ exports.default = function () {
 	var updated = Object.assign({}, state); //let
 	switch (action.type) {
 		case _constants2.default.CURRENT_USER_RECEIVED:
-
 			console.log('CURRENT_USER_RECEIVED: ' + JSON.stringify(action.user));
+			var updatedUser = action.user;
+			updated['user'] = updatedUser;
 			return updated;
 
 		default:
