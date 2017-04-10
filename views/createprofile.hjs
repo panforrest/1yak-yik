@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>Create Profile</h1>
+    <!-- <form action="/api/profile" method="post"> -->
+    <form action="/account/signup" method="post">
+    	<input type="text" name="username" placeholder="username" /><br />
+    	<input type="text" name="password" placeholder="password" /><br />
+    	<input type="submit" value="Create Profile"/>
+    </form>
+
+  </body>
+</html>
