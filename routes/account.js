@@ -67,8 +67,27 @@ router.post('/:action', function(req, res, next){
 
 	var action = req.params.action
 
-	if (action == 'login') {
+	if (action == 'signup'){
+	    ProfileController.create(req.body, function(err, result){
+	    	if (err) {
+	    		res.json({
+	    			confirmation: 'fail',
+	    			message: err
+	    		})
+	    		return
+	    	}
 
+            var profile = result
+            req.session.user = profile._id
+
+	    	res.json({
+	    		confirmation: 'success',
+	            result: result
+	    	})
+	    })		
+	}
+
+	if (action == 'login') {
 		ProfileController.find({username: req.body.username}, function(err, results){  //ProfileController.find({username: req.query.username}, function(err, results){
 			if (err) {
 				res.json({
@@ -103,19 +122,15 @@ router.post('/:action', function(req, res, next){
             	message: 'user: '+req.body.username+' logged in'
             })
 		})		
-		// res.json({
-		// 	confirmation: 'success',
-		// 	action: action
-		// })
 	}		
 })
 
 // router.post('/signup', function(req, res, next){
-//     controller.create(req.body, function(err, result){
+//     ProfileController.create(req.body, function(err, result){
 //     	if (err) {
 //     		res.json({
 //     			confirmation: 'fail',
-//     			message: err
+//     			message: err.message
 //     		})
 //     		return
 //     	}
