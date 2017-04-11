@@ -32362,6 +32362,12 @@ var ProfileInfo = function (_Component) {
 	}
 
 	_createClass(ProfileInfo, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			//console.log('componentDidMount: '+JSON.stringify(this.props))
+			console.log('componentDidMount: ' + JSON.stringify(this.props.params)); //IT IS WRONG TO USE: +JSON.stringify(this.props.user)
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
