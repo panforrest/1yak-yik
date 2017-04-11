@@ -10747,7 +10747,9 @@ var Account = function (_Component) {
         _this.state = {
             profile: {
                 username: '',
-                password: ''
+                password: '',
+                city: '',
+                gender: ''
             }
         };
         return _this;
@@ -10882,6 +10884,10 @@ var Account = function (_Component) {
                     _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'username', placeholder: 'username' }),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'password', placeholder: 'password' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'city', placeholder: 'city' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'gender', placeholder: 'gender' }),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement(
@@ -32399,7 +32405,7 @@ exports.default = ProfileInfo;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -32419,62 +32425,75 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Profile = function (_Component) {
-  _inherits(Profile, _Component);
+    _inherits(Profile, _Component);
 
-  function Profile() {
-    _classCallCheck(this, Profile);
+    function Profile() {
+        _classCallCheck(this, Profile);
 
-    var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this));
+        var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this));
 
-    _this.state = {
-      profile: null
-    };
-    return _this;
-  }
-
-  _createClass(Profile, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      console.log('componentDidMount: ' + this.props.username);
-      _utils.APIManager.get('/api/profile', { username: this.props.username }, function (err, response) {
-        if (err) {
-          alert(err.message);
-          return;
-        }
-        console.log(JSON.stringify(response.results[0]));
-        if (response.results.length == 0) {
-          alert('Profile Not Found.');
-          return;
-        }
-
-        var profile = response.results[0];
-        _this2.setState({
-          profile: profile
-        });
-
-        // this.props.currentUserReceived(response.results)
-      });
+        _this.state = {
+            profile: null
+        };
+        return _this;
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var header = this.state.profile == null ? null : _react2.default.createElement(
-        'h3',
-        null,
-        this.state.profile._id
-      );
 
-      return _react2.default.createElement(
-        'div',
-        null,
-        header
-      );
-    }
-  }]);
+    _createClass(Profile, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
 
-  return Profile;
+            console.log('componentDidMount: ' + this.props.username);
+            _utils.APIManager.get('/api/profile', { username: this.props.username }, function (err, response) {
+                if (err) {
+                    alert(err.message);
+                    return;
+                }
+                console.log(JSON.stringify(response.results[0]));
+                if (response.results.length == 0) {
+                    alert('Profile Not Found.');
+                    return;
+                }
+
+                var profile = response.results[0];
+                _this2.setState({
+                    profile: profile
+                });
+
+                // this.props.currentUserReceived(response.results)
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var header = null;
+            if (this.state.profile != null) {
+                header = _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'h3',
+                        null,
+                        this.state.profile.username
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        'city: ',
+                        this.state.profile.city
+                    )
+                );
+            }
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                header
+            );
+        }
+    }]);
+
+    return Profile;
 }(_react.Component);
 
 exports.default = Profile;
