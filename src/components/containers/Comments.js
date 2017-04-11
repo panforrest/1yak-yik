@@ -41,19 +41,25 @@ class Comments extends Component {
     // }
 
     submitComment(comment){
-        // console.log('before submitComment: '+JSON.stringify(comment))
-        // let updatedComment = Object.assign({}, this.state.comment)
+        if (this.props.user == null) {
+            alert('please sign up or log in to add comments')
+            return
+        }
+
         let updatedComment = Object.assign({}, comment)
 
         let zone = this.props.zones[this.props.index]
         updatedComment['zone'] = zone._id
+        updatedComment['username'] = this.props.user.username
+
+        console.log('to submitComment this'+JSON.stringify(updatedComment))
 
         APIManager.post('/api/comment', updatedComment, (err, response) => {
             if (err) {
                 alert('ERROR: '+err.message)
                 return
             }
-            console.log('submitComment: '+JSON.stringify(response))
+            // console.log('submitComment: '+JSON.stringify(response))
             const comment = response.result
 
             this.props.commentCreated(comment)
@@ -157,7 +163,8 @@ const stateToProps = (state) => {
         // comments: state.comment.list,
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
-        zones: state.zone.list 
+        zones: state.zone.list,
+        user: state.account.user 
     }
 }
 
@@ -165,6 +172,7 @@ const dispatchToProps = (dispatch) => {
     return {
         commentsReceived: (comments, zone) => dispatch(actions.commentsReceived(comments, zone)),
         commentCreated: (comment) => dispatch(actions.commentCreated(comment))
+        //currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))
     }
 }
 
