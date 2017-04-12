@@ -51,10 +51,10 @@ export default {
 	// 	}
 	// }
 
-	// logout: (user) => {
-	// 	return{
-	// 		type: constants.LOGOUT,
-	// 		user: user
-	// 	}
-	// }
+	profileReceived: (profile) => {
+		return{
+			type: constants.PROFILE_RECEIVED,
+			profile: profile
+		}
+	}
 }
