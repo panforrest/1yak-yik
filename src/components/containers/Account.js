@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'  //import { Link } from 'react-redux'
 
 class Account extends Component {
     constructor(){
@@ -105,7 +106,7 @@ class Account extends Component {
 
 	render() {
         let content = null
-        if (this.props.user ==null) {
+        if (this.props.user == null) {
             content = (
                 <div>
                     
@@ -128,8 +129,8 @@ class Account extends Component {
         else{
             content = ( <div>  
                           <h2>Welcome, {this.props.user.username}</h2>
-                        
-                          <button onClick={this.logout.bind(this)}>Log out</button> 
+                          <button onClick={this.logout.bind(this)}>Log Out</button>
+                          <Link to="/currentuser"><button>Account</button></Link>
                         </div>   
                       )
         }

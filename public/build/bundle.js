@@ -8725,7 +8725,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Profile = exports.Comments = exports.Zones = exports.Account = undefined;
+exports.CurrentUser = exports.Profile = exports.Comments = exports.Zones = exports.Account = undefined;
 
 var _Account = __webpack_require__(134);
 
@@ -8743,12 +8743,17 @@ var _Profile = __webpack_require__(136);
 
 var _Profile2 = _interopRequireDefault(_Profile);
 
+var _CurrentUser = __webpack_require__(304);
+
+var _CurrentUser2 = _interopRequireDefault(_CurrentUser);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Account = _Account2.default;
 exports.Zones = _Zones2.default;
 exports.Comments = _Comments2.default;
 exports.Profile = _Profile2.default;
+exports.CurrentUser = _CurrentUser2.default;
 
 /***/ }),
 /* 81 */
@@ -13383,6 +13388,8 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _layout = __webpack_require__(131);
 
+var _containers = __webpack_require__(80);
+
 var _store = __webpack_require__(78);
 
 var _store2 = _interopRequireDefault(_store);
@@ -13394,8 +13401,6 @@ var _reactRouter = __webpack_require__(79);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //import { store } from './stores/store'
-
-// import Zones from './components/Zones'
 var app = _react2.default.createElement(
 	_reactRedux.Provider,
 	{ store: _store2.default.configureStore() },
@@ -13403,9 +13408,12 @@ var app = _react2.default.createElement(
 		_reactRouter.Router,
 		{ history: _reactRouter.browserHistory },
 		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _layout.Home }),
+		_react2.default.createElement(_reactRouter.Route, { path: '/currentuser', component: _containers.CurrentUser }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/profile/:username', component: _layout.ProfileInfo })
 	)
 );
+// import Zones from './components/Zones'
+
 
 _reactDom2.default.render(app, document.getElementById('root'));
 
@@ -13434,6 +13442,8 @@ var _actions2 = _interopRequireDefault(_actions);
 
 var _reactRedux = __webpack_require__(28);
 
+var _reactRouter = __webpack_require__(79);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13441,6 +13451,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//import { Link } from 'react-redux'
 
 var Account = function (_Component) {
     _inherits(Account, _Component);
@@ -13615,7 +13627,16 @@ var Account = function (_Component) {
                     _react2.default.createElement(
                         'button',
                         { onClick: this.logout.bind(this) },
-                        'Log out'
+                        'Log Out'
+                    ),
+                    _react2.default.createElement(
+                        _reactRouter.Link,
+                        { to: '/currentuser' },
+                        _react2.default.createElement(
+                            'button',
+                            null,
+                            'Account'
+                        )
                     )
                 );
             }
@@ -32687,6 +32708,13 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 304 */
+/***/ (function(module, exports) {
+
+"use strict";
+throw new Error("Module build failed: SyntaxError: Unexpected token (11:3)\n\n\u001b[0m \u001b[90m  9 | \u001b[39m\trender(){\n \u001b[90m 10 | \u001b[39m\t\t\u001b[36mreturn\u001b[39m(\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 | \u001b[39m\t\t\t\u001b[36mconst\u001b[39m currentUser \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mprops\u001b[33m.\u001b[39muser\n \u001b[90m    | \u001b[39m\t\t\t\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 | \u001b[39m\t\t\t\u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 13 | \u001b[39m\t\t\t    \u001b[33m<\u001b[39m\u001b[33mh2\u001b[39m\u001b[33m>\u001b[39m\u001b[33mWelcome\u001b[39m\u001b[33m,\u001b[39m {currentUser\u001b[33m.\u001b[39musername}\u001b[33m!\u001b[39m\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mh2\u001b[39m\u001b[33m>\u001b[39m\n \u001b[90m 14 | \u001b[39m\t\t\t    \u001b[0m\n");
 
 /***/ })
 /******/ ]);
