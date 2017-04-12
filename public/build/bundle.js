@@ -13967,10 +13967,12 @@ var Profile = function (_Component) {
                 );
             }
 
+            var content = this.props.appStatus == 'loading' ? 'Loading...' : header;
+
             return _react2.default.createElement(
                 'div',
                 null,
-                header
+                content
             );
         }
     }]);
@@ -13980,7 +13982,8 @@ var Profile = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
-        profiles: state.profile.map //profiles: state.profile.list  //profile: state.profile.list
+        profiles: state.profile.map, //profiles: state.profile.list  //profile: state.profile.list
+        appStatus: state.profile.appStatus
     };
 };
 
@@ -14911,7 +14914,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
 										list: [],
-										map: {}
+										map: {},
+										appStatus: 'ready'
 };
 
 exports.default = function () {
@@ -14933,12 +14937,14 @@ exports.default = function () {
 																														updatedMap[action.profile.username] = action.profile;
 																														updated['map'] = updatedMap;
 
+																														updated['appStatus'] = 'ready';
 																														// updated['list'] = action.profile
 																														return updated;
 
 																				case _constants2.default.APPLICATION_STATE:
 
 																														console.log('APPLICATION_STATE: ' + JSON.stringify(action.status)); //+JSON.stringify(action.profile))
+																														updated['appStatus'] = action.status;
 																														return updated;
 
 																				default:

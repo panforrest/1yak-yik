@@ -56,9 +56,11 @@ class Profile extends Component {
             ) 
         }
 
+        const content = (this.props.appStatus == 'loading') ? 'Loading...' : header
+
     	return(
     		<div>
-    		    { header }
+    		    { content }
     		</div>
     	)
     }
@@ -66,7 +68,8 @@ class Profile extends Component {
 
 const stateToProps = (state) => {
     return {
-        profiles: state.profile.map //profiles: state.profile.list  //profile: state.profile.list
+        profiles: state.profile.map, //profiles: state.profile.list  //profile: state.profile.list
+        appStatus: state.profile.appStatus
     }
 }
 

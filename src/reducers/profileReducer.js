@@ -2,7 +2,8 @@ import constants from '../constants/constants'
 
 var initialState = {
     list: [],
-    map: {}
+    map: {},
+    appStatus: 'ready'
 }
 
 export default (state=initialState, action) => {
@@ -20,13 +21,15 @@ export default (state=initialState, action) => {
 		    let updatedMap = Object.assign({}, state.map)
 		    updatedMap[action.profile.username] = action.profile
             updated['map'] = updatedMap
-
+            
+            updated['appStatus'] = 'ready'
 		    // updated['list'] = action.profile
 		    return updated
 
 		case constants.APPLICATION_STATE:
 
             console.log('APPLICATION_STATE: '+JSON.stringify(action.status))    //+JSON.stringify(action.profile))
+            updated['appStatus'] = action.status
 		    return updated
 
 		default:
