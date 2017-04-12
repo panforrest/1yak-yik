@@ -5,25 +5,33 @@ export default {
 
     fetchProfile: (params) => {
     	return (dispatch) => {
+
+    		dispatch({
+    			type: constants.APPLICATION_STATE,
+    			status: 'loading'
+    		})
+
     		APIManager.get('/api/profile', params, (err, response)=> {
                 if (err) {
                 	console.log('ERR: '+err)
                 	return
                 }
 
-                console.log('fetchProfile: '+JSON.stringify(response))
+                // console.log('fetchProfile: '+JSON.stringify(response))
 	            if (response.results.length == 0){
 	             alert('Profile Not Found.')
 	             return
 	            }
 
 	            const profile = response.results[0]
-	            dispatch({
-	            	type: constants.PROFILE_RECEIVED,
-	            	profile: profile
-	            })
-	            // this.props.profileReceived(profile)
 
+                //artifically delay the callbakc:
+                setTimeout(() => {
+		            dispatch({
+		            	type: constants.PROFILE_RECEIVED,
+		            	profile: profile
+		            })
+                }, 3000)
     		})
     	}
     },

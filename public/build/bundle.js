@@ -3606,25 +3606,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+   value: true
 });
 exports.default = {
 
-    ZONES_RECEIVED: 'ZONES_RECEIVED',
+   APPLICATION_STATE: 'APPLICATION_STATE',
 
-    ZONE_CREATED: 'ZONE_CREATED',
+   ZONES_RECEIVED: 'ZONES_RECEIVED',
 
-    COMMENTS_RECEIVED: 'COMMENTS_RECEIVED',
+   ZONE_CREATED: 'ZONE_CREATED',
 
-    COMMENT_CREATED: 'COMMENT_CREATED',
+   COMMENTS_RECEIVED: 'COMMENTS_RECEIVED',
 
-    SELECT_ZONE: 'SELECT_ZONE',
+   COMMENT_CREATED: 'COMMENT_CREATED',
 
-    CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
+   SELECT_ZONE: 'SELECT_ZONE',
 
-    PROFILE_RECEIVED: 'PROFILE_RECEIVED'
+   CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
 
-    // LOGOUT: 'LOGOUT'
+   PROFILE_RECEIVED: 'PROFILE_RECEIVED'
+
+   // LOGOUT: 'LOGOUT'
 
 };
 
@@ -4260,24 +4262,33 @@ exports.default = {
 
 	fetchProfile: function fetchProfile(params) {
 		return function (dispatch) {
+
+			dispatch({
+				type: _constants2.default.APPLICATION_STATE,
+				status: 'loading'
+			});
+
 			_utils.APIManager.get('/api/profile', params, function (err, response) {
 				if (err) {
 					console.log('ERR: ' + err);
 					return;
 				}
 
-				console.log('fetchProfile: ' + JSON.stringify(response));
+				// console.log('fetchProfile: '+JSON.stringify(response))
 				if (response.results.length == 0) {
 					alert('Profile Not Found.');
 					return;
 				}
 
 				var profile = response.results[0];
-				dispatch({
-					type: _constants2.default.PROFILE_RECEIVED,
-					profile: profile
-				});
-				// this.props.profileReceived(profile)
+
+				//artifically delay the callbakc:
+				setTimeout(function () {
+					dispatch({
+						type: _constants2.default.PROFILE_RECEIVED,
+						profile: profile
+					});
+				}, 3000);
 			});
 		};
 	},
@@ -14889,7 +14900,7 @@ exports.profileReducer = _profileReducer2.default;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+										value: true
 });
 
 var _constants = __webpack_require__(29);
@@ -14899,36 +14910,40 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-	list: [],
-	map: {}
+										list: [],
+										map: {}
 };
 
 exports.default = function () {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	var action = arguments[1];
+										var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+										var action = arguments[1];
 
-	var updated = Object.assign({}, state);
+										var updated = Object.assign({}, state);
 
-	switch (action.type) {
-		case _constants2.default.PROFILE_RECEIVED:
+										switch (action.type) {
+																				case _constants2.default.PROFILE_RECEIVED:
 
-			console.log('PROFILE_RECEIVED' + JSON.stringify(action.profile));
+																														console.log('PROFILE_RECEIVED' + JSON.stringify(action.profile));
 
-			var updatedList = Object.assign([], updated.list); //let updatedList = Object.assign([], updated.profile)
-			updatedList.push(action.profile);
-			updated['list'] = updatedList;
+																														var updatedList = Object.assign([], updated.list); //let updatedList = Object.assign([], updated.profile)
+																														updatedList.push(action.profile);
+																														updated['list'] = updatedList;
 
-			var updatedMap = Object.assign({}, state.map);
-			updatedMap[action.profile.username] = action.profile;
-			updated['map'] = updatedMap;
+																														var updatedMap = Object.assign({}, state.map);
+																														updatedMap[action.profile.username] = action.profile;
+																														updated['map'] = updatedMap;
 
-			// updated['list'] = action.profile
+																														// updated['list'] = action.profile
+																														return updated;
 
-			return updated;
+																				case _constants2.default.APPLICATION_STATE:
 
-		default:
-			return state;
-	}
+																														console.log('APPLICATION_STATE: ' + JSON.stringify(action.status)); //+JSON.stringify(action.profile))
+																														return updated;
+
+																				default:
+																														return state;
+										}
 };
 
 /***/ }),

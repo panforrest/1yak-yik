@@ -22,7 +22,11 @@ export default (state=initialState, action) => {
             updated['map'] = updatedMap
 
 		    // updated['list'] = action.profile
+		    return updated
 
+		case constants.APPLICATION_STATE:
+
+            console.log('APPLICATION_STATE: '+JSON.stringify(action.status))    //+JSON.stringify(action.profile))
 		    return updated
 
 		default:
