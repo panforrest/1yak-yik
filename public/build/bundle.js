@@ -4252,9 +4252,36 @@ var _constants = __webpack_require__(29);
 
 var _constants2 = _interopRequireDefault(_constants);
 
+var _utils = __webpack_require__(37);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
+
+	fetchProfile: function fetchProfile(params) {
+		return function (dispatch) {
+			_utils.APIManager.get('/api/profile', params, function (err, response) {
+				if (err) {
+					console.log('ERR: ' + err);
+					return;
+				}
+
+				console.log('fetchProfile: ' + JSON.stringify(response));
+				if (response.results.length == 0) {
+					alert('Profile Not Found.');
+					return;
+				}
+
+				var profile = response.results[0];
+				dispatch({
+					type: _constants2.default.PROFILE_RECEIVED,
+					profile: profile
+				});
+				// this.props.profileReceived(profile)
+			});
+		};
+	},
+
 	zonesReceived: function zonesReceived(zones) {
 		return {
 			type: _constants2.default.ZONES_RECEIVED, //action: constants.ZONES_RECEIVED,
@@ -4297,21 +4324,8 @@ exports.default = {
 			type: _constants2.default.CURRENT_USER_RECEIVED,
 			user: user
 		};
-	},
-
-	// profileCreated: (profile) => {
-	// 	return {
-	// 		type: constants.PROFILE_CREATED,
-	// 		profile: profile
-	// 	}
-	// }
-
-	profileReceived: function profileReceived(profile) {
-		return {
-			type: _constants2.default.PROFILE_RECEIVED,
-			profile: profile
-		};
 	}
+
 };
 
 /***/ }),
@@ -13888,45 +13902,24 @@ var Profile = function (_Component) {
     _createClass(Profile, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
-
             var profile = this.props.profiles[this.props.username];
-            if (profile == null) {
+            if (profile != null) return;
 
-                _utils.APIManager.get('/api/profile', { username: this.props.username }, function (err, response) {
-                    if (err) {
-                        alert(err.message);
-                        return;
-                    }
-                    console.log(JSON.stringify(response.results[0]));
-                    if (response.results.length == 0) {
-                        alert('Profile Not Found.');
-                        return;
-                    }
+            this.props.fetchProfile({ username: this.props.username });
 
-                    var profile = response.results[0];
-                    _this2.props.profileReceived(profile);
-                });
-            }
-
-            // console.log('componentDidMount: '+this.props.username)
             // APIManager.get('/api/profile', {username: this.props.username}, (err, response) => {
-            // 	if (err) {
-            // 		alert(err.message)
-            // 		return
-            // 	}
-            // 	console.log(JSON.stringify(response.results[0]))
-            //        if (response.results.length == 0){
-            //        	alert('Profile Not Found.')
-            //        	return
-            //        }
+            //  if (err) {
+            //      alert(err.message)
+            //      return
+            //  }
+            //  console.log(JSON.stringify(response.results[0]))
+            //     if (response.results.length == 0){
+            //      alert('Profile Not Found.')
+            //      return
+            //     }
 
-            // 	const profile = response.results[0]
-            // 	// this.setState({
-            // 	// 	profile: profile
-            // 	// })
-
-            // 	this.props.profileReceived(profile)
+            //     const profile = response.results[0]
+            //     this.props.profileReceived(profile)
             // })
         }
     }, {
@@ -13937,6 +13930,8 @@ var Profile = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            console.log('render!! ');
+
             var profile = this.props.profiles[this.props.username];
 
             var header = null;
@@ -13980,8 +13975,8 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
     return {
-        profileReceived: function profileReceived(profile) {
-            return dispatch(_actions2.default.profileReceived(profile));
+        fetchProfile: function fetchProfile(params) {
+            return dispatch(_actions2.default.fetchProfile(params));
         }
     };
 };

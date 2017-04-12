@@ -1,6 +1,33 @@
 import constants from '../constants/constants'
+import { APIManager } from '../utils'
 
 export default {
+
+    fetchProfile: (params) => {
+    	return (dispatch) => {
+    		APIManager.get('/api/profile', params, (err, response)=> {
+                if (err) {
+                	console.log('ERR: '+err)
+                	return
+                }
+
+                console.log('fetchProfile: '+JSON.stringify(response))
+	            if (response.results.length == 0){
+	             alert('Profile Not Found.')
+	             return
+	            }
+
+	            const profile = response.results[0]
+	            dispatch({
+	            	type: constants.PROFILE_RECEIVED,
+	            	profile: profile
+	            })
+	            // this.props.profileReceived(profile)
+
+    		})
+    	}
+    },
+
 	zonesReceived: (zones) => {
         return {
             type: constants.ZONES_RECEIVED,    //action: constants.ZONES_RECEIVED,
@@ -51,10 +78,10 @@ export default {
 	// 	}
 	// }
 
-	profileReceived: (profile) => {
-		return{
-			type: constants.PROFILE_RECEIVED,
-			profile: profile
-		}
-	}
+	// profileReceived: (profile) => {
+	// 	return{
+	// 		type: constants.PROFILE_RECEIVED,
+	// 		profile: profile
+	// 	}
+	// }
 }
