@@ -16,15 +16,17 @@ class Zones extends Component {
     }
 
     componentDidMount(){
-        APIManager.get('/api/zone', null, (err, response) => {
-            if (err){
-                alert('ERROR: '+err.message)
-                return
-            }
+        this.props.fetchZones(null)  //GIVE US ALL ZONES, NOT this.props.fetchZones()
+        // APIManager.get('/api/zone', null, (err, response) => {
+        //     if (err){
+        //         alert('ERROR: '+err.message)
+        //         return
+        //     }
 
-            this.props.zonesReceived(response.results)
-            // this.props.zonesReceived(zones)
-        })
+        //     this.props.zonesReceived(response.results)
+        //     // this.props.zonesReceived(zones)
+        // })
+
     }
 
     submitZone(zone){
@@ -69,15 +71,27 @@ class Zones extends Component {
         	)
         })
 
+        let content = null
+        if (this.props.appStatus == 'loading'){
+            content = 'loading...'
+        }
+        else {
+            content = (
+                <div>
+                    <ol>
+                        {listItems} 
+                    </ol> 
+
+
+                    <CreateZone onCreate={this.submitZone.bind(this)}/>
+
+                </div>
+            )
+        }
+
 		return(
 			<div>
-			    <ol>
-                    {listItems} 
-                </ol> 
-
-
-                <CreateZone onCreate={this.submitZone.bind(this)}/>
-
+                { content }
 			</div>
 		)
 	}
@@ -85,6 +99,7 @@ class Zones extends Component {
 
 const stateToProps = (state) => {
     return {
+        appStatus: state.zone.appStatus,
         list: state.zone.list,
         selected: state.zone.selectedZone
     }
@@ -92,6 +107,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
+        fetchZones: (params) => dispatch(actions.fetchZones(params)),
         zonesReceived: (zones) => dispatch(actions.zonesReceived(zones)),
         zoneCreated: (zone) => dispatch(actions.zoneCreated(zone)),
         selectZone: (index) => dispatch(actions.selectZone(index))

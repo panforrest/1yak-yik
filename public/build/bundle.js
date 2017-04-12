@@ -4315,6 +4315,33 @@ exports.default = {
 		};
 	},
 
+	fetchZones: function fetchZones(params) {
+		return function (dispatch) {
+			dispatch({
+				type: _constants2.default.APPLICATION_STATE,
+				status: 'loading'
+			});
+
+			_utils.APIManager.get('/api/zone', params, function (err, response) {
+				if (err) {
+					alert('ERR: ' + err);
+					return;
+				}
+
+				console.log('fetchZones: ' + JSON.stringify(response));
+				// this.props.zonesReceived(response)
+				var zones = response.results; //MY ATTEMPT DIDN'T WORK BECAUSE I MISSED THIS LINE OF CODE
+
+				setTimeout(function () {
+					dispatch({
+						type: _constants2.default.ZONES_RECEIVED,
+						zones: zones
+					});
+				}, 3000);
+			});
+		};
+	},
+
 	zoneCreated: function zoneCreated(zone) {
 		return {
 			type: _constants2.default.ZONE_CREATED,
@@ -14058,22 +14085,21 @@ var Zones = function (_Component) {
     _createClass(Zones, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
+            this.props.fetchZones(null); //GIVE US ALL ZONES, NOT this.props.fetchZones()
+            // APIManager.get('/api/zone', null, (err, response) => {
+            //     if (err){
+            //         alert('ERROR: '+err.message)
+            //         return
+            //     }
 
-            _utils.APIManager.get('/api/zone', null, function (err, response) {
-                if (err) {
-                    alert('ERROR: ' + err.message);
-                    return;
-                }
-
-                _this2.props.zonesReceived(response.results);
-                // this.props.zonesReceived(zones)
-            });
+            //     this.props.zonesReceived(response.results)
+            //     // this.props.zonesReceived(zones)
+            // })
         }
     }, {
         key: 'submitZone',
         value: function submitZone(zone) {
-            var _this3 = this;
+            var _this2 = this;
 
             // console.log('submitZone: '+JSON.stringify(zone))
 
@@ -14097,7 +14123,7 @@ var Zones = function (_Component) {
                 // this.setState({
                 //     list: updatedList
                 // })
-                _this3.props.zoneCreated(response.result);
+                _this2.props.zoneCreated(response.result);
             });
         }
     }, {
@@ -14110,26 +14136,37 @@ var Zones = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
             var listItems = this.props.list.map(function (zone, i) {
-                var selected = i == _this4.props.selected;
+                var selected = i == _this3.props.selected;
                 return _react2.default.createElement(
                     'li',
                     { key: i },
-                    _react2.default.createElement(_presentation.Zone, { index: i, select: _this4.selectZone.bind(_this4), isSelected: selected, Zone: true, currentZone: zone })
+                    _react2.default.createElement(_presentation.Zone, { index: i, select: _this3.selectZone.bind(_this3), isSelected: selected, Zone: true, currentZone: zone })
                 );
             });
+
+            var content = null;
+            if (this.props.appStatus == 'loading') {
+                content = 'loading...';
+            } else {
+                content = _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'ol',
+                        null,
+                        listItems
+                    ),
+                    _react2.default.createElement(_presentation.CreateZone, { onCreate: this.submitZone.bind(this) })
+                );
+            }
 
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(
-                    'ol',
-                    null,
-                    listItems
-                ),
-                _react2.default.createElement(_presentation.CreateZone, { onCreate: this.submitZone.bind(this) })
+                content
             );
         }
     }]);
@@ -14139,6 +14176,7 @@ var Zones = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
+        appStatus: state.zone.appStatus,
         list: state.zone.list,
         selected: state.zone.selectedZone
     };
@@ -14146,6 +14184,9 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
     return {
+        fetchZones: function fetchZones(params) {
+            return dispatch(_actions2.default.fetchZones(params));
+        },
         zonesReceived: function zonesReceived(zones) {
             return dispatch(_actions2.default.zonesReceived(zones));
         },
@@ -14973,7 +15014,8 @@ var initialState = {
 
 	list: [],
 	zone: {},
-	selectedZone: 0
+	selectedZone: 0,
+	appStatus: 'ready'
 };
 
 exports.default = function () {
@@ -14987,10 +15029,12 @@ exports.default = function () {
 			// let updated = Object.assign([], state)
 			// console.log('ZONES_RECEIVED: '+JSON.stringify(action.zones))
 			updated['list'] = action.zones;
+			updated['appStatus'] = 'ready';
 			return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
 
 		case _constants2.default.ZONE_CREATED:
-			// console.log('ZONE_CREATED: '+JSON.stringify(action.zone))
+			console.log('ZONE_CREATED: ' + JSON.stringify(action.zone));
+
 			var updatedList = Object.assign([], updated.list); //let updatedList = updated['list']
 			updatedList.push(action.zone);
 			updated['list'] = updatedList;
@@ -14999,6 +15043,10 @@ exports.default = function () {
 		case _constants2.default.SELECT_ZONE:
 			// console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
 			updated['selectedZone'] = action.selectedZone; //SHIT I AM SO STUPID: updated['index'] = action.index
+			return updated;
+
+		case _constants2.default.APPLICATION_STATUS:
+			updated['appStatus'] = action.appStatus;
 			return updated;
 
 		default:

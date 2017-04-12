@@ -58,6 +58,34 @@ export default {
 		}
 	},
 
+	fetchZones: (params) => {
+		return (dispatch) => {
+            dispatch({
+            	type: constants.APPLICATION_STATE,
+            	status: 'loading'
+            })
+
+			APIManager.get('/api/zone', params, (err, response) => {
+				if (err) {
+					alert('ERR: '+err)
+					return
+				}
+
+				console.log('fetchZones: '+JSON.stringify(response))
+				// this.props.zonesReceived(response)
+				const zones = response.results  //MY ATTEMPT DIDN'T WORK BECAUSE I MISSED THIS LINE OF CODE
+
+                setTimeout(() => {
+					dispatch({
+						type: constants.ZONES_RECEIVED,
+	                    zones: zones
+					})
+                }, 3000)
+
+			})
+		} 
+	},
+
 	zoneCreated: (zone) => {
 		return {
 			type: constants.ZONE_CREATED,
