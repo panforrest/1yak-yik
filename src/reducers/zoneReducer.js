@@ -21,7 +21,7 @@ export default (state=initialState, action)=> {
 
 		case constants.ZONE_CREATED: 
 		    console.log('ZONE_CREATED: '+JSON.stringify(action.zone))
-		    
+
 		    let updatedList = Object.assign([], updated.list)    //let updatedList = updated['list']
 		    updatedList.push(action.zone)
 		    updated['list'] = updatedList
@@ -33,6 +33,9 @@ export default (state=initialState, action)=> {
             return updated
 
         case constants.APPLICATION_STATUS:
+            if (action.reducer != 'zone') {
+                return updated
+            }
             updated['appStatus'] = action.appStatus
             return updated
 

@@ -28,7 +28,10 @@ export default (state=initialState, action) => {
 
 		case constants.APPLICATION_STATE:
 
-            console.log('APPLICATION_STATE: '+JSON.stringify(action.status))    //+JSON.stringify(action.profile))
+            // console.log('APPLICATION_STATE: '+JSON.stringify(action.status))    //+JSON.stringify(action.profile))
+            if (action.reducer != 'profile') {
+                return updated
+            }
             updated['appStatus'] = action.status
 		    return updated
 

@@ -4265,7 +4265,8 @@ exports.default = {
 
 			dispatch({
 				type: _constants2.default.APPLICATION_STATE,
-				status: 'loading'
+				status: 'loading',
+				reducer: 'profile'
 			});
 
 			_utils.APIManager.get('/api/profile', params, function (err, response) {
@@ -4319,7 +4320,8 @@ exports.default = {
 		return function (dispatch) {
 			dispatch({
 				type: _constants2.default.APPLICATION_STATE,
-				status: 'loading'
+				status: 'loading',
+				reducer: 'zone'
 			});
 
 			_utils.APIManager.get('/api/zone', params, function (err, response) {
@@ -14944,7 +14946,7 @@ exports.profileReducer = _profileReducer2.default;
 
 
 Object.defineProperty(exports, "__esModule", {
-										value: true
+				value: true
 });
 
 var _constants = __webpack_require__(29);
@@ -14954,43 +14956,46 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-										list: [],
-										map: {},
-										appStatus: 'ready'
+				list: [],
+				map: {},
+				appStatus: 'ready'
 };
 
 exports.default = function () {
-										var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-										var action = arguments[1];
+				var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+				var action = arguments[1];
 
-										var updated = Object.assign({}, state);
+				var updated = Object.assign({}, state);
 
-										switch (action.type) {
-																				case _constants2.default.PROFILE_RECEIVED:
+				switch (action.type) {
+								case _constants2.default.PROFILE_RECEIVED:
 
-																														console.log('PROFILE_RECEIVED' + JSON.stringify(action.profile));
+												console.log('PROFILE_RECEIVED' + JSON.stringify(action.profile));
 
-																														var updatedList = Object.assign([], updated.list); //let updatedList = Object.assign([], updated.profile)
-																														updatedList.push(action.profile);
-																														updated['list'] = updatedList;
+												var updatedList = Object.assign([], updated.list); //let updatedList = Object.assign([], updated.profile)
+												updatedList.push(action.profile);
+												updated['list'] = updatedList;
 
-																														var updatedMap = Object.assign({}, state.map);
-																														updatedMap[action.profile.username] = action.profile;
-																														updated['map'] = updatedMap;
+												var updatedMap = Object.assign({}, state.map);
+												updatedMap[action.profile.username] = action.profile;
+												updated['map'] = updatedMap;
 
-																														updated['appStatus'] = 'ready';
-																														// updated['list'] = action.profile
-																														return updated;
+												updated['appStatus'] = 'ready';
+												// updated['list'] = action.profile
+												return updated;
 
-																				case _constants2.default.APPLICATION_STATE:
+								case _constants2.default.APPLICATION_STATE:
 
-																														console.log('APPLICATION_STATE: ' + JSON.stringify(action.status)); //+JSON.stringify(action.profile))
-																														updated['appStatus'] = action.status;
-																														return updated;
+												// console.log('APPLICATION_STATE: '+JSON.stringify(action.status))    //+JSON.stringify(action.profile))
+												if (action.reducer != 'profile') {
+																return updated;
+												}
+												updated['appStatus'] = action.status;
+												return updated;
 
-																				default:
-																														return state;
-										}
+								default:
+												return state;
+				}
 };
 
 /***/ }),
@@ -15001,7 +15006,7 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+				value: true
 });
 
 var _constants = __webpack_require__(29);
@@ -15012,46 +15017,49 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
 
-	list: [],
-	zone: {},
-	selectedZone: 0,
-	appStatus: 'ready'
+				list: [],
+				zone: {},
+				selectedZone: 0,
+				appStatus: 'ready'
 };
 
 exports.default = function () {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	var action = arguments[1];
+				var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+				var action = arguments[1];
 
-	var updated = Object.assign([], state);
-	switch (action.type) {
+				var updated = Object.assign([], state);
+				switch (action.type) {
 
-		case _constants2.default.ZONES_RECEIVED:
-			// let updated = Object.assign([], state)
-			// console.log('ZONES_RECEIVED: '+JSON.stringify(action.zones))
-			updated['list'] = action.zones;
-			updated['appStatus'] = 'ready';
-			return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
+								case _constants2.default.ZONES_RECEIVED:
+												// let updated = Object.assign([], state)
+												// console.log('ZONES_RECEIVED: '+JSON.stringify(action.zones))
+												updated['list'] = action.zones;
+												updated['appStatus'] = 'ready';
+												return updated; //THIS IS THE EQUIVALENT TO this.setState({...})
 
-		case _constants2.default.ZONE_CREATED:
-			console.log('ZONE_CREATED: ' + JSON.stringify(action.zone));
+								case _constants2.default.ZONE_CREATED:
+												console.log('ZONE_CREATED: ' + JSON.stringify(action.zone));
 
-			var updatedList = Object.assign([], updated.list); //let updatedList = updated['list']
-			updatedList.push(action.zone);
-			updated['list'] = updatedList;
-			return updated;
+												var updatedList = Object.assign([], updated.list); //let updatedList = updated['list']
+												updatedList.push(action.zone);
+												updated['list'] = updatedList;
+												return updated;
 
-		case _constants2.default.SELECT_ZONE:
-			// console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
-			updated['selectedZone'] = action.selectedZone; //SHIT I AM SO STUPID: updated['index'] = action.index
-			return updated;
+								case _constants2.default.SELECT_ZONE:
+												// console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
+												updated['selectedZone'] = action.selectedZone; //SHIT I AM SO STUPID: updated['index'] = action.index
+												return updated;
 
-		case _constants2.default.APPLICATION_STATUS:
-			updated['appStatus'] = action.appStatus;
-			return updated;
+								case _constants2.default.APPLICATION_STATUS:
+												if (action.reducer != 'zone') {
+																return updated;
+												}
+												updated['appStatus'] = action.appStatus;
+												return updated;
 
-		default:
-			return state;
-	}
+								default:
+												return state;
+				}
 };
 
 /***/ }),
