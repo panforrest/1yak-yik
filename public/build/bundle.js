@@ -3624,7 +3624,9 @@ exports.default = {
 
    CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
 
-   PROFILE_RECEIVED: 'PROFILE_RECEIVED'
+   PROFILE_RECEIVED: 'PROFILE_RECEIVED',
+
+   PROFILE_UPDATED: 'PROFILE_UPDATED'
 
    // LOGOUT: 'LOGOUT'
 
@@ -4400,7 +4402,12 @@ exports.default = {
 					alert('ERROR: ' + JSON.stringify(err));
 					return;
 				}
-				console.log('Profile Updated: ' + JSON.stringify(response));
+				var updatedProfile = response.result;
+				dispatch({
+					type: _constants2.default.PROFILE_UPDATED,
+					profile: updatedProfile
+				});
+				// console.log('Profile Updated: '+JSON.stringify(response))
 			});
 		};
 	}
@@ -14035,9 +14042,9 @@ var CurrentUser = function (_Component) {
                 ),
                 _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), defaultValue: currentUser.username, id: 'username', placeholder: 'Username' }),
                 _react2.default.createElement('br', null),
-                _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), id: 'city', placeholder: 'City' }),
+                _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), defaultValue: currentUser.city, id: 'city', placeholder: 'City' }),
                 _react2.default.createElement('br', null),
-                _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), id: 'gender', placeholder: 'Gender' }),
+                _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), defaultValue: currentUser.gender, id: 'gender', placeholder: 'Gender' }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(
                     'button',
@@ -14988,6 +14995,10 @@ exports.default = function () {
 		// case constants.LOGOUT:
 		//     updated['user'] = null
 		//     return updated
+
+		case _constants2.default.PROFILE_UPDATED:
+			console.log('PROFILE_UPDATED: ' + JSON.stringify(action.profile));
+			return updated;
 
 		default:
 			return state;

@@ -45,9 +45,9 @@ class CurrentUser extends Component {
 			    <h2>Welcome, {currentUser.username}!</h2>
 
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.username} id="username" placeholder="Username" /><br />
-			    <input type="text" onChange={this.updateCurrentUser.bind(this)} id="city" placeholder="City" /><br />
-			    <input type="text" onChange={this.updateCurrentUser.bind(this)} id="gender" placeholder="Gender" /><br />
-                
+			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.city} id="city" placeholder="City" /><br />
+			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.gender} id="gender" placeholder="Gender" /><br />
+
 			    <button onClick={this.updateProfile.bind(this)}>Update Profile</button>
 			</div>
 		)

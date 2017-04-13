@@ -121,7 +121,12 @@ export default {
                 	alert('ERROR: '+JSON.stringify(err))
                 	return
                 }
-                console.log('Profile Updated: '+JSON.stringify(response))
+                const updatedProfile = response.result
+                dispatch({
+                	type: constants.PROFILE_UPDATED,
+                	profile: updatedProfile
+                })
+                // console.log('Profile Updated: '+JSON.stringify(response))
 		    })	
 		}
 	}	

@@ -24,6 +24,10 @@ export default (state=initialState, action) => {
         //     updated['user'] = null
         //     return updated
 
+        case constants.PROFILE_UPDATED:
+            console.log('PROFILE_UPDATED: '+JSON.stringify(action.profile))
+            return updated
+
 		default: 
 		    return state
 	}
