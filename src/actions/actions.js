@@ -109,6 +109,23 @@ export default {
 		}
 	},
 
+	updateProfile: (profile, updated) => { //updateProfile: (updated) => {
+		return(dispatch) => {    //THIS IS THE ONE WAY DATA FLOW
+		// 	dispatch({
+		// 		type: constants.CURRENT_USER_RECEIVED
+		// 		profile: profile
+		// 	})
+            const endpoint = '/api/profile/'+profile._id
+		    APIManager.put(endpoint, updated, (err, response) => {
+                if (err) {
+                	alert('ERROR: '+JSON.stringify(err))
+                	return
+                }
+                console.log('Profile Updated: '+JSON.stringify(response))
+		    })	
+		}
+	}	
+
 	// profileCreated: (profile) => {
 	// 	return {
 	// 		type: constants.PROFILE_CREATED,
