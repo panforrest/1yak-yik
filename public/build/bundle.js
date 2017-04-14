@@ -14661,6 +14661,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = __webpack_require__(47);
 
+var _utils = __webpack_require__(31);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14668,6 +14670,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <h2>{this.state.currentComment.username}</h2>  //SHOULD BE props NOT state
+//<img src=ImageHelper.thumbnail({author.image}, 44) />
 
 
 var Comment = function (_Component) {
@@ -14683,6 +14686,9 @@ var Comment = function (_Component) {
 		key: 'render',
 		value: function render() {
 			var currentComment = this.props.currentComment;
+			var author = currentComment.author;
+			var radius = 16;
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -14692,13 +14698,14 @@ var Comment = function (_Component) {
 					this.props.currentComment.body,
 					_react2.default.createElement('br', null)
 				),
+				_react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
 				_react2.default.createElement(
 					'span',
 					{ style: { fontWeight: 200 } },
 					_react2.default.createElement(
 						_reactRouter.Link,
-						{ to: '/profile/' + currentComment.username },
-						currentComment.username
+						{ to: '/profile/' + author.username },
+						author.username
 					)
 				),
 				_react2.default.createElement(
