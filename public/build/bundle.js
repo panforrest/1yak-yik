@@ -13678,6 +13678,7 @@ var Account = function (_Component) {
                 content = _react2.default.createElement(
                     'div',
                     null,
+                    _react2.default.createElement('img', { style: { borderRadius: 36, float: 'left', marginRight: 12 }, src: this.props.user.image.replace('upload', 'upload/c_thumb,h_72,w_72,x_0,y_0') }),
                     _react2.default.createElement(
                         'h2',
                         null,
@@ -14087,11 +14088,12 @@ var CurrentUser = function (_Component) {
 
             _utils.APIManager.upload(url, image, params, function (err, response) {
                 if (err) {
-                    console.log('UPLOAD ERROR: ' + JSON.stringify(err));
+                    // console.log('UPLOAD ERROR: '+JSON.stringify(err))
+                    alert(err);
                     return;
                 }
 
-                console.log('UPLOAD COMPLETE: ' + JSON.stringify(response.body));
+                // console.log('UPLOAD COMPLETE: '+JSON.stringify(response.body))
                 var imageUrl = response.body['secure_url'];
 
                 var updatedProfile = Object.assign({}, _this2.state.updated);
@@ -14105,7 +14107,7 @@ var CurrentUser = function (_Component) {
         key: 'render',
         value: function render() {
             var currentUser = this.props.user;
-            var image = this.state.updated.image == null ? '' : this.state.updated.image;
+            var image = this.state.updated.image == null ? '' : this.state.updated.image.replace('upload', 'upload/c_thumb,h_150,w_150,x_0,y_0'); //RENDER THUMBNAIL, NOT ENTIRE IMAGE
             return _react2.default.createElement(
                 'div',
                 null,

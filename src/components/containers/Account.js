@@ -128,6 +128,7 @@ class Account extends Component {
         }
         else{
             content = ( <div>  
+                          <img style={{borderRadius:36, float:'left', marginRight:12}} src={this.props.user.image.replace('upload', 'upload/c_thumb,h_72,w_72,x_0,y_0')} />
                           <h2>Welcome, {this.props.user.username}</h2>
                           <span>{this.props.user.city}</span><br />
                           <button onClick={this.logout.bind(this)}>Log Out</button>
