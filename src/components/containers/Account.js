@@ -129,6 +129,7 @@ class Account extends Component {
         else{
             content = ( <div>  
                           <h2>Welcome, {this.props.user.username}</h2>
+                          <span>{this.props.user.city}</span><br />
                           <button onClick={this.logout.bind(this)}>Log Out</button>
                           <Link to="/currentuser"><button>Account</button></Link>
                         </div>   

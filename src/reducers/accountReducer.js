@@ -26,6 +26,10 @@ export default (state=initialState, action) => {
 
         case constants.PROFILE_UPDATED:
             console.log('PROFILE_UPDATED: '+JSON.stringify(action.profile))
+            if (action.profile._id != updated.user._id)
+            	return updated
+
+            updated['user'] = action.profile
             return updated
 
 		default: 
