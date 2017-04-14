@@ -3808,15 +3808,20 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.APIManager = undefined;
+exports.ImageHelper = exports.APIManager = undefined;
 
 var _APIManager = __webpack_require__(153);
 
 var _APIManager2 = _interopRequireDefault(_APIManager);
 
+var _ImageHelper = __webpack_require__(318);
+
+var _ImageHelper2 = _interopRequireDefault(_ImageHelper);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.APIManager = _APIManager2.default;
+exports.ImageHelper = _ImageHelper2.default;
 
 /***/ }),
 /* 32 */
@@ -13510,9 +13515,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //import { Link } from 'react-redux'
 
-//import { Link } from 'react-redux'
 
 var Account = function (_Component) {
     _inherits(Account, _Component);
@@ -13678,7 +13682,7 @@ var Account = function (_Component) {
                 content = _react2.default.createElement(
                     'div',
                     null,
-                    _react2.default.createElement('img', { style: { borderRadius: 36, float: 'left', marginRight: 12 }, src: this.props.user.image.replace('upload', 'upload/c_thumb,h_72,w_72,x_0,y_0') }),
+                    _react2.default.createElement('img', { style: { borderRadius: 36, float: 'left', marginRight: 12 }, src: _utils.ImageHelper.thumbnail(this.props.user.image, 72) }),
                     _react2.default.createElement(
                         'h2',
                         null,
@@ -14107,7 +14111,7 @@ var CurrentUser = function (_Component) {
         key: 'render',
         value: function render() {
             var currentUser = this.props.user;
-            var image = this.state.updated.image == null ? '' : this.state.updated.image.replace('upload', 'upload/c_thumb,h_150,w_150,x_0,y_0'); //RENDER THUMBNAIL, NOT ENTIRE IMAGE
+            var image = this.state.updated.image == null ? '' : _utils.ImageHelper.thumbnail(this.state.updated.image, 150);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -36658,6 +36662,24 @@ module.exports = Array.isArray || function (arr) {
 })();
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(313).Buffer))
+
+/***/ }),
+/* 318 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    thumbnail: function thumbnail(url, dimen) {
+        var thumbParams = 'upload/c_thumb,h_' + dimen + ',w_' + dimen + ',x_0,y_0';
+        return url.replace('upload', thumbParams);
+    }
+};
 
 /***/ })
 /******/ ]);

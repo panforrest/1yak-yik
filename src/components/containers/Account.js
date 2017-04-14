@@ -3,7 +3,8 @@ import { APIManager } from '../../utils'
 import actions from '../../actions/actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'  //import { Link } from 'react-redux'
-
+import { ImageHelper } from '../../utils'
+ 
 class Account extends Component {
     constructor(){
     	super()
@@ -128,7 +129,7 @@ class Account extends Component {
         }
         else{
             content = ( <div>  
-                          <img style={{borderRadius:36, float:'left', marginRight:12}} src={this.props.user.image.replace('upload', 'upload/c_thumb,h_72,w_72,x_0,y_0')} />
+                          <img style={{borderRadius:36, float:'left', marginRight:12}} src={ImageHelper.thumbnail(this.props.user.image, 72)} />
                           <h2>Welcome, {this.props.user.username}</h2>
                           <span>{this.props.user.city}</span><br />
                           <button onClick={this.logout.bind(this)}>Log Out</button>
