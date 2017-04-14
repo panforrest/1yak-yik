@@ -60,17 +60,24 @@ class CurrentUser extends Component {
 
         APIManager.upload(url, image, params, (err, response) => {
             if (err){
-                console.log('UPLOAD ERROR: '+JSON.STRINGIFY(err))
+                console.log('UPLOAD ERROR: '+JSON.stringify(err))
                 return
             } 
 
-            console.log('UPLOAD COMPLETE: '+JSON.stringify(response))
+            console.log('UPLOAD COMPLETE: '+JSON.stringify(response.body))
+            const imageUrl = response.body['secure_url']
 
+            let updatedProfile = Object.assign({}, this.state.updated)
+            updatedProfile['image'] = response.body['secure_url']
+            this.setState({
+                updated: updatedProfile
+            })
         })
     }
 
 	render(){
 		const currentUser = this.props.user
+        const image = (this.state.updated.image == null) ? '' : this.state.updated.image
 		return(
 			
 			<div>
@@ -79,6 +86,7 @@ class CurrentUser extends Component {
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.username} id="username" placeholder="Username" /><br />
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.city} id="city" placeholder="City" /><br />
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.gender} id="gender" placeholder="Gender" /><br />
+                <img src={image} /><br />
                 <Dropzone onDrop={this.uploadImage.bind(this)} />
 			    <button onClick={this.updateProfile.bind(this)}>Update Profile</button>
 			</div>

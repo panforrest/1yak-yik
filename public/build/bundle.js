@@ -14066,6 +14066,8 @@ var CurrentUser = function (_Component) {
     }, {
         key: 'uploadImage',
         value: function uploadImage(files) {
+            var _this2 = this;
+
             var image = files[0];
 
             var cloudName = 'haoof9otz';
@@ -14085,17 +14087,25 @@ var CurrentUser = function (_Component) {
 
             _utils.APIManager.upload(url, image, params, function (err, response) {
                 if (err) {
-                    console.log('UPLOAD ERROR: ' + JSON.STRINGIFY(err));
+                    console.log('UPLOAD ERROR: ' + JSON.stringify(err));
                     return;
                 }
 
-                console.log('UPLOAD COMPLETE: ' + JSON.stringify(response));
+                console.log('UPLOAD COMPLETE: ' + JSON.stringify(response.body));
+                var imageUrl = response.body['secure_url'];
+
+                var updatedProfile = Object.assign({}, _this2.state.updated);
+                updatedProfile['image'] = response.body['secure_url'];
+                _this2.setState({
+                    updated: updatedProfile
+                });
             });
         }
     }, {
         key: 'render',
         value: function render() {
             var currentUser = this.props.user;
+            var image = this.state.updated.image == null ? '' : this.state.updated.image;
             return _react2.default.createElement(
                 'div',
                 null,
@@ -14111,6 +14121,8 @@ var CurrentUser = function (_Component) {
                 _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), defaultValue: currentUser.city, id: 'city', placeholder: 'City' }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement('input', { type: 'text', onChange: this.updateCurrentUser.bind(this), defaultValue: currentUser.gender, id: 'gender', placeholder: 'Gender' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('img', { src: image }),
                 _react2.default.createElement('br', null),
                 _react2.default.createElement(_reactDropzone2.default, { onDrop: this.uploadImage.bind(this) }),
                 _react2.default.createElement(
