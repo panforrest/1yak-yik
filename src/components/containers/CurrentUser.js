@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
 import Dropzone from 'react-dropzone'
+import { APIManager } from '../../utils'
 
 class CurrentUser extends Component {
     constructor(){
@@ -41,7 +42,10 @@ class CurrentUser extends Component {
     uploadImage(files){
         const image = files[0]
 
-        console.log('uploadImage: ')
+        // console.log('uploadImage: ')
+        APIManager.upload('', image, {}, (err, response) => {
+            
+        })
     }
 
 	render(){

@@ -14006,6 +14006,8 @@ var _reactDropzone = __webpack_require__(259);
 
 var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
+var _utils = __webpack_require__(31);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -14062,7 +14064,8 @@ var CurrentUser = function (_Component) {
         value: function uploadImage(files) {
             var image = files[0];
 
-            console.log('uploadImage: ');
+            // console.log('uploadImage: ')
+            _utils.APIManager.upload('', image, {}, function (err, response) {});
         }
     }, {
         key: 'render',
@@ -15367,7 +15370,11 @@ exports.default = {
         });
     },
 
-    delete: function _delete() {}
+    delete: function _delete() {},
+
+    upload: function upload(endpoint, file, params, callback) {
+        console.log('APIManager - upload: ');
+    }
 };
 
 /***/ }),

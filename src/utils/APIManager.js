@@ -46,28 +46,33 @@ export default {
         })
     },
 
-        put: (url, body, callback) => {  //put: (id) => {
-            superagent
-            .put(url)   //.findByIdAndUpdate(id)
-            .send(body)  //
-            .set('Accept', 'application/json')
-            .end((err, response) => {
-                if (err) {
-                    callback(err, null)   //alert('ERROR: '+err)
-                    return
-                }
-                // console.log(JSON.stringify(response.body))
-                const confirmation = response.body.confirmation
-                if (confirmation != 'success'){
-                    callback({message: response.body.message}, null)
-                    return
-                }
+    put: (url, body, callback) => {  //put: (id) => {
+        superagent
+        .put(url)   //.findByIdAndUpdate(id)
+        .send(body)  //
+        .set('Accept', 'application/json')
+        .end((err, response) => {
+            if (err) {
+                callback(err, null)   //alert('ERROR: '+err)
+                return
+            }
+            // console.log(JSON.stringify(response.body))
+            const confirmation = response.body.confirmation
+            if (confirmation != 'success'){
+                callback({message: response.body.message}, null)
+                return
+            }
 
-                callback(null, response.body)
-            })
-        },
+            callback(null, response.body)
+        })
+    },
 
         delete: () => {
 
-        }
+        },
+
+    upload: (endpoint, file, params, callback) => {
+        console.log('APIManager - upload: ')
+
+    }
 }
