@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../../actions/actions'
+import Dropzone from 'react-dropzone'
 
 class CurrentUser extends Component {
     constructor(){
@@ -37,6 +38,12 @@ class CurrentUser extends Component {
         this.props.updateProfile(this.props.user, this.state.updated)  //this.props.updateProfile(profile, this.state.updated)
     }
 
+    uploadImage(files){
+        const image = files[0]
+
+        console.log('uploadImage: ')
+    }
+
 	render(){
 		const currentUser = this.props.user
 		return(
@@ -47,7 +54,7 @@ class CurrentUser extends Component {
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.username} id="username" placeholder="Username" /><br />
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.city} id="city" placeholder="City" /><br />
 			    <input type="text" onChange={this.updateCurrentUser.bind(this)} defaultValue={currentUser.gender} id="gender" placeholder="Gender" /><br />
-
+                <Dropzone onDrop={this.uploadImage.bind(this)} />
 			    <button onClick={this.updateProfile.bind(this)}>Update Profile</button>
 			</div>
 		)
