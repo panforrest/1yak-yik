@@ -51,6 +51,11 @@ class Comments extends Component {
         let zone = this.props.zones[this.props.index]
         updatedComment['zone'] = zone._id
         updatedComment['username'] = this.props.user.username
+        updatedComment['author'] ={
+            username: this.props.user.username,
+            id: this.props.user._id,
+            image: this.props.user.image
+        }
 
         console.log('to submitComment this'+JSON.stringify(updatedComment))
 
