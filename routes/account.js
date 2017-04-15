@@ -74,17 +74,18 @@ router.post('/:action', function(req, res, next){
 	    	if (err) {
 	    		res.json({
 	    			confirmation: 'fail',
-	    			message: err
+	    			message: err.message
 	    		})
 	    		return
 	    	}
 
-            var profile = result
-            req.session.user = profile._id
+            // var profile = result
+            // req.session.user = profile._id
+            req.session.user = result._id
 
 	    	res.json({
 	    		confirmation: 'success',
-	            result: result
+	            user: result    //result: result
 	    	})
 	    })		
 	}

@@ -13540,11 +13540,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = __webpack_require__(19);
 
-var _reactRedux = __webpack_require__(23);
-
 var _actions = __webpack_require__(30);
 
 var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(23);
 
 var _reactRouter = __webpack_require__(47);
 
@@ -13554,7 +13554,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //import { Link } from 'react-redux'
+
 
 var Account = function (_Component) {
     _inherits(Account, _Component);
@@ -13580,26 +13581,26 @@ var Account = function (_Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
+            // console.log('componentDidMount: ')
             _utils.APIManager.get('/account/currentuser', null, function (err, response) {
                 if (err) {
-                    // not logged in, ignore error:
-                    //              alert(err.message)
+                    //not logged in, ignore error:
+                    // alert(err.message)
                     return;
                 }
-
-                console.log(JSON.stringify(response));
+                console.log('componentDidMount currentuser' + JSON.stringify(response));
                 _this2.props.currentUserReceived(response.user);
             });
         }
     }, {
         key: 'updateProfile',
         value: function updateProfile(event) {
-            event.preventDefault();
-            //      console.log(event.target.id+' == '+event.target.value)
-            var updatedProfile = Object.assign({}, this.state.profile);
-            updatedProfile[event.target.id] = event.target.value;
+            event.preventDefault(); //Dont' forget this
+            console.log('updateProfile: ' + event.target.id + " == " + event.target.value);
+            var updated = Object.assign({}, this.state.profile); //var
+            updated[event.target.id] = event.target.value;
             this.setState({
-                profile: updatedProfile
+                profile: updated
             });
         }
     }, {
@@ -13608,24 +13609,24 @@ var Account = function (_Component) {
             var _this3 = this;
 
             event.preventDefault();
-            console.log(JSON.stringify(this.state.profile));
+            // console.log('login: '+JSON.stringify(this.state.profile))
             if (this.state.profile.username.length == 0) {
-                alert('Please enter your username!');
+                alert('key in username please!');
                 return;
             }
 
             if (this.state.profile.password.length == 0) {
-                alert('Please enter a password!');
+                alert('key in password please!');
                 return;
             }
 
             _utils.APIManager.post('/account/login', this.state.profile, function (err, response) {
                 if (err) {
-                    alert(err.message);
+                    alert(err.message); //alert(err)
                     return;
                 }
-
-                console.log(JSON.stringify(response));
+                // console.log('SIGNUP: '+JSON.stringify(response.result))
+                console.log('login: ' + JSON.stringify(response.user));
                 _this3.props.currentUserReceived(response.user);
             });
         }
@@ -13635,25 +13636,24 @@ var Account = function (_Component) {
             var _this4 = this;
 
             event.preventDefault();
-            console.log(JSON.stringify(this.state.profile));
+            // console.log('signup: '+JSON.stringify(this.state.profile))
             if (this.state.profile.username.length == 0) {
-                alert('Please enter your username!');
+                alert('key in username please!');
                 return;
             }
 
             if (this.state.profile.password.length == 0) {
-                alert('Please enter a password!');
+                alert('key in password please!');
                 return;
             }
 
-            _utils.APIManager.post('/account/register', this.state.profile, function (err, response) {
+            _utils.APIManager.post('/account/signup', this.state.profile, function (err, response) {
                 if (err) {
-                    alert(err.message);
+                    alert(err);
                     return;
                 }
-
-                console.log(JSON.stringify(response));
-                _this4.props.currentUserReceived(response.user);
+                console.log('SIGNUP: ' + JSON.stringify(response)); //console.log('SIGNUP: '+JSON.stringify(response.result))
+                _this4.props.currentUserReceived(response.user); //this.props.currentUserReceived(response.result)
             });
         }
     }, {
@@ -13661,16 +13661,16 @@ var Account = function (_Component) {
         value: function logout(event) {
             var _this5 = this;
 
+            // console.log('logout: ')
             event.preventDefault();
-            console.log('logout');
-
             _utils.APIManager.get('/account/logout', null, function (err, response) {
                 if (err) {
                     alert(err.message);
                     return;
                 }
-
-                console.log(JSON.stringify(response));
+                // console.log('User is logged out')
+                // this.props.currentUserReceived(response.user)
+                // this.props.currentUserReceived(null)
                 _this5.props.currentUserReceived(null);
             });
         }
@@ -13687,28 +13687,29 @@ var Account = function (_Component) {
                         null,
                         'Login'
                     ),
-                    _react2.default.createElement('input', { id: 'username', onChange: this.updateProfile.bind(this), type: 'text', placeholder: 'username' }),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'username', placeholder: 'username' }),
                     _react2.default.createElement('br', null),
-                    _react2.default.createElement('input', { id: 'password', onChange: this.updateProfile.bind(this), type: 'password', placeholder: 'password' }),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'password', placeholder: 'password' }),
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement(
                         'button',
                         { onClick: this.login.bind(this) },
-                        'Log In'
+                        'Login'
                     ),
-                    _react2.default.createElement('br', null),
                     _react2.default.createElement(
                         'h2',
                         null,
-                        'Sign Up'
+                        'Sign up'
                     ),
-                    _react2.default.createElement('input', { id: 'username', onChange: this.updateProfile.bind(this), type: 'text', placeholder: 'username' }),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'username', placeholder: 'username' }),
                     _react2.default.createElement('br', null),
-                    _react2.default.createElement('input', { id: 'password', onChange: this.updateProfile.bind(this), type: 'password', placeholder: 'password' }),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'password', placeholder: 'password' }),
                     _react2.default.createElement('br', null),
-                    _react2.default.createElement('input', { id: 'city', onChange: this.updateProfile.bind(this), type: 'text', placeholder: 'city' }),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'city', placeholder: 'city' }),
                     _react2.default.createElement('br', null),
-                    _react2.default.createElement('input', { id: 'gender', onChange: this.updateProfile.bind(this), type: 'text', placeholder: 'gender' }),
+                    _react2.default.createElement('input', { onChange: this.updateProfile.bind(this), type: 'text', id: 'gender', placeholder: 'gender' }),
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement('br', null),
                     _react2.default.createElement(
                         'button',
@@ -13724,9 +13725,8 @@ var Account = function (_Component) {
                     _react2.default.createElement(
                         'h2',
                         null,
-                        'Welcome ',
-                        this.props.user.username,
-                        '!'
+                        'Welcome, ',
+                        this.props.user.username
                     ),
                     _react2.default.createElement(
                         'span',
@@ -13772,10 +13772,13 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     return {
         currentUserReceived: function currentUserReceived(user) {
             return dispatch(_actions2.default.currentUserReceived(user));
+        }, //=> IS NOT =
+        // profileCreated: (profile) => dispatch(actions.profileCreated(profile))
+        logout: function logout(user) {
+            return dispatch(_actions2.default.logout(user));
         }
     };
 };
-
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Account);
 
 /***/ }),
