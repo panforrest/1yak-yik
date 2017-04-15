@@ -14689,7 +14689,7 @@ exports.default = ProfileInfo;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14713,57 +14713,96 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var Comment = function (_Component) {
-	_inherits(Comment, _Component);
+   _inherits(Comment, _Component);
 
-	function Comment() {
-		_classCallCheck(this, Comment);
+   function Comment() {
+      _classCallCheck(this, Comment);
 
-		return _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).apply(this, arguments));
-	}
+      var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this));
 
-	_createClass(Comment, [{
-		key: 'render',
-		value: function render() {
-			var currentComment = this.props.currentComment;
-			var author = currentComment.author;
-			var radius = 16;
+      _this.state = {
+         isEditing: false
+      };
+      return _this;
+   }
 
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'p',
-					{ style: { fontSize: 20, fontWeight: 400 } },
-					this.props.currentComment.body,
-					_react2.default.createElement('br', null)
-				),
-				_react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
-				_react2.default.createElement(
-					'span',
-					{ style: { fontWeight: 200 } },
-					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/profile/' + author.username },
-						author.username
-					)
-				),
-				_react2.default.createElement(
-					'span',
-					{ style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
-					'|'
-				),
-				_react2.default.createElement(
-					'span',
-					{ style: { fontWeight: 200 } },
-					currentComment.timestamp
-				),
-				_react2.default.createElement('hr', null),
-				_react2.default.createElement('br', null)
-			);
-		}
-	}]);
+   _createClass(Comment, [{
+      key: 'toggleEdit',
+      value: function toggleEdit(event) {
+         event.preventDefault();
+         // console.log('EDIT: ')
+         this.setState({
+            isEditing: !this.state.isEditing
+         });
+      }
+   }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+         console.log('isEditing: ' + this.state.isEditing);
+      }
+   }, {
+      key: 'render',
+      value: function render() {
+         var currentComment = this.props.currentComment;
+         var author = currentComment.author;
+         var radius = 16;
 
-	return Comment;
+         var content = null;
+         if (this.state.isEditing == true) {
+            content = _react2.default.createElement(
+               'div',
+               null,
+               'EDIT COMMENT'
+            );
+         } else {
+            content = _react2.default.createElement(
+               'div',
+               null,
+               _react2.default.createElement(
+                  'p',
+                  { style: { fontSize: 20, fontWeight: 400 } },
+                  this.props.currentComment.body,
+                  _react2.default.createElement('br', null)
+               ),
+               _react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200 } },
+                  _react2.default.createElement(
+                     _reactRouter.Link,
+                     { to: '/profile/' + author.username },
+                     author.username
+                  )
+               ),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
+                  '|'
+               ),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200 } },
+                  currentComment.timestamp
+               ),
+               _react2.default.createElement(
+                  'button',
+                  { onClick: this.toggleEdit.bind(this) },
+                  'Edit'
+               ),
+               _react2.default.createElement('hr', null),
+               _react2.default.createElement('br', null)
+            );
+         }
+
+         return _react2.default.createElement(
+            'div',
+            null,
+            content
+         );
+      }
+   }]);
+
+   return Comment;
 }(_react.Component);
 
 exports.default = Comment;
