@@ -122,7 +122,7 @@ router.post('/:action', function(req, res, next){
             res.json({
             	confirmation: 'success',
             	message: 'user: '+req.body.username+' logged in',
-            	user: req.body
+            	user: profile   //user: req.body
             })
 		})		
 	}		
