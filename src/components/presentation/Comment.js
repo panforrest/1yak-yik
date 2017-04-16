@@ -18,9 +18,9 @@ class Comment extends Component {
     	// console.log('EDIT: ')
     	if (this.state.isEditing){
     		if (this.state.updated != null) 
-    		    this.props.onUpdate(this.state.updated)
+    		    this.props.onUpdate(this.props.currentComment, this.state.updated)
     	}
-    	
+
     	this.setState({
     		isEditing: !this.state.isEditing
     	})

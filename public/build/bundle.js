@@ -13979,8 +13979,8 @@ var Comments = function (_Component) {
         }
     }, {
         key: 'updateComment',
-        value: function updateComment(comment) {
-            console.log('updateComment: ' + comment);
+        value: function updateComment(comment, updatedBody) {
+            console.log('update comment: ' + comment._id + ', ' + updatedBody);
         }
     }, {
         key: 'render',
@@ -14771,7 +14771,7 @@ var Comment = function (_Component) {
          event.preventDefault();
          // console.log('EDIT: ')
          if (this.state.isEditing) {
-            if (this.state.updated != null) this.props.onUpdate(this.state.updated);
+            if (this.state.updated != null) this.props.onUpdate(this.props.currentComment, this.state.updated);
          }
 
          this.setState({

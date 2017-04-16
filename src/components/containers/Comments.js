@@ -125,8 +125,8 @@ class Comments extends Component {
         })
     }
 
-    updateComment(comment){
-        console.log('updateComment: '+comment)
+    updateComment(comment, updatedBody){
+        console.log('update comment: '+comment._id+', '+updatedBody)
     }
 
 	render(){
