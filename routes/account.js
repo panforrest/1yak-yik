@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var ProfileController = require('../controllers/ProfileController')
+var AccountController = require('../controllers/AccountController')
 var bcrypt = require('bcryptjs')
 
 router.get('/:action', function(req, res, next){
@@ -18,49 +19,53 @@ router.get('/:action', function(req, res, next){
 	}
 
 	if (action == 'currentuser') {
+		res.json({
+			confirmation: 'success',
+			message: 'Are you logged in?'
+		})
 
-		if (req.session == null) {
-			res.json({
-				confirmation: 'fail',
-				message: 'user not logged'
-			})
-			return
-		}
-
-		if (req.session.user == null) {
-			res.json({
-				confirmation: 'fail',
-				message: 'user not logged'
-			})
-			return
-		}
-
-		// if (req.session.user != profile._id) {
+		// if (req.session == null) {
 		// 	res.json({
-		// 		confirmation: 'user not logged'
+		// 		confirmation: 'fail',
+		// 		message: 'user not logged'
 		// 	})
 		// 	return
 		// }
 
-		ProfileController.findById(req.session.user, function(err, result){
-			if (err) {
-				res.json({
-					confirmation: 'fail',
-					message: err.message
-				})
-				return
-			}
-			res.json({
-				confirmation: 'success',
-				user: result
-			})
+		// if (req.session.user == null) {
+		// 	res.json({
+		// 		confirmation: 'fail',
+		// 		message: 'user not logged'
+		// 	})
+		// 	return
+		// }
 
-		})		
+		// // if (req.session.user != profile._id) {
+		// // 	res.json({
+		// // 		confirmation: 'user not logged'
+		// // 	})
+		// // 	return
+		// // }
+
+		// ProfileController.findById(req.session.user, function(err, result){
+		// 	if (err) {
+		// 		res.json({
+		// 			confirmation: 'fail',
+		// 			message: err.message
+		// 		})
+		// 		return
+		// 	}
+		// 	res.json({
+		// 		confirmation: 'success',
+		// 		user: result
+		// 	})
+
+		// })		
 		
-		// res.json({
-		// 	confirmation: 'success',
-		// 	user: req.session.user
-		// })
+		// // res.json({
+		// // 	confirmation: 'success',
+		// // 	user: req.session.user
+		// // })
 	}
 		
 })
