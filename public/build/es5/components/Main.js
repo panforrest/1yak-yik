@@ -8,43 +8,29 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-// <Router history={browserHistory}>
-//     <Route path='/' component={Home}></Route>
-//     <Route path='/currentuser' component={CurrentUser}></Route>
-//     <Route path='/profile/:username' component={ProfileInfo}></Route>
-// </Router>
 var _react = require("react");
 
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-// import ReactDom from 'react-dom'
-var Main = _interopRequire(require("./components/Main"));
-
-// import { ProfileInfo, Home } from './components/layout'
-// import { CurrentUser } from './components/containers'
-// import store from './stores/store' //import { store } from './stores/store'
-var Provider = require("react-redux").Provider;
-// import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-
-var App = (function (Component) {
-	function App() {
-		_classCallCheck(this, App);
+var Main = (function (Component) {
+	function Main() {
+		_classCallCheck(this, Main);
 
 		if (Component != null) {
 			Component.apply(this, arguments);
 		}
 	}
 
-	_inherits(App, Component);
+	_inherits(Main, Component);
 
-	_prototypeProperties(App, null, {
+	_prototypeProperties(Main, null, {
 		render: {
 			value: function render() {
 				return React.createElement(
-					Provider,
-					{ store: this.props.route.initial },
-					React.createElement(Main, this.props)
+					"div",
+					null,
+					this.props.children
 				);
 			},
 			writable: true,
@@ -52,7 +38,7 @@ var App = (function (Component) {
 		}
 	});
 
-	return App;
+	return Main;
 })(Component);
 
-module.exports = App;
+module.exports = Main;

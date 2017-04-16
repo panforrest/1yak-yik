@@ -21,7 +21,7 @@ var profileReducer = _reducers.profileReducer;
 var store;
 
 module.exports = {
-  configureStore: function () {
+  configureStore: function (initial) {
     //configureStore () => {
     var reducers = combineReducers({
 
@@ -32,7 +32,7 @@ module.exports = {
 
     });
 
-    store = createStore(reducers, applyMiddleware(thunk));
+    store = createStore(reducers, initial, applyMiddleware(thunk));
 
     return store;
   },

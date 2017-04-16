@@ -6,7 +6,7 @@ import { accountReducer, commentReducer, zoneReducer, profileReducer } from '../
 var store 
 
 export default {
-	configureStore: () => {  //configureStore () => {
+	configureStore: (initial) => {  //configureStore () => {
         const reducers = combineReducers({
 
             zone: zoneReducer,
@@ -18,6 +18,7 @@ export default {
 
         store = createStore(
         	reducers,
+            initial,
         	applyMiddleware(thunk)
         )
 

@@ -8820,7 +8820,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var store;
 // import zoneReducer from '../reducers/zoneReducer'
 exports.default = {
-  configureStore: function configureStore() {
+  configureStore: function configureStore(initial) {
     //configureStore () => {
     var reducers = (0, _redux.combineReducers)({
 
@@ -8831,7 +8831,7 @@ exports.default = {
 
     });
 
-    store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+    store = (0, _redux.createStore)(reducers, initial, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
     return store;
   },
@@ -14089,6 +14089,10 @@ var _reactDom = __webpack_require__(137);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _Main = __webpack_require__(322);
+
+var _Main2 = _interopRequireDefault(_Main);
+
 var _layout = __webpack_require__(136);
 
 var _containers = __webpack_require__(49);
@@ -14104,19 +14108,23 @@ var _reactRouter = __webpack_require__(50);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //import { store } from './stores/store'
+var initialState = window.__PRELOADED_STATE__;
+
 var app = _react2.default.createElement(
 	_reactRedux.Provider,
-	{ store: _store2.default.configureStore() },
+	{ store: _store2.default.configureStore(initialState) },
 	_react2.default.createElement(
 		_reactRouter.Router,
 		{ history: _reactRouter.browserHistory },
-		_react2.default.createElement(_reactRouter.Route, { path: '/', component: _layout.Home }),
-		_react2.default.createElement(_reactRouter.Route, { path: '/currentuser', component: _containers.CurrentUser }),
-		_react2.default.createElement(_reactRouter.Route, { path: '/profile/:username', component: _layout.ProfileInfo })
+		_react2.default.createElement(
+			_reactRouter.Route,
+			{ path: '/', component: _Main2.default },
+			_react2.default.createElement(_reactRouter.IndexRoute, { component: _layout.Home }),
+			_react2.default.createElement(_reactRouter.Route, { path: '/currentuser', component: _containers.CurrentUser }),
+			_react2.default.createElement(_reactRouter.Route, { path: '/profile/:username', component: _layout.ProfileInfo })
+		)
 	)
 );
-// import Zones from './components/Zones'
-
 
 _reactDom2.default.render(app, document.getElementById('root'));
 
@@ -37284,6 +37292,56 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_Component) {
+	_inherits(Main, _Component);
+
+	function Main() {
+		_classCallCheck(this, Main);
+
+		return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	}
+
+	_createClass(Main, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				this.props.children
+			);
+		}
+	}]);
+
+	return Main;
+}(_react.Component);
+
+exports.default = Main;
 
 /***/ })
 /******/ ]);

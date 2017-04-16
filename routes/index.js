@@ -7,6 +7,7 @@ var ReactRouter = require('react-router')
 var ReactDOMServer = require('react-dom/server')
 
 var serverapp = require('../public/build/es5/serverapp')
+var store = require('../public/build/es5/stores/store')
 var Home = require('../public/build/es5/components/layout/Home')
 
 matchRoutes = function(req, routes){
@@ -24,10 +25,15 @@ matchRoutes = function(req, routes){
 
 router.get('/', function(req, res, next) {
 
+    var initialStore = null
+    var reducers = {}
+    
+    initialStore = store.configureStore(reducers)
+
 	var routes = {
 		path: '/',
 		component: serverapp,
-	    // initial: initialStore,
+	    initial: initialStore,
 		indexRoute: {
 			component: Home
 		}
@@ -36,7 +42,7 @@ router.get('/', function(req, res, next) {
 	matchRoutes(req, routes)
 	.then(function(renderProps){
 		// var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
-        console.log('TEST 1')  //console.log('TEST 1'+html)
+        console.log('TEST 1: ')  //console.log('TEST 1'+html)
 	})
 	.catch(function(err){
         console.log('TEST 2: '+err)
