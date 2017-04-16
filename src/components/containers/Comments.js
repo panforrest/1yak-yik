@@ -146,8 +146,9 @@ class Comments extends Component {
                 commentList = zoneComments.map((comment, i) => {
                     let editable = false
                     if (currentUser != null){
-                        if (currentUser._id == comment.author.id)
-                           editable = true
+                        // if (currentUser._id == comment.author.id)
+                        //    editable = true
+                        editable = (currentUser._id == comment.author.id) 
                     }
                     return(
                         <li key={i}><Comment onUpdate={this.updateComment.bind(this)} isEditable={editable} currentComment={comment} /></li>

@@ -14003,7 +14003,9 @@ var Comments = function (_Component) {
                     commentList = zoneComments.map(function (comment, i) {
                         var editable = false;
                         if (currentUser != null) {
-                            if (currentUser._id == comment.author.id) editable = true;
+                            // if (currentUser._id == comment.author.id)
+                            //    editable = true
+                            editable = currentUser._id == comment.author.id;
                         }
                         return _react2.default.createElement(
                             'li',
@@ -14725,7 +14727,7 @@ exports.default = ProfileInfo;
 
 
 Object.defineProperty(exports, "__esModule", {
-			value: true
+   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14749,128 +14751,138 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var Comment = function (_Component) {
-			_inherits(Comment, _Component);
+   _inherits(Comment, _Component);
 
-			function Comment() {
-						_classCallCheck(this, Comment);
+   function Comment() {
+      _classCallCheck(this, Comment);
 
-						var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this));
+      var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this));
 
-						_this.state = {
-									isEditing: false
-						};
-						return _this;
-			}
+      _this.state = {
+         isEditing: false,
+         updated: null
+      };
+      return _this;
+   }
 
-			_createClass(Comment, [{
-						key: 'toggleEdit',
-						value: function toggleEdit(event) {
-									event.preventDefault();
-									// console.log('EDIT: ')
-									if (this.state.isEditing) {
-												this.props.onUpdate('TEST!');
-									}
-									this.setState({
-												isEditing: !this.state.isEditing
-									});
-						}
-			}, {
-						key: 'componentDidUpdate',
-						value: function componentDidUpdate() {
-									console.log('isEditing: ' + this.state.isEditing);
-						}
-			}, {
-						key: 'render',
-						value: function render() {
-									var currentComment = this.props.currentComment;
-									var author = currentComment.author;
-									var radius = 16;
-									var editable = this.props.isEditable ? this.props.isEditable : false;
+   _createClass(Comment, [{
+      key: 'toggleEdit',
+      value: function toggleEdit(event) {
+         event.preventDefault();
+         // console.log('EDIT: ')
+         if (this.state.isEditing) {
+            if (this.state.updated != null) this.props.onUpdate(this.state.updated);
+         }
 
-									var content = null;
-									if (this.state.isEditing == true) {
-												content = _react2.default.createElement(
-															'div',
-															null,
-															_react2.default.createElement('textarea', { defaultValue: currentComment.body, style: { width: 100 + '%' } }),
-															_react2.default.createElement('br', null),
-															_react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
-															_react2.default.createElement(
-																		'span',
-																		{ style: { fontWeight: 200 } },
-																		_react2.default.createElement(
-																					_reactRouter.Link,
-																					{ to: '/profile/' + author.username },
-																					author.username
-																		)
-															),
-															_react2.default.createElement(
-																		'span',
-																		{ style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
-																		'|'
-															),
-															_react2.default.createElement(
-																		'span',
-																		{ style: { fontWeight: 200 } },
-																		currentComment.timestamp
-															),
-															_react2.default.createElement(
-																		'button',
-																		{ onClick: this.toggleEdit.bind(this) },
-																		'Done'
-															),
-															_react2.default.createElement('hr', null),
-															_react2.default.createElement('br', null)
-												);
-									} else {
-												content = _react2.default.createElement(
-															'div',
-															null,
-															_react2.default.createElement(
-																		'p',
-																		{ style: { fontSize: 20, fontWeight: 400 } },
-																		currentComment.body,
-																		_react2.default.createElement('br', null)
-															),
-															_react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
-															_react2.default.createElement(
-																		'span',
-																		{ style: { fontWeight: 200 } },
-																		_react2.default.createElement(
-																					_reactRouter.Link,
-																					{ to: '/profile/' + author.username },
-																					author.username
-																		)
-															),
-															_react2.default.createElement(
-																		'span',
-																		{ style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
-																		'|'
-															),
-															_react2.default.createElement(
-																		'span',
-																		{ style: { fontWeight: 200 } },
-																		currentComment.timestamp
-															),
-															editable == true ? _react2.default.createElement(
-																		'button',
-																		{ onClick: this.toggleEdit.bind(this) },
-																		'Edit'
-															) : null,
-															_react2.default.createElement('hr', null),
-															_react2.default.createElement('br', null)
-												);
-									}
+         this.setState({
+            isEditing: !this.state.isEditing
+         });
+      }
+   }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+         console.log('isEditing: ' + this.state.isEditing);
+      }
+   }, {
+      key: 'updateBody',
+      value: function updateBody(event) {
+         console.log('updateBody: ' + event.target.value);
+         this.setState({
+            updated: event.target.value
+         });
+      }
+   }, {
+      key: 'render',
+      value: function render() {
+         var currentComment = this.props.currentComment;
+         var author = currentComment.author;
+         var radius = 16;
+         var editable = this.props.isEditable ? this.props.isEditable : false;
 
-									return _react2.default.createElement(
-												'div',
-												null,
-												content
-									);
-						}
-			}]);
+         var content = null;
+         if (this.state.isEditing == true) {
+            content = _react2.default.createElement(
+               'div',
+               null,
+               _react2.default.createElement('textarea', { onChange: this.updateBody.bind(this), defaultValue: currentComment.body, style: { width: 100 + '%' } }),
+               _react2.default.createElement('br', null),
+               _react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200 } },
+                  _react2.default.createElement(
+                     _reactRouter.Link,
+                     { to: '/profile/' + author.username },
+                     author.username
+                  )
+               ),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
+                  '|'
+               ),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200 } },
+                  currentComment.timestamp
+               ),
+               _react2.default.createElement(
+                  'button',
+                  { onClick: this.toggleEdit.bind(this) },
+                  'Done'
+               ),
+               _react2.default.createElement('hr', null),
+               _react2.default.createElement('br', null)
+            );
+         } else {
+            content = _react2.default.createElement(
+               'div',
+               null,
+               _react2.default.createElement(
+                  'p',
+                  { style: { fontSize: 20, fontWeight: 400 } },
+                  currentComment.body,
+                  _react2.default.createElement('br', null)
+               ),
+               _react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200 } },
+                  _react2.default.createElement(
+                     _reactRouter.Link,
+                     { to: '/profile/' + author.username },
+                     author.username
+                  )
+               ),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
+                  '|'
+               ),
+               _react2.default.createElement(
+                  'span',
+                  { style: { fontWeight: 200 } },
+                  currentComment.timestamp
+               ),
+               editable == true ? _react2.default.createElement(
+                  'button',
+                  { onClick: this.toggleEdit.bind(this) },
+                  'Edit'
+               ) : null,
+               _react2.default.createElement('hr', null),
+               _react2.default.createElement('br', null)
+            );
+         }
 
-			return Comment;
+         return _react2.default.createElement(
+            'div',
+            null,
+            content
+         );
+      }
+   }]);
+
+   return Comment;
 }(_react.Component);
 
 exports.default = Comment;

@@ -8,7 +8,8 @@ class Comment extends Component {
     constructor(){
     	super()
     	this.state = {
-    		isEditing: false
+    		isEditing: false, 
+    		updated: null
     	}
     }
  
@@ -16,8 +17,10 @@ class Comment extends Component {
     	event.preventDefault()
     	// console.log('EDIT: ')
     	if (this.state.isEditing){
-    		this.props.onUpdate('TEST!')
+    		if (this.state.updated != null) 
+    		    this.props.onUpdate(this.state.updated)
     	}
+    	
     	this.setState({
     		isEditing: !this.state.isEditing
     	})
@@ -25,6 +28,13 @@ class Comment extends Component {
 
     componentDidUpdate(){
     	console.log('isEditing: '+this.state.isEditing)
+    }
+
+    updateBody(event){
+    	console.log('updateBody: '+event.target.value)
+    	this.setState({
+    		updated: event.target.value
+    	})
     }
 
 	render(){
@@ -37,7 +47,7 @@ class Comment extends Component {
         if (this.state.isEditing == true) {
         	content = (
 	        	<div>
-				    <textarea defaultValue={currentComment.body} style={{width:100+'%'}}></textarea>
+				    <textarea onChange={this.updateBody.bind(this)} defaultValue={currentComment.body} style={{width:100+'%'}}></textarea>
 				    <br />
 
 				    <img style={{borderRadius:radius, marginRight:6}} src={ImageHelper.thumbnail(author.image, radius * 2)} />
