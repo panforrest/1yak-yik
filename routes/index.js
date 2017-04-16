@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 
     var initialStore = null
     var reducers = {}
-    
+
     initialStore = store.configureStore(reducers)
 
 	var routes = {
@@ -41,8 +41,8 @@ router.get('/', function(req, res, next) {
 
 	matchRoutes(req, routes)
 	.then(function(renderProps){
-		// var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
-        console.log('TEST 1: ')  //console.log('TEST 1'+html)
+		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
+        console.log('TEST 1'+html) //console.log('TEST 1: ')  
 	})
 	.catch(function(err){
         console.log('TEST 2: '+err)
