@@ -43,12 +43,13 @@ router.get('/', function(req, res, next) {
 	.then(function(renderProps){
 		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
         console.log('TEST 1'+html) //console.log('TEST 1: ')  
+        res.render('index', { react: html, preloadedState: JSON.stringify(initialStore.getState()) })
 	})
 	.catch(function(err){
         console.log('TEST 2: '+err)
 	})
 
-    res.render('index', { react: ''});
+    // res.render('index', { react: ''});
   // res.render('createzone', { title: 'Express' });
 });
 
