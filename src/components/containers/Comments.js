@@ -127,6 +127,7 @@ class Comments extends Component {
 
     updateComment(comment, updatedBody){
         console.log('update comment: '+comment._id+', '+updatedBody)
+        this.props.updateComment(comment, {body: updatedBody})
     }
 
 	render(){
@@ -187,8 +188,9 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
     return {
         commentsReceived: (comments, zone) => dispatch(actions.commentsReceived(comments, zone)),
-        commentCreated: (comment) => dispatch(actions.commentCreated(comment))
+        commentCreated: (comment) => dispatch(actions.commentCreated(comment)),
         //currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))
+        updateComment: (comment, params) => dispatch(actions.updateComment(comment, params))
     }
 }
 
