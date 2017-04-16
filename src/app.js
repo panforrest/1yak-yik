@@ -7,7 +7,6 @@ import store from './stores/store' //import { store } from './stores/store'
 import { Provider } from 'react-redux' 
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
-
 const app = (
 	<Provider store={ store.configureStore() }>
 		<Router history={browserHistory}>
