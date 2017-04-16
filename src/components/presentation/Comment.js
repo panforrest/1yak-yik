@@ -15,6 +15,9 @@ class Comment extends Component {
     toggleEdit(event){
     	event.preventDefault()
     	// console.log('EDIT: ')
+    	if (this.state.isEditing){
+    		this.props.onUpdate('TEST!')
+    	}
     	this.setState({
     		isEditing: !this.state.isEditing
     	})

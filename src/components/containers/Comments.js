@@ -125,6 +125,10 @@ class Comments extends Component {
         })
     }
 
+    updateComment(comment){
+        console.log('updateComment: '+comment)
+    }
+
 	render(){
         let selectedZone = this.props.zones[this.props.index]
         const currentUser = this.props.user // null if not logged in
@@ -146,7 +150,7 @@ class Comments extends Component {
                            editable = true
                     }
                     return(
-                        <li key={i}><Comment isEditable={editable} currentComment={comment} /></li>
+                        <li key={i}><Comment onUpdate={this.updateComment.bind(this)} isEditable={editable} currentComment={comment} /></li>
                     )
                 })
             }

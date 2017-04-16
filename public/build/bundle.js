@@ -13978,8 +13978,15 @@ var Comments = function (_Component) {
             });
         }
     }, {
+        key: 'updateComment',
+        value: function updateComment(comment) {
+            console.log('updateComment: ' + comment);
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this4 = this;
+
             var selectedZone = this.props.zones[this.props.index];
             var currentUser = this.props.user; // null if not logged in
 
@@ -14001,7 +14008,7 @@ var Comments = function (_Component) {
                         return _react2.default.createElement(
                             'li',
                             { key: i },
-                            _react2.default.createElement(_presentation.Comment, { isEditable: editable, currentComment: comment })
+                            _react2.default.createElement(_presentation.Comment, { onUpdate: _this4.updateComment.bind(_this4), isEditable: editable, currentComment: comment })
                         );
                     });
                 }
@@ -14760,6 +14767,9 @@ var Comment = function (_Component) {
 						value: function toggleEdit(event) {
 									event.preventDefault();
 									// console.log('EDIT: ')
+									if (this.state.isEditing) {
+												this.props.onUpdate('TEST!');
+									}
 									this.setState({
 												isEditing: !this.state.isEditing
 									});
