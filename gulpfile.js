@@ -3,7 +3,7 @@ var to5 = require('gulp-6to5')
 
 gulp.task('es6-es5', function(){
 	return gulp.src([
-			    './src/app.js',
+			    './src/serverapp.js',
 	            './src/*/**.js',
 	            './src/*/*/**.js'
 		    ]
@@ -13,7 +13,7 @@ gulp.task('es6-es5', function(){
 })
 
 gulp.task('watch', function(){
-    gulp.watch(['./src/app.js', './src/*/**.js', './src/*/*/**.js'],['es6-es5'])
+    gulp.watch(['./src/serverapp.js', './src/*/**.js', './src/*/*/**.js'],['es6-es5'])
 })
 
 gulp.task('default', ['es6-es5', 'watch'], function(){})
