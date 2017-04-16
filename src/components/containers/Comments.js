@@ -181,7 +181,8 @@ const stateToProps = (state) => {
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
         zones: state.zone.list,
-        user: state.account.user 
+        user: state.account.user,
+        comment: state.comment.comment
     }
 }
 

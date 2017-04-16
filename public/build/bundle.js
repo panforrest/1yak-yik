@@ -3782,12 +3782,12 @@ exports.default = {
 					alert('ERROR: ' + JSON.stringify(err));
 					return;
 				}
-				// const updatedComment = response.result
-				// dispatch({
-				// 	type: constants.COMMENT_UPDATED,
-				// 	comment: updatedComment
-				// })
 				console.log('Comment Updated: ' + JSON.stringify(response));
+				var updatedComment = response.result;
+				dispatch({
+					type: _constants2.default.COMMENT_UPDATED,
+					comment: updatedComment
+				});
 			});
 		};
 	}
@@ -3835,9 +3835,9 @@ exports.default = {
 
    PROFILE_RECEIVED: 'PROFILE_RECEIVED',
 
-   PROFILE_UPDATED: 'PROFILE_UPDATED'
+   PROFILE_UPDATED: 'PROFILE_UPDATED',
 
-   // COMMENT_UPDATED: 'COMMENT_UPDATED'
+   COMMENT_UPDATED: 'COMMENT_UPDATED'
 
    // LOGOUT: 'LOGOUT'
 
@@ -14045,7 +14045,8 @@ var stateToProps = function stateToProps(state) {
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
         zones: state.zone.list,
-        user: state.account.user
+        user: state.account.user,
+        comment: state.comment.comment
     };
 };
 
@@ -15284,8 +15285,7 @@ var initialState = {
     // commentsLoaded: false,
     // list: [],
     comment: {},
-    map: {} //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
-};
+    map: {} };
 
 exports.default = function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -15342,13 +15342,13 @@ exports.default = function () {
             // updated['commentsLoaded'] = false
             return updated;
 
-        // case constants.COMMENT_UPDATED:
-        //     console.log('COMMENT_UPDATED: '+JSON.stringify(action.comment))
-        //     if (action.comment._id != updated.comment._id)
-        //         return updated
+        case _constants2.default.COMMENT_UPDATED:
+            console.log('COMMENT_UPDATED: ' + JSON.stringify(action.comment));
+            // if (action.comment._id != updated.comment._id)
+            //     return updated
 
-        //     updated['comment'] = action.comment
-        //     return updated
+            // updated['comment'] = action.comment
+            return updated;
 
         default:
             return state;

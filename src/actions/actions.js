@@ -139,12 +139,13 @@ export default {
                 	alert('ERROR: '+JSON.stringify(err))
                 	return
                 }
-                // const updatedComment = response.result
-                // dispatch({
-                // 	type: constants.COMMENT_UPDATED,
-                // 	comment: updatedComment
-                // })
                 console.log('Comment Updated: '+JSON.stringify(response))
+                const updatedComment = response.result
+                dispatch({
+                	type: constants.COMMENT_UPDATED,
+                	comment: updatedComment
+                })
+                
 		    })	
 		}
 	}		

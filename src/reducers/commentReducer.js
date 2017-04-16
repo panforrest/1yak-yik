@@ -4,7 +4,8 @@ var initialState = {
 	// commentsLoaded: false,
 	// list: [],
 	comment: {},
-    map: {}  //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
+    map: {},  //TO STORE ALL THE COMMENTS HERE, NO LONGER ARRAY, BUT OBJECT WITH ARRAYS WITH KEYS
+    // updated: {}
 }
 
 export default (state=initialState, action) => {
@@ -61,13 +62,13 @@ export default (state=initialState, action) => {
             // updated['commentsLoaded'] = false
             return updated
 
-        // case constants.COMMENT_UPDATED:
-        //     console.log('COMMENT_UPDATED: '+JSON.stringify(action.comment))
-        //     if (action.comment._id != updated.comment._id)
-        //         return updated
+        case constants.COMMENT_UPDATED:
+            console.log('COMMENT_UPDATED: '+JSON.stringify(action.comment))
+            // if (action.comment._id != updated.comment._id)
+            //     return updated
 
-        //     updated['comment'] = action.comment
-        //     return updated
+            // updated['comment'] = action.comment
+            return updated
 
 		default:
 		    return state
