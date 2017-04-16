@@ -3,7 +3,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+
+
+
+
+    var testHtml = '<h1>Test Title</h1>'
+
+    res.render('index', { html:testHtml });
   // res.render('createzone', { title: 'Express' });
 });
 
