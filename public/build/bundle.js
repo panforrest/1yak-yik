@@ -14045,8 +14045,8 @@ var stateToProps = function stateToProps(state) {
         commentsLoaded: state.comment.commentsLoaded,
         index: state.zone.selectedZone,
         zones: state.zone.list,
-        user: state.account.user,
-        comment: state.comment.comment
+        user: state.account.user
+        // comment: state.comment.comment
     };
 };
 
@@ -15344,14 +15344,24 @@ exports.default = function () {
 
         case _constants2.default.COMMENT_UPDATED:
             console.log('COMMENT_UPDATED: ' + JSON.stringify(action.comment));
+            var list = updatedMap[action.comment.zone];
+            var newList = [];
+
+            list.forEach(function (comment, i) {
+                if (comment._id == action.comment._id) newList.push(action.comment);else newList.push(comment);
+            });
+
+            updatedMap[action.comment.zone] = newList;
+            updated['map'] = updatedMap;
             // if (action.comment._id != updated.comment._id)
             //     return updated
 
             // updated['comment'] = action.comment
+
             return updated;
 
         default:
-            return state;
+            return updated;
     }
 };
 
