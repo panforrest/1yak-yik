@@ -129,7 +129,29 @@ export default {
                 // console.log('Profile Updated: '+JSON.stringify(response))
 		    })	
 		}
-	}	
+	}
+
+	// updateComment: (comment, updated) => { //updateProfile: (updated) => {
+	// 	return(dispatch) => {    //THIS IS THE ONE WAY DATA FLOW
+	// 	// 	dispatch({
+	// 	// 		type: constants.CURRENT_USER_RECEIVED
+	// 	// 		profile: profile
+	// 	// 	})
+ //            const endpoint = '/api/comment/'+comment._id
+	// 	    APIManager.put(endpoint, updated, (err, response) => {
+ //                if (err) {
+ //                	alert('ERROR: '+JSON.stringify(err))
+ //                	return
+ //                }
+ //                const updatedComment = response.result
+ //                dispatch({
+ //                	type: constants.COMMENT_UPDATED,
+ //                	comment: updatedComment
+ //                })
+ //                // console.log('Profile Updated: '+JSON.stringify(response))
+	// 	    })	
+	// 	}
+	// }		
 
 	// profileCreated: (profile) => {
 	// 	return {

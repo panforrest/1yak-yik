@@ -127,6 +127,7 @@ class Comments extends Component {
 
 	render(){
         let selectedZone = this.props.zones[this.props.index]
+        const currentUser = this.props.user // null if not logged in
 
         let zoneName = null
         let commentList = null
@@ -139,8 +140,13 @@ class Comments extends Component {
             // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
             if (zoneComments != null) {
                 commentList = zoneComments.map((comment, i) => {
+                    let editable = false
+                    if (currentUser != null){
+                        if (currentUser._id == comment.author.id)
+                           editable = true
+                    }
                     return(
-                        <li key={i}><Comment currentComment={comment} /></li>
+                        <li key={i}><Comment isEditable={editable} currentComment={comment} /></li>
                     )
                 })
             }

@@ -3,12 +3,17 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { ImageHelper } from '../../utils'
+import { connect } from 'react-redux'
+import actions from '../../actions/actions'
 
 class Comment extends Component {
     constructor(){
     	super()
     	this.state = {
-    		isEditing: false
+    		isEditing: false,
+    		updated: {
+
+    		}
     	}
     }
  
@@ -24,17 +29,41 @@ class Comment extends Component {
     	console.log('isEditing: '+this.state.isEditing)
     }
 
+    update(event){
+    	console.log('update:'+event.target.id+' == '+event.target.value)
+    	this.setState({
+    		updated: event.target.value
+    	})
+    }	
+
+     //    const endpoint = '/api/comment/'+comment._id
+    	// APIManager.put(endpoint, this.state.updatedComment, (err, response) => {
+    	// 	if (err) {
+    	// 		alert(err)
+    	// 		return
+    	// 	}
+    	// 	console.log('update:'+JSON.stringify(response))
+    	// })
+    submitBody(event){
+    	console.log('submitBody: '+JSON.stringify(this.state.updated))
+    	if (Object.keys(this.state.updated).length == 0){   //if (Object.keys(this.props.user).length == 0){
+            alert('No Changes Made!!')
+            return
+        }
+
+        this.props.updateComment(this.props.body, this.state.updated) 
+    }
+
 	render(){
 		const currentComment = this.props.currentComment
         const author = currentComment.author
         const radius = 16
-        const editable = (this.props.isEditable) ? this.props.isEditable : false
 
         let content = null
         if (this.state.isEditing == true) {
         	content = (
 	        	<div>
-				    <textarea defaultValue={currentComment.body} style={{width:100+'%'}}></textarea>
+				    <textarea onChange={this.update.bind(this)} defaultValue={currentComment.body} style={{width:100+'%'}} id="body"></textarea>
 				    <br />
 
 				    <img style={{borderRadius:radius, marginRight:6}} src={ImageHelper.thumbnail(author.image, radius * 2)} />
@@ -43,7 +72,7 @@ class Comment extends Component {
 				    </span>
 				    <span style={{fontWeight:200, marginLeft:12, marginRight:12}}>|</span>
 				    <span style={{fontWeight:200}}>{currentComment.timestamp}</span>
-				    <button onClick={this.toggleEdit.bind(this)}>Done</button>
+				    <button onClick={this.submitBody.bind(this)}>Done</button>
 				    <hr />
 				    <br />				   				    
 				</div>  
@@ -62,7 +91,7 @@ class Comment extends Component {
 				    </span>
 				    <span style={{fontWeight:200, marginLeft:12, marginRight:12}}>|</span>
 				    <span style={{fontWeight:200}}>{currentComment.timestamp}</span>
-                    {(editable==true) ? <button onClick={this.toggleEdit.bind(this)}>Edit</button> : null}				    
+				    <button onClick={this.toggleEdit.bind(this)}>Edit</button>
 				    <hr />
 				    <br />				   				    
 				</div>
@@ -77,4 +106,16 @@ class Comment extends Component {
 	}
 }
 
-export default Comment
+const stateToProps = (state) => {
+	return {
+        comment: state.comment.comment
+	}
+}
+
+const dispatchToProps = (dispatch) => {
+    return {
+        updateComment: (comment) => dispatch(actions.updateComment(comment))
+    }
+}
+
+export default connect(stateToProps, dispatchToProps)(Comment)

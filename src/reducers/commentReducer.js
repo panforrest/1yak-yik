@@ -61,6 +61,14 @@ export default (state=initialState, action) => {
             // updated['commentsLoaded'] = false
             return updated
 
+        // case constants.COMMENT_UPDATED:
+        //     console.log('COMMENT_UPDATED: '+JSON.stringify(action.comment))
+        //     if (action.comment._id != updated.comment._id)
+        //         return updated
+
+        //     updated['comment'] = action.comment
+        //     return updated
+
 		default:
 		    return state
 	}

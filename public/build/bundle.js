@@ -3774,6 +3774,28 @@ exports.default = {
 		};
 	}
 
+	// updateComment: (comment, updated) => { //updateProfile: (updated) => {
+	// 	return(dispatch) => {    //THIS IS THE ONE WAY DATA FLOW
+	// 	// 	dispatch({
+	// 	// 		type: constants.CURRENT_USER_RECEIVED
+	// 	// 		profile: profile
+	// 	// 	})
+	//            const endpoint = '/api/comment/'+comment._id
+	// 	    APIManager.put(endpoint, updated, (err, response) => {
+	//                if (err) {
+	//                	alert('ERROR: '+JSON.stringify(err))
+	//                	return
+	//                }
+	//                const updatedComment = response.result
+	//                dispatch({
+	//                	type: constants.COMMENT_UPDATED,
+	//                	comment: updatedComment
+	//                })
+	//                // console.log('Profile Updated: '+JSON.stringify(response))
+	// 	    })	
+	// 	}
+	// }		
+
 	// profileCreated: (profile) => {
 	// 	return {
 	// 		type: constants.PROFILE_CREATED,
@@ -3818,6 +3840,8 @@ exports.default = {
    PROFILE_RECEIVED: 'PROFILE_RECEIVED',
 
    PROFILE_UPDATED: 'PROFILE_UPDATED'
+
+   // COMMENT_UPDATED: 'COMMENT_UPDATED'
 
    // LOGOUT: 'LOGOUT'
 
@@ -13957,6 +13981,7 @@ var Comments = function (_Component) {
         key: 'render',
         value: function render() {
             var selectedZone = this.props.zones[this.props.index];
+            var currentUser = this.props.user; // null if not logged in
 
             var zoneName = null;
             var commentList = null;
@@ -13969,10 +13994,14 @@ var Comments = function (_Component) {
                 // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
                 if (zoneComments != null) {
                     commentList = zoneComments.map(function (comment, i) {
+                        var editable = false;
+                        if (currentUser != null) {
+                            if (currentUser._id == comment.author.id) editable = true;
+                        }
                         return _react2.default.createElement(
                             'li',
                             { key: i },
-                            _react2.default.createElement(_presentation.Comment, { currentComment: comment })
+                            _react2.default.createElement(_presentation.Comment, { isEditable: editable, currentComment: comment })
                         );
                     });
                 }
@@ -14689,7 +14718,7 @@ exports.default = ProfileInfo;
 
 
 Object.defineProperty(exports, "__esModule", {
-   value: true
+			value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -14713,96 +14742,125 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var Comment = function (_Component) {
-   _inherits(Comment, _Component);
+			_inherits(Comment, _Component);
 
-   function Comment() {
-      _classCallCheck(this, Comment);
+			function Comment() {
+						_classCallCheck(this, Comment);
 
-      var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this));
+						var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this));
 
-      _this.state = {
-         isEditing: false
-      };
-      return _this;
-   }
+						_this.state = {
+									isEditing: false
+						};
+						return _this;
+			}
 
-   _createClass(Comment, [{
-      key: 'toggleEdit',
-      value: function toggleEdit(event) {
-         event.preventDefault();
-         // console.log('EDIT: ')
-         this.setState({
-            isEditing: !this.state.isEditing
-         });
-      }
-   }, {
-      key: 'componentDidUpdate',
-      value: function componentDidUpdate() {
-         console.log('isEditing: ' + this.state.isEditing);
-      }
-   }, {
-      key: 'render',
-      value: function render() {
-         var currentComment = this.props.currentComment;
-         var author = currentComment.author;
-         var radius = 16;
+			_createClass(Comment, [{
+						key: 'toggleEdit',
+						value: function toggleEdit(event) {
+									event.preventDefault();
+									// console.log('EDIT: ')
+									this.setState({
+												isEditing: !this.state.isEditing
+									});
+						}
+			}, {
+						key: 'componentDidUpdate',
+						value: function componentDidUpdate() {
+									console.log('isEditing: ' + this.state.isEditing);
+						}
+			}, {
+						key: 'render',
+						value: function render() {
+									var currentComment = this.props.currentComment;
+									var author = currentComment.author;
+									var radius = 16;
+									var editable = this.props.isEditable ? this.props.isEditable : false;
 
-         var content = null;
-         if (this.state.isEditing == true) {
-            content = _react2.default.createElement(
-               'div',
-               null,
-               'EDIT COMMENT'
-            );
-         } else {
-            content = _react2.default.createElement(
-               'div',
-               null,
-               _react2.default.createElement(
-                  'p',
-                  { style: { fontSize: 20, fontWeight: 400 } },
-                  this.props.currentComment.body,
-                  _react2.default.createElement('br', null)
-               ),
-               _react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
-               _react2.default.createElement(
-                  'span',
-                  { style: { fontWeight: 200 } },
-                  _react2.default.createElement(
-                     _reactRouter.Link,
-                     { to: '/profile/' + author.username },
-                     author.username
-                  )
-               ),
-               _react2.default.createElement(
-                  'span',
-                  { style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
-                  '|'
-               ),
-               _react2.default.createElement(
-                  'span',
-                  { style: { fontWeight: 200 } },
-                  currentComment.timestamp
-               ),
-               _react2.default.createElement(
-                  'button',
-                  { onClick: this.toggleEdit.bind(this) },
-                  'Edit'
-               ),
-               _react2.default.createElement('hr', null),
-               _react2.default.createElement('br', null)
-            );
-         }
+									var content = null;
+									if (this.state.isEditing == true) {
+												content = _react2.default.createElement(
+															'div',
+															null,
+															_react2.default.createElement('textarea', { defaultValue: currentComment.body, style: { width: 100 + '%' } }),
+															_react2.default.createElement('br', null),
+															_react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
+															_react2.default.createElement(
+																		'span',
+																		{ style: { fontWeight: 200 } },
+																		_react2.default.createElement(
+																					_reactRouter.Link,
+																					{ to: '/profile/' + author.username },
+																					author.username
+																		)
+															),
+															_react2.default.createElement(
+																		'span',
+																		{ style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
+																		'|'
+															),
+															_react2.default.createElement(
+																		'span',
+																		{ style: { fontWeight: 200 } },
+																		currentComment.timestamp
+															),
+															_react2.default.createElement(
+																		'button',
+																		{ onClick: this.toggleEdit.bind(this) },
+																		'Done'
+															),
+															_react2.default.createElement('hr', null),
+															_react2.default.createElement('br', null)
+												);
+									} else {
+												content = _react2.default.createElement(
+															'div',
+															null,
+															_react2.default.createElement(
+																		'p',
+																		{ style: { fontSize: 20, fontWeight: 400 } },
+																		currentComment.body,
+																		_react2.default.createElement('br', null)
+															),
+															_react2.default.createElement('img', { style: { borderRadius: radius, marginRight: 6 }, src: _utils.ImageHelper.thumbnail(author.image, radius * 2) }),
+															_react2.default.createElement(
+																		'span',
+																		{ style: { fontWeight: 200 } },
+																		_react2.default.createElement(
+																					_reactRouter.Link,
+																					{ to: '/profile/' + author.username },
+																					author.username
+																		)
+															),
+															_react2.default.createElement(
+																		'span',
+																		{ style: { fontWeight: 200, marginLeft: 12, marginRight: 12 } },
+																		'|'
+															),
+															_react2.default.createElement(
+																		'span',
+																		{ style: { fontWeight: 200 } },
+																		currentComment.timestamp
+															),
+															editable == true ? _react2.default.createElement(
+																		'button',
+																		{ onClick: this.toggleEdit.bind(this) },
+																		'Edit'
+															) : null,
+															_react2.default.createElement('hr', null),
+															_react2.default.createElement('br', null)
+												);
+									}
 
-         return _react2.default.createElement(
-            'div',
-            null,
-            content
-         );
-      }
-   }]);
+									return _react2.default.createElement(
+												'div',
+												null,
+												content
+									);
+						}
+			}]);
 
-   return Comment;
+			return Comment;
 }(_react.Component);
 
 exports.default = Comment;
@@ -15261,6 +15319,14 @@ exports.default = function () {
             // console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
             // updated['commentsLoaded'] = false
             return updated;
+
+        // case constants.COMMENT_UPDATED:
+        //     console.log('COMMENT_UPDATED: '+JSON.stringify(action.comment))
+        //     if (action.comment._id != updated.comment._id)
+        //         return updated
+
+        //     updated['comment'] = action.comment
+        //     return updated
 
         default:
             return state;
