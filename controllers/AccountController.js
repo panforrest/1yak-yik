@@ -25,18 +25,5 @@ module.exports = {
 	            resolve(result)
 			})
         })
-
-		// if (req.session == null) {
-		// 	callback({message:'user not logged in'}, null)
-		// 	return
-		// }
-
-		// if (req.session.user == null) {
-  //           callback({message:'User not logged in'}, null)
-		// 	return
-		// }
-
-		
 	}		
-
 }

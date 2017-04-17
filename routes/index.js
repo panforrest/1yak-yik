@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Promise = require('bluebird')
+var AccountController = require('../controllers/AccountController')
 
 var React = require('react')
 var ReactRouter = require('react-router')
@@ -27,6 +28,15 @@ router.get('/', function(req, res, next) {
 
     var initialStore = null
     var reducers = {}
+
+    // get current user
+    AccountController.currentUser(req)
+    .then(function(result){
+    	console.log('CURRENT USER: '+JSON.stringify(result))
+    })
+    .catch(function(err){
+    	console.log('NOT LOGGED IN: ')
+    })
 
     initialStore = store.configureStore(reducers)
 
