@@ -19,10 +19,23 @@ router.get('/:action', function(req, res, next){
 	}
 
 	if (action == 'currentuser') {
-		res.json({
-			confirmation: 'success',
-			message: 'Are you logged in?'
-		})
+
+        AccountController.currentUser(req, function(err, result){
+        	if (err) {
+        		res.json({
+        			confirmation: 'fail',
+        			message: err.message
+        		})
+        		return
+        	}
+
+        	res.json({
+				confirmation: 'success',
+				user: result   // message: 'Are you logged in?'
+		    })
+        })
+
+
 
 		// if (req.session == null) {
 		// 	res.json({
