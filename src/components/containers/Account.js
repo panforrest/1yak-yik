@@ -20,15 +20,15 @@ class Account extends Component {
     }
 
     componentDidMount(){
-        // console.log('componentDidMount: ')
-        APIManager.get('/account/currentuser', null, (err, response) => {
-            if(err){   //not logged in, ignore error:
-                // alert(err.message)
-                return
-            }
-            console.log('componentDidMount currentuser'+JSON.stringify(response))
-            this.props.currentUserReceived(response.user)
-        })
+        // // console.log('componentDidMount: ')
+        // APIManager.get('/account/currentuser', null, (err, response) => {
+        //     if(err){   //not logged in, ignore error:
+        //         // alert(err.message)
+        //         return
+        //     }
+        //     console.log('componentDidMount currentuser'+JSON.stringify(response))
+        //     this.props.currentUserReceived(response.user)
+        // })
     }
 
     updateProfile(event){

@@ -14236,18 +14236,15 @@ var Account = function (_Component) {
     _createClass(Account, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
-
-            // console.log('componentDidMount: ')
-            _utils.APIManager.get('/account/currentuser', null, function (err, response) {
-                if (err) {
-                    //not logged in, ignore error:
-                    // alert(err.message)
-                    return;
-                }
-                console.log('componentDidMount currentuser' + JSON.stringify(response));
-                _this2.props.currentUserReceived(response.user);
-            });
+            // // console.log('componentDidMount: ')
+            // APIManager.get('/account/currentuser', null, (err, response) => {
+            //     if(err){   //not logged in, ignore error:
+            //         // alert(err.message)
+            //         return
+            //     }
+            //     console.log('componentDidMount currentuser'+JSON.stringify(response))
+            //     this.props.currentUserReceived(response.user)
+            // })
         }
     }, {
         key: 'updateProfile',
@@ -14263,7 +14260,7 @@ var Account = function (_Component) {
     }, {
         key: 'login',
         value: function login(event) {
-            var _this3 = this;
+            var _this2 = this;
 
             event.preventDefault();
             // console.log('login: '+JSON.stringify(this.state.profile))
@@ -14284,13 +14281,13 @@ var Account = function (_Component) {
                 }
                 // console.log('SIGNUP: '+JSON.stringify(response.result))
                 console.log('login: ' + JSON.stringify(response.user));
-                _this3.props.currentUserReceived(response.user);
+                _this2.props.currentUserReceived(response.user);
             });
         }
     }, {
         key: 'signup',
         value: function signup(event) {
-            var _this4 = this;
+            var _this3 = this;
 
             event.preventDefault();
             // console.log('signup: '+JSON.stringify(this.state.profile))
@@ -14310,13 +14307,13 @@ var Account = function (_Component) {
                     return;
                 }
                 console.log('SIGNUP: ' + JSON.stringify(response)); //console.log('SIGNUP: '+JSON.stringify(response.result))
-                _this4.props.currentUserReceived(response.user); //this.props.currentUserReceived(response.result)
+                _this3.props.currentUserReceived(response.user); //this.props.currentUserReceived(response.result)
             });
         }
     }, {
         key: 'logout',
         value: function logout(event) {
-            var _this5 = this;
+            var _this4 = this;
 
             // console.log('logout: ')
             event.preventDefault();
@@ -14328,7 +14325,7 @@ var Account = function (_Component) {
                 // console.log('User is logged out')
                 // this.props.currentUserReceived(response.user)
                 // this.props.currentUserReceived(null)
-                _this5.props.currentUserReceived(null);
+                _this4.props.currentUserReceived(null);
             });
         }
     }, {

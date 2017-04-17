@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Promise = require('bluebird')
 var AccountController = require('../controllers/AccountController')
+var controllers = require('../controllers')
 
 var React = require('react')
 var ReactRouter = require('react-router')
@@ -32,11 +33,16 @@ router.get('/', function(req, res, next) {
     // get current user
     AccountController.currentUser(req)
     .then(function(result){
-    	console.log('CURRENT USER: '+JSON.stringify(result))
+    	// console.log('CURRENT USER: '+JSON.stringify(result))
     	//Populate store/reducer with current user:
     	reducers['account'] = {
     		user: result
     	}
+    	// fetch zones
+    	return controllers.zone.get(null)
+    })
+    .then(function(zones){
+        console.log('ZONES: '+JSON.stringify(zones))
     })
     .then(function(){
 	    console.log('REDUCERS: '+JSON.stringify(reducers))
