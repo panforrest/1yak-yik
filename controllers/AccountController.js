@@ -1,26 +1,42 @@
 var ProfileController = require('./ProfileController')
+var Promise = require('bluebird')
 
 module.exports = {
 
-	currentUser: function(req, callback){
-		if (req.session == null) {
-			callback({message:'user not logged in'}, null)
-			return
-		}
+	currentUser: function(req){
 
-		if (req.session.user == null) {
-            callback({message:'User not logged in'}, null)
-			return
-		}
-
-		ProfileController.findById(req.session.user, function(err, result){
-			if (err) {
-                callback(err, null)
+        return new Promise(function(resolve, reject){
+			if (req.session == null) {
+				reject({message:'user not logged in'})
 				return
 			}
 
-            callback(null, result)
-		})		
+			if (req.session.user == null) {
+	            reject({message:'User not logged in'})
+				return
+			}
+
+			ProfileController.findById(req.session.user, function(err, result){
+				if (err) {
+	                reject(err)
+					return
+				}
+
+	            resolve(result)
+			})
+        })
+
+		// if (req.session == null) {
+		// 	callback({message:'user not logged in'}, null)
+		// 	return
+		// }
+
+		// if (req.session.user == null) {
+  //           callback({message:'User not logged in'}, null)
+		// 	return
+		// }
+
+		
 	}		
 
 }

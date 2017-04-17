@@ -19,68 +19,20 @@ router.get('/:action', function(req, res, next){
 	}
 
 	if (action == 'currentuser') {
-
-        AccountController.currentUser(req, function(err, result){
-        	if (err) {
-        		res.json({
-        			confirmation: 'fail',
-        			message: err.message
-        		})
-        		return
-        	}
-
-        	res.json({
-				confirmation: 'success',
-				user: result   // message: 'Are you logged in?'
-		    })
-        })
-
-
-
-		// if (req.session == null) {
-		// 	res.json({
-		// 		confirmation: 'fail',
-		// 		message: 'user not logged'
-		// 	})
-		// 	return
-		// }
-
-		// if (req.session.user == null) {
-		// 	res.json({
-		// 		confirmation: 'fail',
-		// 		message: 'user not logged'
-		// 	})
-		// 	return
-		// }
-
-		// // if (req.session.user != profile._id) {
-		// // 	res.json({
-		// // 		confirmation: 'user not logged'
-		// // 	})
-		// // 	return
-		// // }
-
-		// ProfileController.findById(req.session.user, function(err, result){
-		// 	if (err) {
-		// 		res.json({
-		// 			confirmation: 'fail',
-		// 			message: err.message
-		// 		})
-		// 		return
-		// 	}
-		// 	res.json({
-		// 		confirmation: 'success',
-		// 		user: result
-		// 	})
-
-		// })		
-		
-		// // res.json({
-		// // 	confirmation: 'success',
-		// // 	user: req.session.user
-		// // })
+		AccountController.currentUser(req)
+		.then(function(result){
+			res.json({
+                confirmation: 'success',
+                user: result   //result: result
+			})
+		})
+		.catch(function(err){
+			res.json({
+                confirmation: 'fail',
+                message: err.message
+			})
+		})
 	}
-		
 })
 
 router.post('/:action', function(req, res, next){
