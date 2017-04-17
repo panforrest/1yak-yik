@@ -60,15 +60,11 @@ router.get('/', function(req, res, next) {
 			}
 		}
 
-		matchRoutes(req, routes)
-		.then(function(renderProps){
-			var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
-	        // console.log('TEST 1'+html) //console.log('TEST 1: ')  
-	        res.render('index', { react: html, preloadedState: JSON.stringify(initialStore.getState()) })
-		})
-		.catch(function(err){
-	        console.log('ERROR: '+err)
-		})
+		return matchRoutes(req, routes)
+	})
+	.then(function(renderProps){
+		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
+        res.render('index', { react: html, preloadedState: JSON.stringify(initialStore.getState()) })
     })
     .catch(function(err){
     	console.log('NOT LOGGED IN: ')    	
@@ -100,6 +96,17 @@ router.get('/', function(req, res, next) {
     // res.render('index', { react: ''});
   // res.render('createzone', { title: 'Express' });
 });
+
+router.get('/:page/:slug', function(req, res, next){
+	var page = req.params.page
+	var slug = req.params.slug
+
+	if (page == 'api'){
+		next()
+		return
+	}
+
+})
 
 router.get('/:page', function(req, res, next) {
     res.render(req.params.page, null);	
