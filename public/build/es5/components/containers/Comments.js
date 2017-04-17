@@ -32,6 +32,7 @@ var Comments = (function (Component) {
         _classCallCheck(this, Comments);
 
         _get(Object.getPrototypeOf(Comments.prototype), "constructor", this).call(this);
+        this.checkForComments = this.checkForComments.bind(this);
         this.state = {
             commentsLoaded: false,
             index: 0
@@ -100,7 +101,7 @@ var Comments = (function (Component) {
             writable: true,
             configurable: true
         },
-        componentDidMount: {
+        checkForComments: {
 
             // updateUsername(event){
             //     let updatedComment = Object.assign({}, this.state.comment)
@@ -122,9 +123,9 @@ var Comments = (function (Component) {
 
             // componentWillUpdate(){
             //     console.log('COMMENTS CONTAINER: componentWillUpdate: '+this.state.index+' == '+this.props.index+'?')
-            // }   
+            // } 
 
-            value: function componentDidMount() {
+            value: function checkForComments() {
                 var _this = this;
                 var zone = this.props.zones[this.props.index];
                 if (zone == null) {
@@ -149,37 +150,16 @@ var Comments = (function (Component) {
             writable: true,
             configurable: true
         },
+        componentDidMount: {
+            value: function componentDidMount() {
+                this.checkForComments();
+            },
+            writable: true,
+            configurable: true
+        },
         componentDidUpdate: {
             value: function componentDidUpdate() {
-                var _this = this;
-                // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
-                var zone = this.props.zones[this.props.index];
-                if (zone == null) {
-                    console.log("NO SELECTED ZONE!!!!");
-                    return;
-                }
-
-                // this.setState({
-                //     index: this.props.index
-                // })
-
-                // console.log('SELECTED ZONE IS READY == '+zone._id)
-                // if (this.props.commentsLoaded == true)
-                //     return
-
-                var commentsArray = this.props.commentsMap[zone._id];
-                if (commentsArray != null) {
-                    //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
-                    return;
-                }APIManager.get("/api/comment", { zone: zone._id }, function (err, response) {
-                    if (err) {
-                        alert("ERROR: " + err.message);
-                        return;
-                    }
-
-                    var comments = response.results;
-                    _this.props.commentsReceived(comments, zone);
-                });
+                this.checkForComments();
             },
             writable: true,
             configurable: true

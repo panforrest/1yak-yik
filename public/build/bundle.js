@@ -14485,6 +14485,7 @@ var Comments = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).call(this));
 
+        _this.checkForComments = _this.checkForComments.bind(_this);
         _this.state = {
             commentsLoaded: false,
             index: 0
@@ -14571,11 +14572,11 @@ var Comments = function (_Component) {
 
         // componentWillUpdate(){
         //     console.log('COMMENTS CONTAINER: componentWillUpdate: '+this.state.index+' == '+this.props.index+'?')
-        // }    
+        // }  
 
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'checkForComments',
+        value: function checkForComments() {
             var _this3 = this;
 
             var zone = this.props.zones[this.props.index];
@@ -14599,38 +14600,14 @@ var Comments = function (_Component) {
             });
         }
     }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.checkForComments();
+        }
+    }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            var _this4 = this;
-
-            // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
-            var zone = this.props.zones[this.props.index];
-            if (zone == null) {
-                console.log('NO SELECTED ZONE!!!!');
-                return;
-            }
-
-            // this.setState({
-            //     index: this.props.index
-            // })
-
-            // console.log('SELECTED ZONE IS READY == '+zone._id)
-            // if (this.props.commentsLoaded == true)
-            //     return
-
-            var commentsArray = this.props.commentsMap[zone._id];
-            if (commentsArray != null) //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
-                return;
-
-            _utils.APIManager.get('/api/comment', { zone: zone._id }, function (err, response) {
-                if (err) {
-                    alert('ERROR: ' + err.message);
-                    return;
-                }
-
-                var comments = response.results;
-                _this4.props.commentsReceived(comments, zone);
-            });
+            this.checkForComments();
         }
     }, {
         key: 'updateComment',
@@ -14641,7 +14618,7 @@ var Comments = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this5 = this;
+            var _this4 = this;
 
             var selectedZone = this.props.zones[this.props.index];
             var currentUser = this.props.user; // null if not logged in
@@ -14666,7 +14643,7 @@ var Comments = function (_Component) {
                         return _react2.default.createElement(
                             'li',
                             { key: i },
-                            _react2.default.createElement(_presentation.Comment, { onUpdate: _this5.updateComment.bind(_this5), isEditable: editable, currentComment: comment })
+                            _react2.default.createElement(_presentation.Comment, { onUpdate: _this4.updateComment.bind(_this4), isEditable: editable, currentComment: comment })
                         );
                     });
                 }

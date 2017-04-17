@@ -11,6 +11,7 @@ class Comments extends Component {
 
     constructor(){
     	super()
+        this.checkForComments = this.checkForComments.bind(this)
     	this.state = {
             commentsLoaded: false,
             index: 0
@@ -92,9 +93,9 @@ class Comments extends Component {
 
     // componentWillUpdate(){
     //     console.log('COMMENTS CONTAINER: componentWillUpdate: '+this.state.index+' == '+this.props.index+'?')
-    // }    
+    // }  
 
-    componentDidMount(){
+    checkForComments(){
         let zone = this.props.zones[this.props.index]
         if (zone == null) {
             console.log('NO SELECTED ZONE!!!!')
@@ -113,38 +114,16 @@ class Comments extends Component {
             
             let comments = response.results
             this.props.commentsReceived(comments, zone)
-        })        
+        }) 
+
+    }  
+
+    componentDidMount(){
+       this.checkForComments()
     }
 
     componentDidUpdate(){
-        // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
-        let zone = this.props.zones[this.props.index]
-        if (zone == null) {
-            console.log('NO SELECTED ZONE!!!!')
-            return
-        }
-
-        // this.setState({
-        //     index: this.props.index
-        // })
-
-        // console.log('SELECTED ZONE IS READY == '+zone._id)
-        // if (this.props.commentsLoaded == true)
-        //     return
-
-        let commentsArray = this.props.commentsMap[zone._id]
-        if (commentsArray != null) //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
-            return
-
-        APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
-            if (err) {
-                alert('ERROR: '+err.message)
-                return
-            }
-            
-            let comments = response.results
-            this.props.commentsReceived(comments, zone)
-        })
+       this.checkForComments()
     }
 
     updateComment(comment, updatedBody){
