@@ -33,31 +33,59 @@ router.get('/', function(req, res, next) {
     AccountController.currentUser(req)
     .then(function(result){
     	console.log('CURRENT USER: '+JSON.stringify(result))
+    	//Populate store/reducer with current user:
+    	reducers['account'] = {
+    		user: result
+    	}
+    })
+    .then(function(){
+	    console.log('REDUCERS: '+JSON.stringify(reducers))
+	    initialStore = store.configureStore(reducers)
+		var routes = {
+			path: '/',
+			component: serverapp,
+		    initial: initialStore,
+			indexRoute: {
+				component: Home
+			}
+		}
+
+		matchRoutes(req, routes)
+		.then(function(renderProps){
+			var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
+	        // console.log('TEST 1'+html) //console.log('TEST 1: ')  
+	        res.render('index', { react: html, preloadedState: JSON.stringify(initialStore.getState()) })
+		})
+		.catch(function(err){
+	        console.log('ERROR: '+err)
+		})
     })
     .catch(function(err){
-    	console.log('NOT LOGGED IN: ')
+    	console.log('NOT LOGGED IN: ')    	
     })
 
-    initialStore = store.configureStore(reducers)
+ //    console.log('REDUCERS: '+JSON.stringify(reducers))
 
-	var routes = {
-		path: '/',
-		component: serverapp,
-	    initial: initialStore,
-		indexRoute: {
-			component: Home
-		}
-	}
+ //    initialStore = store.configureStore(reducers)
 
-	matchRoutes(req, routes)
-	.then(function(renderProps){
-		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
-        console.log('TEST 1'+html) //console.log('TEST 1: ')  
-        res.render('index', { react: html, preloadedState: JSON.stringify(initialStore.getState()) })
-	})
-	.catch(function(err){
-        console.log('TEST 2: '+err)
-	})
+	// var routes = {
+	// 	path: '/',
+	// 	component: serverapp,
+	//     initial: initialStore,
+	// 	indexRoute: {
+	// 		component: Home
+	// 	}
+	// }
+
+	// matchRoutes(req, routes)
+	// .then(function(renderProps){
+	// 	var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))//TAKE REACT COMPONENT TO HTML
+ //        console.log('TEST 1'+html) //console.log('TEST 1: ')  
+ //        res.render('index', { react: html, preloadedState: JSON.stringify(initialStore.getState()) })
+	// })
+	// .catch(function(err){
+ //        console.log('TEST 2: '+err)
+	// })
 
     // res.render('index', { react: ''});
   // res.render('createzone', { title: 'Express' });
