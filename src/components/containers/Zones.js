@@ -16,7 +16,7 @@ class Zones extends Component {
     }
 
     componentDidMount(){
-        this.props.fetchZones(null)  //GIVE US ALL ZONES, NOT this.props.fetchZones()
+        // this.props.fetchZones(null)  //GIVE US ALL ZONES, NOT this.props.fetchZones()
         // APIManager.get('/api/zone', null, (err, response) => {
         //     if (err){
         //         alert('ERROR: '+err.message)

@@ -44,9 +44,7 @@ var Zones = (function (Component) {
 
     _prototypeProperties(Zones, null, {
         componentDidMount: {
-            value: function componentDidMount() {
-                this.props.fetchZones(null);
-            },
+            value: function componentDidMount() {},
             writable: true,
             configurable: true
         },
@@ -157,7 +155,7 @@ var dispatchToProps = function (dispatch) {
     };
 };
 module.exports = connect(stateToProps, dispatchToProps)(Zones);
-//GIVE US ALL ZONES, NOT this.props.fetchZones()
+// this.props.fetchZones(null)  //GIVE US ALL ZONES, NOT this.props.fetchZones()
 // APIManager.get('/api/zone', null, (err, response) => {
 //     if (err){
 //         alert('ERROR: '+err.message)

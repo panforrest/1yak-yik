@@ -100,7 +100,7 @@ var Comments = (function (Component) {
             writable: true,
             configurable: true
         },
-        componentDidUpdate: {
+        componentDidMount: {
 
             // updateUsername(event){
             //     let updatedComment = Object.assign({}, this.state.comment)
@@ -124,6 +124,32 @@ var Comments = (function (Component) {
             //     console.log('COMMENTS CONTAINER: componentWillUpdate: '+this.state.index+' == '+this.props.index+'?')
             // }   
 
+            value: function componentDidMount() {
+                var _this = this;
+                var zone = this.props.zones[this.props.index];
+                if (zone == null) {
+                    console.log("NO SELECTED ZONE!!!!");
+                    return;
+                }
+
+                var commentsArray = this.props.commentsMap[zone._id];
+                if (commentsArray != null) {
+                    //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
+                    return;
+                }APIManager.get("/api/comment", { zone: zone._id }, function (err, response) {
+                    if (err) {
+                        alert("ERROR: " + err.message);
+                        return;
+                    }
+
+                    var comments = response.results;
+                    _this.props.commentsReceived(comments, zone);
+                });
+            },
+            writable: true,
+            configurable: true
+        },
+        componentDidUpdate: {
             value: function componentDidUpdate() {
                 var _this = this;
                 // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')

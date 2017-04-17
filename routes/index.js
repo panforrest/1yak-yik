@@ -33,9 +33,8 @@ router.get('/', function(req, res, next) {
     // get current user
     AccountController.currentUser(req)
     .then(function(result){
-    	// console.log('CURRENT USER: '+JSON.stringify(result))
-    	//Populate store/reducer with current user:
-    	reducers['account'] = {
+    	// console.log('CURRENT USER: '+JSON.stringify(result))    	
+    	reducers['account'] = { //Populate store/reducer with current user:
     		user: result
     	}
     	// fetch zones
@@ -43,6 +42,11 @@ router.get('/', function(req, res, next) {
     })
     .then(function(zones){
         console.log('ZONES: '+JSON.stringify(zones))
+        reducers['zone'] = {
+        	list: zones,
+		    selectedZone: 0,
+		    appStatus: 'ready'
+        }
     })
     .then(function(){
 	    console.log('REDUCERS: '+JSON.stringify(reducers))

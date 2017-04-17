@@ -3,7 +3,7 @@ import constants from '../constants/constants'
 var initialState = {
 
 	list: [],
-    zone: {},
+    // zone: {},
     selectedZone: 0,
     appStatus: 'ready'
 }

@@ -94,6 +94,28 @@ class Comments extends Component {
     //     console.log('COMMENTS CONTAINER: componentWillUpdate: '+this.state.index+' == '+this.props.index+'?')
     // }    
 
+    componentDidMount(){
+        let zone = this.props.zones[this.props.index]
+        if (zone == null) {
+            console.log('NO SELECTED ZONE!!!!')
+            return
+        }
+
+        let commentsArray = this.props.commentsMap[zone._id]
+        if (commentsArray != null) //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
+            return
+
+        APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+            if (err) {
+                alert('ERROR: '+err.message)
+                return
+            }
+            
+            let comments = response.results
+            this.props.commentsReceived(comments, zone)
+        })        
+    }
+
     componentDidUpdate(){
         // console.log('COMMENTS CONTAINER: componentDidUpdate: '+this.state.index+'?')
         let zone = this.props.zones[this.props.index]
