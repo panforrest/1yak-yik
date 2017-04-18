@@ -14969,7 +14969,14 @@ var Profile = function (_Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            // console.log('componentDidUpdate: ')
+            console.log('componentDidUpdate: ');
+            var profile = this.props.profiles[this.props.username];
+            if (profile != null) {
+                console.log('PROFILE RECEIVED: ' + profile._id);
+
+                //query for comments if necessary
+                if (this.props.comments[profile._id] == null) this.props.fetchComments({ 'author.id': profile._id });
+            }
         }
     }, {
         key: 'render',

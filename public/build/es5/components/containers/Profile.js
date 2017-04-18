@@ -47,7 +47,15 @@ var Profile = (function (Component) {
             configurable: true
         },
         componentDidUpdate: {
-            value: function componentDidUpdate() {},
+            value: function componentDidUpdate() {
+                console.log("componentDidUpdate: ");
+                var profile = this.props.profiles[this.props.username];
+                if (profile != null) {
+                    console.log("PROFILE RECEIVED: " + profile._id);
+
+
+                }
+            },
             writable: true,
             configurable: true
         },
@@ -135,4 +143,3 @@ var dispatchToProps = function (dispatch) {
 
 module.exports = connect(stateToProps, dispatchToProps)(Profile);
 // profile: null
-// console.log('componentDidUpdate: ')

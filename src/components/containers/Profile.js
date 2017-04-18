@@ -25,7 +25,16 @@ class Profile extends Component {
     }
 
     componentDidUpdate(){
-        // console.log('componentDidUpdate: ')
+        console.log('componentDidUpdate: ')
+        const profile = this.props.profiles[this.props.username]
+        if (profile != null) {
+            console.log('PROFILE RECEIVED: '+profile._id)
+
+            //query for comments if necessary
+        if (this.props.comments[profile._id] == null)
+            this.props.fetchComments({'author.id': profile._id})
+        }
+
     }
 
     render(){
