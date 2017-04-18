@@ -27,10 +27,7 @@ var ProfileInfo = (function (Component) {
 
 	_prototypeProperties(ProfileInfo, null, {
 		componentDidMount: {
-			value: function componentDidMount() {
-				//console.log('componentDidMount: '+JSON.stringify(this.props))
-				console.log("componentDidMount: " + JSON.stringify(this.props.params));
-			},
+			value: function componentDidMount() {},
 			writable: true,
 			configurable: true
 		},
@@ -52,4 +49,5 @@ var ProfileInfo = (function (Component) {
 })(Component);
 
 module.exports = ProfileInfo;
-//IT IS WRONG TO USE: +JSON.stringify(this.props.user)
+//console.log('componentDidMount: '+JSON.stringify(this.props))
+// console.log('componentDidMount: '+JSON.stringify(this.props.params)) //IT IS WRONG TO USE: +JSON.stringify(this.props.user)

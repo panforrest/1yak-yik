@@ -3793,6 +3793,30 @@ exports.default = {
 		};
 	},
 
+	fetchComments: function fetchComments(params) {
+		return function (dispatch) {
+			// dispatch({
+			// 	type: constants.APPLICATION_STATE,
+			// 	status: 'loading',
+			// 	reducer: 'zone'
+			// })
+
+			_utils.APIManager.get('/api/comment', params, function (err, response) {
+				if (err) {
+					alert(err);
+					return;
+				}
+
+				console.log(JSON.stringify(response));
+				var comments = response.results;
+				dispatch({
+					type: _constants2.default.COMMENTS_RECEIVED,
+					comments: comments
+				});
+			});
+		};
+	},
+
 	commentsReceived: function commentsReceived(comments, zone) {
 		return {
 			type: _constants2.default.COMMENTS_RECEIVED, //action: constants.COMMENTS_RECEIVED,
@@ -14929,39 +14953,39 @@ var Profile = function (_Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var profile = this.props.profiles[this.props.username];
-            if (profile != null) return;
+            if (profile != null) {
+                //rendered server side
+                console.log('Profile already there');
+                this.props.fetchComments({ 'author.id': profile._id });
+                return;
+            }
 
             this.props.fetchProfile({ username: this.props.username });
-
-            // APIManager.get('/api/profile', {username: this.props.username}, (err, response) => {
-            //  if (err) {
-            //      alert(err.message)
-            //      return
-            //  }
-            //  console.log(JSON.stringify(response.results[0]))
-            //     if (response.results.length == 0){
-            //      alert('Profile Not Found.')
-            //      return
-            //     }
-
-            //     const profile = response.results[0]
-            //     this.props.profileReceived(profile)
-            // })
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            console.log('componentDidUpdate: ');
+            // console.log('componentDidUpdate: ')
         }
     }, {
         key: 'render',
         value: function render() {
-            console.log('render!! ');
+            // console.log('render!! ')
 
             var profile = this.props.profiles[this.props.username];
 
             var header = null;
             if (profile != null) {
+
+                var comments = this.props.comments[profile._id] ? this.props.comments[profile._id] : [];
+                var list = comments.map(function (comment, i) {
+                    return _react2.default.createElement(
+                        'li',
+                        { key: i },
+                        comment.body
+                    );
+                });
+
                 header = _react2.default.createElement(
                     'div',
                     null,
@@ -14978,6 +15002,16 @@ var Profile = function (_Component) {
                         _react2.default.createElement('br', null),
                         'city: ',
                         profile.city
+                    ),
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Comments'
+                    ),
+                    _react2.default.createElement(
+                        'ol',
+                        null,
+                        list
                     )
                 );
             }
@@ -14997,7 +15031,8 @@ var Profile = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
-        profiles: state.profile.map, //profiles: state.profile.list  //profile: state.profile.list
+        comments: state.comment.profileMap,
+        profiles: state.profile.map,
         appStatus: state.profile.appStatus
     };
 };
@@ -15006,6 +15041,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     return {
         fetchProfile: function fetchProfile(params) {
             return dispatch(_actions2.default.fetchProfile(params));
+        },
+        fetchComments: function fetchComments(params) {
+            return dispatch(_actions2.default.fetchComments(params));
         }
     };
 };
@@ -15338,7 +15376,7 @@ var ProfileInfo = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			//console.log('componentDidMount: '+JSON.stringify(this.props))
-			console.log('componentDidMount: ' + JSON.stringify(this.props.params)); //IT IS WRONG TO USE: +JSON.stringify(this.props.user)
+			// console.log('componentDidMount: '+JSON.stringify(this.props.params)) //IT IS WRONG TO USE: +JSON.stringify(this.props.user)
 		}
 	}, {
 		key: 'render',
@@ -15919,10 +15957,9 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-    // commentsLoaded: false,
-    // list: [],
-    comment: {},
-    map: {} };
+    map: {},
+    profileMap: {}
+};
 
 exports.default = function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -15930,57 +15967,52 @@ exports.default = function () {
 
     var updated = Object.assign({}, state);
     var updatedMap = Object.assign({}, updated.map);
+    var updatedProfileMap = Object.assign({}, updated.profileMap);
+
     switch (action.type) {
         case _constants2.default.COMMENTS_RECEIVED:
-            // let updated = Object.assign({}, state)
-            // console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
-            //       console.log('COMMENTS_RECEIVED FROM ZONE: '+JSON.stringify(action.zone))
-            updated['list'] = action.comments;
-            // let updatedMap = Object.assign({}, updated.map)
-            var zoneComments = updatedMap[action.zone._id];
-            if (zoneComments == null) {
-                zoneComments = [];
-            } else {
-                zoneComments = Object.assign([], zoneComments);
+            //          console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+            //          let updatedMap = Object.assign({}, updated.map)
+
+            if (action.zone != null) {
+                var zoneComments = updatedMap[action.zone._id];
+                if (zoneComments == null) zoneComments = [];else zoneComments = Object.assign([], zoneComments);
+
+                action.comments.forEach(function (comment, i) {
+                    zoneComments.push(comment);
+                });
+
+                updatedMap[action.zone._id] = zoneComments;
+                updated['map'] = updatedMap;
             }
 
             action.comments.forEach(function (comment, i) {
-                zoneComments.push(comment);
+                var profileComments = updatedProfileMap[comment.author.id] ? updatedProfileMap[comment.author.id] : [];
+                profileComments.push(comment);
+                updatedProfileMap[comment.author.id] = profileComments;
             });
 
-            updatedMap[action.zone._id] = zoneComments;
-            updated['map'] = updatedMap;
-            // updated['commentsLoaded'] = true
-
-            // console.log('COMMENTS_RECEIVED: '+JSON.stringify(updated))
+            updated['profileMap'] = updatedProfileMap;
+            console.log('PROFILE MAP: ' + JSON.stringify(updatedProfileMap));
 
             return updated;
 
         case _constants2.default.COMMENT_CREATED:
             console.log('COMMENT_CREATED: ' + JSON.stringify(action.comment));
 
-            // let updatedMap = Object.assign({}, updated.map)
-            var commentsList = updatedMap[action.comment.zone];
-            if (commentsList == null) {
-                commentsList = [];
-            } else {
-                commentsList = Object.assign([], commentsList);
-            }
+            var commentList = updatedMap[action.comment.zone];
+            if (commentList == null) commentList = [];else commentList = Object.assign([], commentList);
 
-            commentsList.push(action.comment);
+            commentList.push(action.comment);
 
-            updatedMap[action.comment.zone] = commentsList;
+            updatedMap[action.comment.zone] = commentList;
             updated['map'] = updatedMap;
 
             return updated;
 
-        case _constants2.default.SELECT_ZONE:
-            // console.log('SELECT_ZONE: '+JSON.stringify(action.selectedZone))    //+JSON.stringify(action.index)
-            // updated['commentsLoaded'] = false
-            return updated;
-
         case _constants2.default.COMMENT_UPDATED:
             console.log('COMMENT_UPDATED: ' + JSON.stringify(action.comment));
+
             var list = updatedMap[action.comment.zone];
             var newList = [];
 
@@ -15990,15 +16022,16 @@ exports.default = function () {
 
             updatedMap[action.comment.zone] = newList;
             updated['map'] = updatedMap;
-            // if (action.comment._id != updated.comment._id)
-            //     return updated
 
-            // updated['comment'] = action.comment
+            return updated;
 
+        case _constants2.default.SELECT_ZONE:
+            //          let updated = Object.assign({}, state)
             return updated;
 
         default:
-            return updated;
+            return state;
+
     }
 };
 
@@ -16069,7 +16102,7 @@ exports.default = function () {
 				switch (action.type) {
 								case _constants2.default.PROFILE_RECEIVED:
 
-												console.log('PROFILE_RECEIVED' + JSON.stringify(action.profile));
+												// console.log('PROFILE_RECEIVED'+JSON.stringify(action.profile))
 
 												var updatedList = Object.assign([], updated.list); //let updatedList = Object.assign([], updated.profile)
 												updatedList.push(action.profile);

@@ -47,6 +47,30 @@ module.exports = {
 		};
 	},
 
+	fetchComments: function (params) {
+		return function (dispatch) {
+			// dispatch({
+			// 	type: constants.APPLICATION_STATE,
+			// 	status: 'loading',
+			// 	reducer: 'zone'
+			// })
+
+			APIManager.get("/api/comment", params, function (err, response) {
+				if (err) {
+					alert(err);
+					return;
+				}
+
+				console.log(JSON.stringify(response));
+				var comments = response.results;
+				dispatch({
+					type: constants.COMMENTS_RECEIVED,
+					comments: comments
+				});
+			});
+		};
+	},
+
 	commentsReceived: function (comments, zone) {
 		return {
 			type: constants.COMMENTS_RECEIVED, //action: constants.COMMENTS_RECEIVED,

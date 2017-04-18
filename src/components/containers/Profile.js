@@ -13,38 +13,32 @@ class Profile extends Component {
 
     componentDidMount(){
         const profile = this.props.profiles[this.props.username]
-        if (profile != null) 
+        if (profile != null){  //rendered server side
+            console.log('Profile already there') 
+            this.props.fetchComments({'author.id': profile._id})
             return
+        }            
     
         this.props.fetchProfile({username: this.props.username})
-
-        // APIManager.get('/api/profile', {username: this.props.username}, (err, response) => {
-        //  if (err) {
-        //      alert(err.message)
-        //      return
-        //  }
-        //  console.log(JSON.stringify(response.results[0]))
-        //     if (response.results.length == 0){
-        //      alert('Profile Not Found.')
-        //      return
-        //     }
-
-        //     const profile = response.results[0]
-        //     this.props.profileReceived(profile)
-        // })
     }
 
     componentDidUpdate(){
-        console.log('componentDidUpdate: ')
+        // console.log('componentDidUpdate: ')
     }
 
     render(){
-        console.log('render!! ')
+        // console.log('render!! ')
 
         let profile = this.props.profiles[this.props.username]
 
         let header = null
         if (profile != null){
+
+            const comments = (this.props.comments[profile._id]) ? this.props.comments[profile._id] : []
+            const list = comments.map((comment, i) => {
+                return(<li key={i}>{comment.body}</li>)
+            })
+
             header = (
                 <div>
                     <h3>{profile.username}</h3>
@@ -52,6 +46,11 @@ class Profile extends Component {
                         gender: {profile.gender}<br />
                         city: {profile.city}
                     </p>
+
+                    <h2>Comments</h2>
+                    <ol>
+                        {list}
+                    </ol>
                 </div>
             ) 
         }
@@ -68,7 +67,8 @@ class Profile extends Component {
 
 const stateToProps = (state) => {
     return {
-        profiles: state.profile.map, //profiles: state.profile.list  //profile: state.profile.list
+        comments: state.comment.profileMap, 
+        profiles: state.profile.map,
         appStatus: state.profile.appStatus
     }
 }
@@ -76,7 +76,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
     return {
         fetchProfile: (params) => dispatch(actions.fetchProfile(params)),
-        // profileReceived: (profile) => dispatch(actions.profileReceived(profile))
+        fetchComments: (params) => dispatch(actions.fetchComments(params))
     }
 }
 

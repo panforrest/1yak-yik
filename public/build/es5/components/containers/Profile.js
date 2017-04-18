@@ -34,27 +34,39 @@ var Profile = (function (Component) {
             value: function componentDidMount() {
                 var profile = this.props.profiles[this.props.username];
                 if (profile != null) {
+                    //rendered server side
+                    console.log("Profile already there");
+                    this.props.fetchComments({ "author.id": profile._id });
                     return;
-                }this.props.fetchProfile({ username: this.props.username });
+                }
+
+                this.props.fetchProfile({ username: this.props.username });
             },
             writable: true,
             configurable: true
         },
         componentDidUpdate: {
-            value: function componentDidUpdate() {
-                console.log("componentDidUpdate: ");
-            },
+            value: function componentDidUpdate() {},
             writable: true,
             configurable: true
         },
         render: {
             value: function render() {
-                console.log("render!! ");
+                // console.log('render!! ')
 
                 var profile = this.props.profiles[this.props.username];
 
                 var header = null;
                 if (profile != null) {
+                    var comments = this.props.comments[profile._id] ? this.props.comments[profile._id] : [];
+                    var list = comments.map(function (comment, i) {
+                        return React.createElement(
+                            "li",
+                            { key: i },
+                            comment.body
+                        );
+                    });
+
                     header = React.createElement(
                         "div",
                         null,
@@ -71,6 +83,16 @@ var Profile = (function (Component) {
                             React.createElement("br", null),
                             "city: ",
                             profile.city
+                        ),
+                        React.createElement(
+                            "h2",
+                            null,
+                            "Comments"
+                        ),
+                        React.createElement(
+                            "ol",
+                            null,
+                            list
                         )
                     );
                 }
@@ -93,7 +115,8 @@ var Profile = (function (Component) {
 
 var stateToProps = function (state) {
     return {
-        profiles: state.profile.map, //profiles: state.profile.list  //profile: state.profile.list
+        comments: state.comment.profileMap,
+        profiles: state.profile.map,
         appStatus: state.profile.appStatus
     };
 };
@@ -102,23 +125,13 @@ var dispatchToProps = function (dispatch) {
     return {
         fetchProfile: function (params) {
             return dispatch(actions.fetchProfile(params));
-        } };
+        },
+        fetchComments: function (params) {
+            return dispatch(actions.fetchComments(params));
+        }
+    };
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(Profile);
 // profile: null
-// APIManager.get('/api/profile', {username: this.props.username}, (err, response) => {
-//  if (err) {
-//      alert(err.message)
-//      return
-//  }
-//  console.log(JSON.stringify(response.results[0]))
-//     if (response.results.length == 0){
-//      alert('Profile Not Found.')
-//      return
-//     }
-
-//     const profile = response.results[0]
-//     this.props.profileReceived(profile)
-// })
-// profileReceived: (profile) => dispatch(actions.profileReceived(profile))
+// console.log('componentDidUpdate: ')

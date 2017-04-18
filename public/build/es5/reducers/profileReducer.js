@@ -18,7 +18,7 @@ module.exports = function (_x, action) {
 								case constants.PROFILE_RECEIVED:
 
 
-												console.log("PROFILE_RECEIVED" + JSON.stringify(action.profile));
+												// console.log('PROFILE_RECEIVED'+JSON.stringify(action.profile))
 
 												var updatedList = Object.assign([], updated.list); //let updatedList = Object.assign([], updated.profile)
 												updatedList.push(action.profile);
