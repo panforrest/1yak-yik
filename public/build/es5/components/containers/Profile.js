@@ -34,8 +34,8 @@ var Profile = (function (Component) {
             value: function componentDidMount() {
                 var profile = this.props.profiles[this.props.username];
                 if (profile != null) {
-                    //rendered server side
-                    console.log("Profile already there");
+                    // rendered server side
+                    console.log("Profile already there!");
                     this.props.fetchComments({ "author.id": profile._id });
                     return;
                 }

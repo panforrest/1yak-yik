@@ -134,7 +134,7 @@ router.get('/:page/:slug', function(req, res, next){
 
 	    initialStore = store.configureStore(reducers)
 
-	    var reoutes = {
+	    var routes = {
 			path: '/profile/:username',
 			component: serverapp,
 		    initial: initialStore,

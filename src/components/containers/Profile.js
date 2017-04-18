@@ -13,12 +13,12 @@ class Profile extends Component {
 
     componentDidMount(){
         const profile = this.props.profiles[this.props.username]
-        if (profile != null){  //rendered server side
-            console.log('Profile already there') 
+        if (profile != null){ // rendered server side
+            console.log('Profile already there!')
             this.props.fetchComments({'author.id': profile._id})
             return
-        }            
-    
+        }
+
         this.props.fetchProfile({username: this.props.username})
     }
 

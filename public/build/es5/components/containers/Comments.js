@@ -189,6 +189,7 @@ var Comments = (function (Component) {
                     // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
                     if (zoneComments != null) {
                         commentList = zoneComments.map(function (comment, i) {
+                            console.log("Comment = " + comment.body);
                             var editable = false;
                             if (currentUser != null) {
                                 // if (currentUser._id == comment.author.id)

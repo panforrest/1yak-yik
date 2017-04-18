@@ -14658,6 +14658,7 @@ var Comments = function (_Component) {
                 // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
                 if (zoneComments != null) {
                     commentList = zoneComments.map(function (comment, i) {
+                        console.log('Comment = ' + comment.body);
                         var editable = false;
                         if (currentUser != null) {
                             // if (currentUser._id == comment.author.id)
@@ -14954,8 +14955,8 @@ var Profile = function (_Component) {
         value: function componentDidMount() {
             var profile = this.props.profiles[this.props.username];
             if (profile != null) {
-                //rendered server side
-                console.log('Profile already there');
+                // rendered server side
+                console.log('Profile already there!');
                 this.props.fetchComments({ 'author.id': profile._id });
                 return;
             }
@@ -15971,7 +15972,7 @@ exports.default = function () {
 
     switch (action.type) {
         case _constants2.default.COMMENTS_RECEIVED:
-            //          console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+            console.log('COMMENTS_RECEIVED: ' + JSON.stringify(action.comments));
             //          let updatedMap = Object.assign({}, updated.map)
 
             if (action.zone != null) {

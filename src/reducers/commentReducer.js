@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
 
     switch (action.type){
         case constants.COMMENTS_RECEIVED:
-//          console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
+            console.log('COMMENTS_RECEIVED: '+JSON.stringify(action.comments))
 //          let updatedMap = Object.assign({}, updated.map)
             
             if (action.zone != null){

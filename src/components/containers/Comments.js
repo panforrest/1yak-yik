@@ -146,6 +146,7 @@ class Comments extends Component {
             // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
             if (zoneComments != null) {
                 commentList = zoneComments.map((comment, i) => {
+                    console.log('Comment = '+comment.body)
                     let editable = false
                     if (currentUser != null){
                         // if (currentUser._id == comment.author.id)
