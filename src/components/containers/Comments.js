@@ -106,15 +106,16 @@ class Comments extends Component {
         if (commentsArray != null) //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
             return
 
-        APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
-            if (err) {
-                alert('ERROR: '+err.message)
-                return
-            }
+        this.props.fetchComments({zone: zone._id})  //this.props.fetchComments(zone._id)
+        // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+        //     if (err) {
+        //         alert('ERROR: '+err.message)
+        //         return
+        //     }
             
-            let comments = response.results
-            this.props.commentsReceived(comments, zone)
-        }) 
+        //     let comments = response.results
+        //     this.props.commentsReceived(comments, zone)
+        // }) 
 
     }  
 
@@ -146,7 +147,7 @@ class Comments extends Component {
             // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
             if (zoneComments != null) {
                 commentList = zoneComments.map((comment, i) => {
-                    console.log('Comment = '+comment.body)
+                    // console.log('Comment = '+comment.body)
                     let editable = false
                     if (currentUser != null){
                         // if (currentUser._id == comment.author.id)
@@ -190,9 +191,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
+        fetchComments: (params) => dispatch(actions.fetchComments(params)),
         commentsReceived: (comments, zone) => dispatch(actions.commentsReceived(comments, zone)),
         commentCreated: (comment) => dispatch(actions.commentCreated(comment)),
-        //currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))
         updateComment: (comment, params) => dispatch(actions.updateComment(comment, params))
     }
 }

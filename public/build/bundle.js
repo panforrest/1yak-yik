@@ -3811,7 +3811,8 @@ exports.default = {
 				var comments = response.results;
 				dispatch({
 					type: _constants2.default.COMMENTS_RECEIVED,
-					comments: comments
+					comments: comments,
+					params: params
 				});
 			});
 		};
@@ -14601,8 +14602,6 @@ var Comments = function (_Component) {
     }, {
         key: 'checkForComments',
         value: function checkForComments() {
-            var _this3 = this;
-
             var zone = this.props.zones[this.props.index];
             if (zone == null) {
                 console.log('NO SELECTED ZONE!!!!');
@@ -14613,15 +14612,16 @@ var Comments = function (_Component) {
             if (commentsArray != null) //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
                 return;
 
-            _utils.APIManager.get('/api/comment', { zone: zone._id }, function (err, response) {
-                if (err) {
-                    alert('ERROR: ' + err.message);
-                    return;
-                }
+            this.props.fetchComments({ zone: zone._id }); //this.props.fetchComments(zone._id)
+            // APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+            //     if (err) {
+            //         alert('ERROR: '+err.message)
+            //         return
+            //     }
 
-                var comments = response.results;
-                _this3.props.commentsReceived(comments, zone);
-            });
+            //     let comments = response.results
+            //     this.props.commentsReceived(comments, zone)
+            // }) 
         }
     }, {
         key: 'componentDidMount',
@@ -14642,7 +14642,7 @@ var Comments = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
             var selectedZone = this.props.zones[this.props.index];
             var currentUser = this.props.user; // null if not logged in
@@ -14658,7 +14658,7 @@ var Comments = function (_Component) {
                 // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
                 if (zoneComments != null) {
                     commentList = zoneComments.map(function (comment, i) {
-                        console.log('Comment = ' + comment.body);
+                        // console.log('Comment = '+comment.body)
                         var editable = false;
                         if (currentUser != null) {
                             // if (currentUser._id == comment.author.id)
@@ -14668,7 +14668,7 @@ var Comments = function (_Component) {
                         return _react2.default.createElement(
                             'li',
                             { key: i },
-                            _react2.default.createElement(_presentation.Comment, { onUpdate: _this4.updateComment.bind(_this4), isEditable: editable, currentComment: comment })
+                            _react2.default.createElement(_presentation.Comment, { onUpdate: _this3.updateComment.bind(_this3), isEditable: editable, currentComment: comment })
                         );
                     });
                 }
@@ -14713,13 +14713,15 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
     return {
+        fetchComments: function fetchComments(params) {
+            return dispatch(_actions2.default.fetchComments(params));
+        },
         commentsReceived: function commentsReceived(comments, zone) {
             return dispatch(_actions2.default.commentsReceived(comments, zone));
         },
         commentCreated: function commentCreated(comment) {
             return dispatch(_actions2.default.commentCreated(comment));
         },
-        //currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))
         updateComment: function updateComment(comment, params) {
             return dispatch(_actions2.default.updateComment(comment, params));
         }
@@ -14954,14 +14956,15 @@ var Profile = function (_Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var profile = this.props.profiles[this.props.username];
-            if (profile != null) {
-                // rendered server side
-                console.log('Profile already there!');
-                this.props.fetchComments({ 'author.id': profile._id });
+            if (profile == null) {
+                console.log('TEST');
+                this.props.fetchProfile({ username: this.props.username });
                 return;
             }
 
-            this.props.fetchProfile({ username: this.props.username });
+            //populate server sise:
+            console.log('Profile already there!');
+            this.props.fetchComments({ 'author.id': profile._id });
         }
     }, {
         key: 'componentDidUpdate',
@@ -15032,7 +15035,7 @@ var Profile = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
     return {
-        comments: state.comment.profileMap,
+        comments: state.comment.map, //comments: state.comment.profileMap, 
         profiles: state.profile.map,
         appStatus: state.profile.appStatus
     };
@@ -15958,8 +15961,7 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-    map: {},
-    profileMap: {}
+    map: {}
 };
 
 exports.default = function () {
@@ -15968,33 +15970,53 @@ exports.default = function () {
 
     var updated = Object.assign({}, state);
     var updatedMap = Object.assign({}, updated.map);
-    var updatedProfileMap = Object.assign({}, updated.profileMap);
+    // let updatedProfileMap = Object.assign({}, updated.profileMap)
 
     switch (action.type) {
         case _constants2.default.COMMENTS_RECEIVED:
             console.log('COMMENTS_RECEIVED: ' + JSON.stringify(action.comments));
-            //          let updatedMap = Object.assign({}, updated.map)
+            // console.log('PARAMS: '+JSON.stringify(action.params))
 
-            if (action.zone != null) {
-                var zoneComments = updatedMap[action.zone._id];
-                if (zoneComments == null) zoneComments = [];else zoneComments = Object.assign([], zoneComments);
+            var keys = Object.keys(action.params);
+            var key = keys[0]; //zone
+            var value = action.params[key]; //zone id number
+            console.log('KEY: ' + key);
+            console.log('VALUE: ' + value);
 
-                action.comments.forEach(function (comment, i) {
-                    zoneComments.push(comment);
-                });
-
-                updatedMap[action.zone._id] = zoneComments;
-                updated['map'] = updatedMap;
-            }
-
+            var array = updatedMap[value] ? updatedMap[value] : [];
             action.comments.forEach(function (comment, i) {
-                var profileComments = updatedProfileMap[comment.author.id] ? updatedProfileMap[comment.author.id] : [];
-                profileComments.push(comment);
-                updatedProfileMap[comment.author.id] = profileComments;
+                array.push(comment);
             });
 
-            updated['profileMap'] = updatedProfileMap;
-            console.log('PROFILE MAP: ' + JSON.stringify(updatedProfileMap));
+            updatedMap[value] = array;
+            updated['map'] = updatedMap;
+
+            console.log('COMMMENTS_RECEIVED: ' + JSON.stringify(updatedMap));
+            //          let updatedMap = Object.assign({}, updated.map)
+
+            // if (action.zone != null){
+            //     let zoneComments = updatedMap[action.zone._id]
+            //     if (zoneComments == null)
+            //         zoneComments = []       
+            //     else 
+            //         zoneComments = Object.assign([], zoneComments)
+
+            //     action.comments.forEach((comment, i) => {
+            //         zoneComments.push(comment)
+            //     })
+
+            //     updatedMap[action.zone._id] = zoneComments
+            //     updated['map'] = updatedMap
+            // }
+
+            // action.comments.forEach((comment, i) => {
+            //     let profileComments = (updatedProfileMap[comment.author.id]) ? updatedProfileMap[comment.author.id] : []
+            //     profileComments.push(comment)
+            //     updatedProfileMap[comment.author.id] = profileComments
+            // })
+
+            // updated['profileMap'] = updatedProfileMap
+            // console.log('PROFILE MAP: '+JSON.stringify(updatedProfileMap))
 
             return updated;
 

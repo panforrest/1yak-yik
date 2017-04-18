@@ -126,7 +126,6 @@ var Comments = (function (Component) {
             // } 
 
             value: function checkForComments() {
-                var _this = this;
                 var zone = this.props.zones[this.props.index];
                 if (zone == null) {
                     console.log("NO SELECTED ZONE!!!!");
@@ -137,15 +136,7 @@ var Comments = (function (Component) {
                 if (commentsArray != null) {
                     //COMMENTS HAVE BEEN ALREADY LOADED, NO NEED TO CALL API
                     return;
-                }APIManager.get("/api/comment", { zone: zone._id }, function (err, response) {
-                    if (err) {
-                        alert("ERROR: " + err.message);
-                        return;
-                    }
-
-                    var comments = response.results;
-                    _this.props.commentsReceived(comments, zone);
-                });
+                }this.props.fetchComments({ zone: zone._id });
             },
             writable: true,
             configurable: true
@@ -189,7 +180,7 @@ var Comments = (function (Component) {
                     // console.log('COMMENTS MAP ='+JSON.stringify(this.props.commentsMapn))
                     if (zoneComments != null) {
                         commentList = zoneComments.map(function (comment, i) {
-                            console.log("Comment = " + comment.body);
+                            // console.log('Comment = '+comment.body)
                             var editable = false;
                             if (currentUser != null) {
                                 // if (currentUser._id == comment.author.id)
@@ -247,13 +238,15 @@ var stateToProps = function (state) {
 
 var dispatchToProps = function (dispatch) {
     return {
+        fetchComments: function (params) {
+            return dispatch(actions.fetchComments(params));
+        },
         commentsReceived: function (comments, zone) {
             return dispatch(actions.commentsReceived(comments, zone));
         },
         commentCreated: function (comment) {
             return dispatch(actions.commentCreated(comment));
         },
-        //currentUserReceived: (user) => dispatch(actions.currentUserReceived(user))
         updateComment: function (comment, params) {
             return dispatch(actions.updateComment(comment, params));
         }
@@ -262,3 +255,13 @@ var dispatchToProps = function (dispatch) {
 
 module.exports = connect(stateToProps, dispatchToProps)(Comments);
 // this.props.commentsReceived([comment], zone)
+//this.props.fetchComments(zone._id)
+// APIManager.get('/api/comment', {zone:zone._id}, (err, response) => {
+//     if (err) {
+//         alert('ERROR: '+err.message)
+//         return
+//     }
+
+//     let comments = response.results
+//     this.props.commentsReceived(comments, zone)
+// })

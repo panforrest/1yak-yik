@@ -33,14 +33,15 @@ var Profile = (function (Component) {
         componentDidMount: {
             value: function componentDidMount() {
                 var profile = this.props.profiles[this.props.username];
-                if (profile != null) {
-                    // rendered server side
-                    console.log("Profile already there!");
-                    this.props.fetchComments({ "author.id": profile._id });
+                if (profile == null) {
+                    console.log("TEST");
+                    this.props.fetchProfile({ username: this.props.username });
                     return;
                 }
 
-                this.props.fetchProfile({ username: this.props.username });
+                //populate server sise:
+                console.log("Profile already there!");
+                this.props.fetchComments({ "author.id": profile._id });
             },
             writable: true,
             configurable: true
@@ -115,7 +116,7 @@ var Profile = (function (Component) {
 
 var stateToProps = function (state) {
     return {
-        comments: state.comment.profileMap,
+        comments: state.comment.map, //comments: state.comment.profileMap,
         profiles: state.profile.map,
         appStatus: state.profile.appStatus
     };

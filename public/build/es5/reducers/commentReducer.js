@@ -5,43 +5,59 @@ var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["defau
 var constants = _interopRequire(require("../constants/constants"));
 
 var initialState = {
-    map: {},
-    profileMap: {}
-};
+    map: {} };
 
 module.exports = function (_x, action) {
     var state = arguments[0] === undefined ? initialState : arguments[0];
     var updated = Object.assign({}, state);
     var updatedMap = Object.assign({}, updated.map);
-    var updatedProfileMap = Object.assign({}, updated.profileMap);
+    // let updatedProfileMap = Object.assign({}, updated.profileMap)
 
     switch (action.type) {
         case constants.COMMENTS_RECEIVED:
             console.log("COMMENTS_RECEIVED: " + JSON.stringify(action.comments));
-            //          let updatedMap = Object.assign({}, updated.map)
+            // console.log('PARAMS: '+JSON.stringify(action.params))
 
-            if (action.zone != null) {
-                (function () {
-                    var zoneComments = updatedMap[action.zone._id];
-                    if (zoneComments == null) zoneComments = [];else zoneComments = Object.assign([], zoneComments);
+            var keys = Object.keys(action.params);
+            var key = keys[0]; //zone
+            var value = action.params[key]; //zone id number
+            console.log("KEY: " + key);
+            console.log("VALUE: " + value);
 
-                    action.comments.forEach(function (comment, i) {
-                        zoneComments.push(comment);
-                    });
-
-                    updatedMap[action.zone._id] = zoneComments;
-                    updated.map = updatedMap;
-                })();
-            }
-
+            var array = updatedMap[value] ? updatedMap[value] : [];
             action.comments.forEach(function (comment, i) {
-                var profileComments = updatedProfileMap[comment.author.id] ? updatedProfileMap[comment.author.id] : [];
-                profileComments.push(comment);
-                updatedProfileMap[comment.author.id] = profileComments;
+                array.push(comment);
             });
 
-            updated.profileMap = updatedProfileMap;
-            console.log("PROFILE MAP: " + JSON.stringify(updatedProfileMap));
+            updatedMap[value] = array;
+            updated.map = updatedMap;
+
+            console.log("COMMMENTS_RECEIVED: " + JSON.stringify(updatedMap));
+            //          let updatedMap = Object.assign({}, updated.map)
+
+            // if (action.zone != null){
+            //     let zoneComments = updatedMap[action.zone._id]
+            //     if (zoneComments == null)
+            //         zoneComments = []      
+            //     else
+            //         zoneComments = Object.assign([], zoneComments)
+
+            //     action.comments.forEach((comment, i) => {
+            //         zoneComments.push(comment)
+            //     })
+
+            //     updatedMap[action.zone._id] = zoneComments
+            //     updated['map'] = updatedMap
+            // }
+
+            // action.comments.forEach((comment, i) => {
+            //     let profileComments = (updatedProfileMap[comment.author.id]) ? updatedProfileMap[comment.author.id] : []
+            //     profileComments.push(comment)
+            //     updatedProfileMap[comment.author.id] = profileComments
+            // })
+
+            // updated['profileMap'] = updatedProfileMap
+            // console.log('PROFILE MAP: '+JSON.stringify(updatedProfileMap))
 
             return updated;
 
@@ -82,3 +98,5 @@ module.exports = function (_x, action) {
 
     }
 };
+
+// profileMap: {}

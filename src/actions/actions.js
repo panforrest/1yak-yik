@@ -62,7 +62,8 @@ export default {
 				const comments = response.results
 				dispatch({
 					type: constants.COMMENTS_RECEIVED,
-					comments: comments
+					comments: comments,
+					params: params
 				})
 			})
 		}
