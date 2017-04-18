@@ -14957,26 +14957,28 @@ var Profile = function (_Component) {
         value: function componentDidMount() {
             var profile = this.props.profiles[this.props.username];
             if (profile == null) {
-                console.log('TEST');
+                // console.log('TEST')           
                 this.props.fetchProfile({ username: this.props.username });
                 return;
             }
 
+            if (this.props.comments[profile._id] != null) return;
+
             //populate server sise:
-            console.log('Profile already there!');
             this.props.fetchComments({ 'author.id': profile._id });
         }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            console.log('componentDidUpdate: ');
+            // console.log('componentDidUpdate: ')
             var profile = this.props.profiles[this.props.username];
-            if (profile != null) {
-                console.log('PROFILE RECEIVED: ' + profile._id);
+            if (profile == null) return;
 
-                //query for comments if necessary
-                if (this.props.comments[profile._id] == null) this.props.fetchComments({ 'author.id': profile._id });
-            }
+            // console.log('PROFILE RECEIVED: '+profile._id)
+            if (this.props.comments[profile._id] != null) return;
+
+            //query for comments if necessary:
+            this.props.fetchComments({ 'author.id': profile._id });
         }
     }, {
         key: 'render',
