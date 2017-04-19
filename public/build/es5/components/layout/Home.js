@@ -18,8 +18,10 @@ var _containers = require("../containers");
 var Account = _containers.Account;
 var Comments = _containers.Comments;
 var Zones = _containers.Zones;
-// import { Sidebar } from '../presentation'
+var _presentation = require("../presentation");
 
+var Sidebar = _presentation.Sidebar;
+var Footer = _presentation.Footer;
 var Home = (function (Component) {
 	function Home() {
 		_classCallCheck(this, Home);
@@ -36,22 +38,28 @@ var Home = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					"div",
-					{ className: "container" },
+					{ id: "wrapper", className: "clearfix" },
+					React.createElement(Sidebar, null),
 					React.createElement(
 						"div",
-						{ className: "row" },
+						{ className: "container" },
 						React.createElement(
 							"div",
-							{ className: "col-md-4" },
-							React.createElement(Account, null),
-							React.createElement(Zones, null)
-						),
-						React.createElement(
-							"div",
-							{ className: "col-md-8" },
-							React.createElement(Comments, null)
+							{ className: "row" },
+							React.createElement(
+								"div",
+								{ className: "col-md-4" },
+								React.createElement(Account, null),
+								React.createElement(Zones, null)
+							),
+							React.createElement(
+								"div",
+								{ className: "col-md-8" },
+								React.createElement(Comments, null)
+							)
 						)
-					)
+					),
+					React.createElement(Footer, null)
 				);
 			},
 			writable: true,
