@@ -34,13 +34,14 @@ var Profile = (function (Component) {
             value: function componentDidMount() {
                 var profile = this.props.profiles[this.props.username];
                 if (profile == null) {
-                    console.log("TEST");
+                    // console.log('TEST')          
                     this.props.fetchProfile({ username: this.props.username });
                     return;
                 }
 
-                //populate server sise:
-                console.log("Profile already there!");
+                if (this.props.comments[profile._id] != null) {
+                    return;
+                } //populate server sise:
                 this.props.fetchComments({ "author.id": profile._id });
             },
             writable: true,
@@ -48,13 +49,15 @@ var Profile = (function (Component) {
         },
         componentDidUpdate: {
             value: function componentDidUpdate() {
-                console.log("componentDidUpdate: ");
+                // console.log('componentDidUpdate: ')
                 var profile = this.props.profiles[this.props.username];
-                if (profile != null) {
-                    console.log("PROFILE RECEIVED: " + profile._id);
-
-
-                }
+                if (profile == null) {
+                    return;
+                } // console.log('PROFILE RECEIVED: '+profile._id)
+                if (this.props.comments[profile._id] != null) {
+                    return;
+                } //query for comments if necessary:
+                this.props.fetchComments({ "author.id": profile._id });
             },
             writable: true,
             configurable: true
