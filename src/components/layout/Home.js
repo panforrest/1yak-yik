@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Account, Comments, Zones } from '../containers'
+// import { Sidebar } from '../presentation'
 
 class Home extends Component {
 	render(){

@@ -18,6 +18,8 @@ var _containers = require("../containers");
 var Account = _containers.Account;
 var Comments = _containers.Comments;
 var Zones = _containers.Zones;
+// import { Sidebar } from '../presentation'
+
 var Home = (function (Component) {
 	function Home() {
 		_classCallCheck(this, Home);

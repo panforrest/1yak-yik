@@ -13,32 +13,38 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
+var _presentation = require("./presentation");
+
+var Sidebar = _presentation.Sidebar;
+var Footer = _presentation.Footer;
 var Main = (function (Component) {
-	function Main() {
-		_classCallCheck(this, Main);
+  function Main() {
+    _classCallCheck(this, Main);
 
-		if (Component != null) {
-			Component.apply(this, arguments);
-		}
-	}
+    if (Component != null) {
+      Component.apply(this, arguments);
+    }
+  }
 
-	_inherits(Main, Component);
+  _inherits(Main, Component);
 
-	_prototypeProperties(Main, null, {
-		render: {
-			value: function render() {
-				return React.createElement(
-					"div",
-					{ id: "wrapper", className: "clearfix" },
-					this.props.children
-				);
-			},
-			writable: true,
-			configurable: true
-		}
-	});
+  _prototypeProperties(Main, null, {
+    render: {
+      value: function render() {
+        return React.createElement(
+          "div",
+          { id: "wrapper", className: "clearfix" },
+          React.createElement(Sidebar, null),
+          this.props.children,
+          React.createElement(Footer, null)
+        );
+      },
+      writable: true,
+      configurable: true
+    }
+  });
 
-	return Main;
+  return Main;
 })(Component);
 
 module.exports = Main;

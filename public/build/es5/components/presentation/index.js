@@ -10,10 +10,16 @@ var Zone = _interopRequire(require("./Zone"));
 
 var CreateZone = _interopRequire(require("./CreateZone"));
 
+var Sidebar = _interopRequire(require("./Sidebar"));
+
+var Footer = _interopRequire(require("./Footer"));
+
 exports.CreateComment = CreateComment;
 exports.Comment = Comment;
 exports.Zone = Zone;
 exports.CreateZone = CreateZone;
+exports.Sidebar = Sidebar;
+exports.Footer = Footer;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
