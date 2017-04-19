@@ -6,7 +6,7 @@ class Home extends Component {
 
 	render(){
 		return (
-            <div id="wrapper" className="clearfix">
+            <div id="wrapper" className="clearfix" syyle={{background: '#f9f9f9'}}>
 			    <header id="header" className="no-sticky">
 
 			        <div id="header-wrap">

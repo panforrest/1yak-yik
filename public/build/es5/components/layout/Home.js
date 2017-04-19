@@ -35,7 +35,7 @@ var Home = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					"div",
-					{ id: "wrapper", className: "clearfix" },
+					{ id: "wrapper", className: "clearfix", syyle: { background: "#f9f9f9" } },
 					React.createElement(
 						"header",
 						{ id: "header", className: "no-sticky" },

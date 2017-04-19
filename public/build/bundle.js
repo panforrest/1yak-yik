@@ -15261,7 +15261,7 @@ exports.default = {
 	comment: {
 		commentsBox: {
 			padding: 12,
-			background: '#f9f9f9',
+			background: '#fff',
 			border: '1px solid #dd'
 		},
 		commentsList: {
@@ -15331,7 +15331,7 @@ var Home = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ id: 'wrapper', className: 'clearfix' },
+				{ id: 'wrapper', className: 'clearfix', syyle: { background: '#f9f9f9' } },
 				_react2.default.createElement(
 					'header',
 					{ id: 'header', className: 'no-sticky' },
