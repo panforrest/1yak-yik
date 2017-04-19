@@ -1,25 +1,36 @@
 import React, { Component } from 'react'
 import { Account, Comments, Zones } from '../containers'
-import { Sidebar, Footer } from '../presentation'
+import { Footer } from '../presentation'
 
 class Home extends Component {
 
 	render(){
 		return (
             <div id="wrapper" className="clearfix">
-                <Sidebar />
+			    <header id="header" className="no-sticky">
+
+			        <div id="header-wrap">
+
+			          <div className="container clearfix">
+
+			            <div id="primary-menu-trigger"><i className="icon-reorder"></i></div>			           
+			            <Zones />			            
+			          </div>
+			        </div>
+
+			    </header>
 
 				<div className="container">
 				    <div className="row">
-				        <div className="col-md-4">
-	                        <Account />
-				            <Zones />
-				        </div>    
-
 
 				        <div className="col-md-8">
 				            <Comments />
-				        </div>  
+				        </div> 
+				        <div className="col-md-4">
+	                        <Account />
+				            
+				        </div>    
+ 
 				    </div>			    
 				</div>
 

@@ -18,10 +18,7 @@ var _containers = require("../containers");
 var Account = _containers.Account;
 var Comments = _containers.Comments;
 var Zones = _containers.Zones;
-var _presentation = require("../presentation");
-
-var Sidebar = _presentation.Sidebar;
-var Footer = _presentation.Footer;
+var Footer = require("../presentation").Footer;
 var Home = (function (Component) {
 	function Home() {
 		_classCallCheck(this, Home);
@@ -39,7 +36,24 @@ var Home = (function (Component) {
 				return React.createElement(
 					"div",
 					{ id: "wrapper", className: "clearfix" },
-					React.createElement(Sidebar, null),
+					React.createElement(
+						"header",
+						{ id: "header", className: "no-sticky" },
+						React.createElement(
+							"div",
+							{ id: "header-wrap" },
+							React.createElement(
+								"div",
+								{ className: "container clearfix" },
+								React.createElement(
+									"div",
+									{ id: "primary-menu-trigger" },
+									React.createElement("i", { className: "icon-reorder" })
+								),
+								React.createElement(Zones, null)
+							)
+						)
+					),
 					React.createElement(
 						"div",
 						{ className: "container" },
@@ -48,14 +62,13 @@ var Home = (function (Component) {
 							{ className: "row" },
 							React.createElement(
 								"div",
-								{ className: "col-md-4" },
-								React.createElement(Account, null),
-								React.createElement(Zones, null)
+								{ className: "col-md-8" },
+								React.createElement(Comments, null)
 							),
 							React.createElement(
 								"div",
-								{ className: "col-md-8" },
-								React.createElement(Comments, null)
+								{ className: "col-md-4" },
+								React.createElement(Account, null)
 							)
 						)
 					),

@@ -27,58 +27,7 @@ var Sidebar = (function (Component) {
 	_prototypeProperties(Sidebar, null, {
 		render: {
 			value: function render() {
-				return React.createElement(
-					"header",
-					{ id: "header", className: "no-sticky" },
-					React.createElement(
-						"div",
-						{ id: "header-wrap" },
-						React.createElement(
-							"div",
-							{ className: "container clearfix" },
-							React.createElement(
-								"div",
-								{ id: "primary-menu-trigger" },
-								React.createElement("i", { className: "icon-reorder" })
-							),
-							React.createElement(
-								"div",
-								{ id: "logo", className: "nobottomborder" },
-								React.createElement(
-									"a",
-									{ href: "index.html", className: "standard-logo", "data-dark-logo": "images/logo-side-dark.png" },
-									React.createElement("img", { src: "images/logo-side.png", alt: "Canvas Logo" })
-								),
-								React.createElement(
-									"a",
-									{ href: "index.html", className: "retina-logo", "data-dark-logo": "images/logo-side-dark@2x.png" },
-									React.createElement("img", { src: "images/logo-side@2x.png", alt: "Canvas Logo" })
-								)
-							),
-							React.createElement(
-								"nav",
-								{ id: "primary-menu" },
-								React.createElement(
-									"ul",
-									null,
-									React.createElement(
-										"li",
-										null,
-										React.createElement(
-											"a",
-											{ href: "index.html" },
-											React.createElement(
-												"div",
-												null,
-												"Home"
-											)
-										)
-									)
-								)
-							)
-						)
-					)
-				);
+				return React.createElement("div", null);
 			},
 			writable: true,
 			configurable: true

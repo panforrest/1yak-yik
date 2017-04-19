@@ -5937,7 +5937,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.Footer = exports.Sidebar = exports.CreateZone = exports.Zone = exports.Comment = exports.CreateComment = undefined;
+exports.Footer = exports.CreateZone = exports.Zone = exports.Comment = exports.CreateComment = undefined;
 
 var _CreateComment = __webpack_require__(149);
 
@@ -5955,10 +5955,6 @@ var _CreateZone = __webpack_require__(150);
 
 var _CreateZone2 = _interopRequireDefault(_CreateZone);
 
-var _Sidebar = __webpack_require__(152);
-
-var _Sidebar2 = _interopRequireDefault(_Sidebar);
-
 var _Footer = __webpack_require__(151);
 
 var _Footer2 = _interopRequireDefault(_Footer);
@@ -5969,7 +5965,6 @@ exports.CreateComment = _CreateComment2.default;
 exports.Comment = _Comment2.default;
 exports.Zone = _Zone2.default;
 exports.CreateZone = _CreateZone2.default;
-exports.Sidebar = _Sidebar2.default;
 exports.Footer = _Footer2.default;
 
 /***/ }),
@@ -15337,7 +15332,24 @@ var Home = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ id: 'wrapper', className: 'clearfix' },
-				_react2.default.createElement(_presentation.Sidebar, null),
+				_react2.default.createElement(
+					'header',
+					{ id: 'header', className: 'no-sticky' },
+					_react2.default.createElement(
+						'div',
+						{ id: 'header-wrap' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'container clearfix' },
+							_react2.default.createElement(
+								'div',
+								{ id: 'primary-menu-trigger' },
+								_react2.default.createElement('i', { className: 'icon-reorder' })
+							),
+							_react2.default.createElement(_containers.Zones, null)
+						)
+					)
+				),
 				_react2.default.createElement(
 					'div',
 					{ className: 'container' },
@@ -15346,14 +15358,13 @@ var Home = function (_Component) {
 						{ className: 'row' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'col-md-4' },
-							_react2.default.createElement(_containers.Account, null),
-							_react2.default.createElement(_containers.Zones, null)
+							{ className: 'col-md-8' },
+							_react2.default.createElement(_containers.Comments, null)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'col-md-8' },
-							_react2.default.createElement(_containers.Comments, null)
+							{ className: 'col-md-4' },
+							_react2.default.createElement(_containers.Account, null)
 						)
 					)
 				),
@@ -15918,103 +15929,7 @@ var Footer = function (_Component) {
 exports.default = Footer;
 
 /***/ }),
-/* 152 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Sidebar = function (_Component) {
-	_inherits(Sidebar, _Component);
-
-	function Sidebar() {
-		_classCallCheck(this, Sidebar);
-
-		return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).apply(this, arguments));
-	}
-
-	_createClass(Sidebar, [{
-		key: "render",
-		value: function render() {
-			return _react2.default.createElement(
-				"header",
-				{ id: "header", className: "no-sticky" },
-				_react2.default.createElement(
-					"div",
-					{ id: "header-wrap" },
-					_react2.default.createElement(
-						"div",
-						{ className: "container clearfix" },
-						_react2.default.createElement(
-							"div",
-							{ id: "primary-menu-trigger" },
-							_react2.default.createElement("i", { className: "icon-reorder" })
-						),
-						_react2.default.createElement(
-							"div",
-							{ id: "logo", className: "nobottomborder" },
-							_react2.default.createElement(
-								"a",
-								{ href: "index.html", className: "standard-logo", "data-dark-logo": "images/logo-side-dark.png" },
-								_react2.default.createElement("img", { src: "images/logo-side.png", alt: "Canvas Logo" })
-							),
-							_react2.default.createElement(
-								"a",
-								{ href: "index.html", className: "retina-logo", "data-dark-logo": "images/logo-side-dark@2x.png" },
-								_react2.default.createElement("img", { src: "images/logo-side@2x.png", alt: "Canvas Logo" })
-							)
-						),
-						_react2.default.createElement(
-							"nav",
-							{ id: "primary-menu" },
-							_react2.default.createElement(
-								"ul",
-								null,
-								_react2.default.createElement(
-									"li",
-									null,
-									_react2.default.createElement(
-										"a",
-										{ href: "index.html" },
-										_react2.default.createElement(
-											"div",
-											null,
-											"Home"
-										)
-									)
-								)
-							)
-						)
-					)
-				)
-			);
-		}
-	}]);
-
-	return Sidebar;
-}(_react.Component);
-
-exports.default = Sidebar;
-
-/***/ }),
+/* 152 */,
 /* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
