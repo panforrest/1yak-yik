@@ -29,7 +29,7 @@ var Main = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					"div",
-					null,
+					{ id: "wrapper", className: "clearfix" },
 					this.props.children
 				);
 			},

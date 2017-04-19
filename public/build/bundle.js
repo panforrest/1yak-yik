@@ -14099,11 +14099,11 @@ var Main = function (_Component) {
 	}
 
 	_createClass(Main, [{
-		key: 'render',
+		key: "render",
 		value: function render() {
 			return _react2.default.createElement(
-				'div',
-				null,
+				"div",
+				{ id: "wrapper", className: "clearfix" },
 				this.props.children
 			);
 		}
