@@ -19,6 +19,7 @@ gulp.task('es6-es5', function(){
 gulp.task('css', function(){
 	return gulp.src(
 		[
+		    './public/css/googlefonts.css',
             './public/css/bootstrap.css',
             './public/css/style.css',
             './public/css/swiper.css',
